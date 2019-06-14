@@ -24,7 +24,7 @@ namespace Uno.UITest
 		IAppTypedSelector<object> Invoke(string methodName, object arg1, object arg2, object arg3);
 		IAppTypedSelector<object> Invoke(string methodName, object arg1);
 		IAppTypedSelector<object> Invoke(string methodName, object arg1, object arg2);
-		IInvokeJSQuery InvokeJS(string javascript);
+		IInvokeJSAppQuery InvokeJS(string javascript);
 		IAppQuery Marked(string text);
 		IAppQuery Parent(string className = null);
 		IAppQuery Parent(int index);
