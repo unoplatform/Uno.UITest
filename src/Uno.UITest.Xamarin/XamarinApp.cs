@@ -27,7 +27,7 @@ namespace Uno.UITest.Xamarin
 			=> Task.Run(() => _source.ClearText(marked));
 
 		public Task ClearText(Func<IAppQuery, IAppQuery> query)
-			=> Task.Run(() => _source.ClearText(q => query(q.AsUnoAppQuery()).ToXamarinQuery()));
+			=> Task.Run(() => _source.ClearText(q => query(q.AsGenericAppQuery()).ToXamarinQuery()));
 
 		public Task ClearText(Func<IAppQuery, IAppWebQuery> query)
 			=> throw new NotImplementedException();
@@ -36,7 +36,7 @@ namespace Uno.UITest.Xamarin
 			=> Task.Run(() => _source.DismissKeyboard());
 
 		public Task DoubleTap(Func<IAppQuery, IAppQuery> query)
-			=> Task.Run(() => _source.DoubleTap(q => query(q.AsUnoAppQuery()).ToXamarinQuery()));
+			=> Task.Run(() => _source.DoubleTap(q => query(q.AsGenericAppQuery()).ToXamarinQuery()));
 
 		public Task DoubleTap(string marked)
 			=> Task.Run(() => _source.DoubleTap(marked));
@@ -45,8 +45,8 @@ namespace Uno.UITest.Xamarin
 			=> throw new NotImplementedException();
 		public Task DragAndDrop(Func<IAppQuery, IAppQuery> from, Func<IAppQuery, IAppQuery> to)
 			=> Task.Run(() => _source.DragAndDrop(
-				q => from(q.AsUnoAppQuery()).ToXamarinQuery(),
-				q => from(q.AsUnoAppQuery()).ToXamarinQuery()
+				q => from(q.AsGenericAppQuery()).ToXamarinQuery(),
+				q => from(q.AsGenericAppQuery()).ToXamarinQuery()
 			));
 
 		public Task DragAndDrop(string from, string to)
@@ -63,27 +63,27 @@ namespace Uno.UITest.Xamarin
 
 		public Task EnterText(Func<IAppQuery, IAppWebQuery> query, string text)
 			=> Task.Run(() => _source.EnterText(
-				q => query(q.AsUnoAppQuery()).ToXamarinQuery(),
+				q => query(q.AsGenericAppQuery()).ToXamarinQuery(),
 				text
 			));
 
 		public Task EnterText(Func<IAppQuery, IAppQuery> query, string text)
 			=> Task.Run(() => _source.EnterText(
-				q => query(q.AsUnoAppQuery()).ToXamarinQuery(),
+				q => query(q.AsGenericAppQuery()).ToXamarinQuery(),
 				text
 			));
 
 		public Task<IAppResult[]> Flash(string marked)
-			=> Task.Run(() => _source.Flash(marked).Select(r => r.ToUnoAppResult()).ToArray());
+			=> Task.Run(() => _source.Flash(marked).Select(r => r.ToGenericAppResult()).ToArray());
 
 		public Task<IAppResult[]> Flash(Func<IAppQuery, IAppQuery> query = null)
 			=> Task.Run(() =>
 				_source.Flash(
 					query != null
-						? q => query(q.AsUnoAppQuery()).ToXamarinQuery()
+						? q => query(q.AsGenericAppQuery()).ToXamarinQuery()
 						: (Func<global::Xamarin.UITest.Queries.AppQuery, global::Xamarin.UITest.Queries.AppQuery>)null
 					)
-					.Select(r => r.ToUnoAppResult())
+					.Select(r => r.ToGenericAppResult())
 					.ToArray()
 				);
 
@@ -98,7 +98,7 @@ namespace Uno.UITest.Xamarin
 
 		public Task PinchToZoomIn(Func<IAppQuery, IAppQuery> query, TimeSpan? duration = null)
 			=> Task.Run(() => _source.PinchToZoomIn(
-				q => query(q.AsUnoAppQuery()).ToXamarinQuery()
+				q => query(q.AsGenericAppQuery()).ToXamarinQuery()
 				, duration
 			));
 
@@ -110,7 +110,7 @@ namespace Uno.UITest.Xamarin
 
 		public Task PinchToZoomOut(Func<IAppQuery, IAppQuery> query, TimeSpan? duration = null)
 			=> Task.Run(() => _source.PinchToZoomOut(
-				q => query(q.AsUnoAppQuery()).ToXamarinQuery()
+				q => query(q.AsGenericAppQuery()).ToXamarinQuery()
 				, duration
 			));
 
@@ -129,39 +129,39 @@ namespace Uno.UITest.Xamarin
 		public Task<IAppResult[]> Query(Func<IAppQuery, IAppQuery> query = null)
 			=> Task.Run(() =>
 				_source.Query(
-					q => query(q.AsUnoAppQuery()).ToXamarinQuery()
+					q => query(q.AsGenericAppQuery()).ToXamarinQuery()
 				)
-				.Select(r => r.ToUnoAppResult())
+				.Select(r => r.ToGenericAppResult())
 				.ToArray()
 			);
 
 		public Task<string[]> Query(Func<IAppQuery, IInvokeJSAppQuery> query)
 			=> Task.Run(() =>
 				_source.Query(
-					q => query(q.AsUnoAppQuery()).ToXamarinQuery()
+					q => query(q.AsGenericAppQuery()).ToXamarinQuery()
 				)
 			);
 
 		public Task<IAppResult[]> Query(string marked)
 			=> Task.Run(() => _source
 				.Query(marked)
-				.Select(r => r.ToUnoAppResult())
+				.Select(r => r.ToGenericAppResult())
 				.ToArray()
 			);
 
 		public Task<IAppWebResult[]> Query(Func<IAppQuery, IAppWebQuery> query)
 			=> Task.Run(() =>
 				_source.Query(
-					q => query(q.AsUnoAppQuery()).ToXamarinQuery()
+					q => query(q.AsGenericAppQuery()).ToXamarinQuery()
 				)
-				.Select(r => r.ToUnoAppWebResult())
+				.Select(r => r.ToGenericAppWebResult())
 				.ToArray()
 			);
 
 		public Task<T[]> Query<T>(Func<IAppQuery, IAppTypedSelector<T>> query)
 			=> Task.Run(() =>
 				_source.Query(
-					q => query(q.AsUnoAppQuery()).ToXamarinAppTypedSelector()
+					q => query(q.AsGenericAppQuery()).ToXamarinAppTypedSelector()
 				)
 			);
 
@@ -183,7 +183,7 @@ namespace Uno.UITest.Xamarin
 		public Task SetSliderValue(Func<IAppQuery, IAppQuery> query, double value)
 			=> Task.Run(() =>
 				_source.SetSliderValue(
-					q => query(q.AsUnoAppQuery()).ToXamarinQuery()
+					q => query(q.AsGenericAppQuery()).ToXamarinQuery()
 					, value
 				)
 			);
@@ -194,14 +194,14 @@ namespace Uno.UITest.Xamarin
 		public Task Tap(Func<IAppQuery, IAppWebQuery> query)
 			=> Task.Run(() =>
 				_source.Tap(
-					q => query(q.AsUnoAppQuery()).ToXamarinQuery()
+					q => query(q.AsGenericAppQuery()).ToXamarinQuery()
 				)
 			);
 
 		public Task Tap(Func<IAppQuery, IAppQuery> query)
 			=> Task.Run(() =>
 				_source.Tap(
-					q => query(q.AsUnoAppQuery()).ToXamarinQuery()
+					q => query(q.AsGenericAppQuery()).ToXamarinQuery()
 				)
 			);
 
@@ -211,7 +211,7 @@ namespace Uno.UITest.Xamarin
 		public Task TouchAndHold(Func<IAppQuery, IAppQuery> query)
 			=> Task.Run(() =>
 				_source.TouchAndHold(
-					q => query(q.AsUnoAppQuery()).ToXamarinQuery()
+					q => query(q.AsGenericAppQuery()).ToXamarinQuery()
 				)
 			);
 
@@ -230,27 +230,27 @@ namespace Uno.UITest.Xamarin
 		public Task<IAppResult[]> WaitForElement(string marked, string timeoutMessage = "Timed out waiting for element...", TimeSpan? timeout = null, TimeSpan? retryFrequency = null, TimeSpan? postTimeout = null)
 			=> Task.Run(() =>
 				_source.WaitForElement(marked, timeoutMessage, timeout, retryFrequency, postTimeout)
-				.Select(r => r.ToUnoAppResult())
+				.Select(r => r.ToGenericAppResult())
 				.ToArray()
 			);
 
 		public Task<IAppResult[]> WaitForElement(Func<IAppQuery, IAppQuery> query, string timeoutMessage = "Timed out waiting for element...", TimeSpan? timeout = null, TimeSpan? retryFrequency = null, TimeSpan? postTimeout = null)
 			=> Task.Run(() =>
 				_source.WaitForElement(
-					q => query(q.AsUnoAppQuery()).ToXamarinQuery()
+					q => query(q.AsGenericAppQuery()).ToXamarinQuery()
 					, timeoutMessage
 					, timeout
 					, retryFrequency
 					, postTimeout
 				)
-				.Select(r => r.ToUnoAppResult())
+				.Select(r => r.ToGenericAppResult())
 				.ToArray()
 			);
 
 		public Task WaitForNoElement(Func<IAppQuery, IAppQuery> query, string timeoutMessage = "Timed out waiting for no element...", TimeSpan? timeout = null, TimeSpan? retryFrequency = null, TimeSpan? postTimeout = null)
 			=> Task.Run(() =>
 				_source.WaitForNoElement(
-					q => query(q.AsUnoAppQuery()).ToXamarinQuery()
+					q => query(q.AsGenericAppQuery()).ToXamarinQuery()
 					, timeoutMessage
 					, timeout
 					, retryFrequency
@@ -266,7 +266,7 @@ namespace Uno.UITest.Xamarin
 		public Task WaitForNoElement(Func<IAppQuery, IAppWebQuery> query, string timeoutMessage = "Timed out waiting for no element...", TimeSpan? timeout = null, TimeSpan? retryFrequency = null, TimeSpan? postTimeout = null)
 			=> Task.Run(() =>
 				_source.WaitForNoElement(
-					q => query(q.AsUnoAppQuery()).ToXamarinQuery()
+					q => query(q.AsGenericAppQuery()).ToXamarinQuery()
 					, timeoutMessage
 					, timeout
 					, retryFrequency

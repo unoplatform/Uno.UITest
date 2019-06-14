@@ -7,7 +7,7 @@ namespace Uno.UITest.Xamarin.Extensions
 {
 	public static class InvokeJSAppQueryExtensions
 	{
-		public static IInvokeJSAppQuery AsUnoInvokeJSAppQuery(this InvokeJSAppQuery query)
+		public static IInvokeJSAppQuery AsGenericInvokeJSAppQuery(this InvokeJSAppQuery query)
 			=> new XamarinInvokeJSAppQuery(query);
 
 		public static InvokeJSAppQuery ToXamarinQuery(this IInvokeJSAppQuery query)

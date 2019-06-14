@@ -7,7 +7,7 @@ namespace Uno.UITest.Xamarin.Extensions
 {
 	public static class AppTypedSelectorExtensions
 	{
-		public static IAppTypedSelector<T> AsUnoAppTypedSelector<T>(this AppTypedSelector<T> selector)
+		public static IAppTypedSelector<T> AsGenericAppTypedSelector<T>(this AppTypedSelector<T> selector)
 			=> new XamarinAppTypedSelector<T>(selector);
 
 		public static AppTypedSelector<T> ToXamarinAppTypedSelector<T>(this IAppTypedSelector<T> selector)

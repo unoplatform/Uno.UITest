@@ -7,7 +7,7 @@ namespace Uno.UITest.Xamarin.Extensions
 {
 	public static class AppQueryExtensions
 	{
-		public static IAppQuery AsUnoAppQuery(this AppQuery q)
+		public static IAppQuery AsGenericAppQuery(this AppQuery q)
 			=> new XamarinAppQuery(q);
 
 		public static AppQuery ToXamarinQuery(this IAppQuery q)

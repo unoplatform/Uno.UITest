@@ -7,7 +7,7 @@ namespace Uno.UITest.Xamarin.Extensions
 {
 	public static class AppWebResultExtensions
 	{
-		public static IAppWebResult ToUnoAppWebResult(this AppWebResult result)
+		public static IAppWebResult ToGenericAppWebResult(this AppWebResult result)
 			=> new XamarinAppWebResult(result);
 	}
 }
