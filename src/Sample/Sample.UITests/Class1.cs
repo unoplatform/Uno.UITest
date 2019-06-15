@@ -1,62 +1,53 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Remote;
+using Uno.UITest;
+using Uno.UITest.Puppeteer;
 
 namespace Sample.UITests
 {
 	public class Class1
 	{
-		RemoteWebDriver driver;
-		private Actions _actions;
+		IApp _app;
 
 		[SetUp]
 		public void StartBrowser()
 		{
-			driver = new ChromeDriver(@"C:\s\ChromeDriver\74.0.3729.6");
-			_actions = new OpenQA.Selenium.Interactions.Actions(driver);
-
+			_app = ConfigureApp.WebAssembly
+				.Uri(new Uri("http://calculator-wasm-staging.azurewebsites.net/"))
+				.ChromeDriverLocation(@"C:\s\ChromeDriver\74.0.3729.6")
+				.StartApp();
 		}
 
 		[Test]
-		public void Test()
+		public async Task Test()
 		{
-			driver.Url = "http://calculator-wasm-staging.azurewebsites.net/";
+			IAppQuery num4Button(IAppQuery q) => q.Marked("num4Button");
+			IAppQuery num2Button(IAppQuery q) => q.Marked("num2Button");
+			IAppQuery normalOutput(IAppQuery q) => q.Marked("NormalOutput");
 
-			var num4 = WaitForXamlElement("num4Button");
-			var num2 = WaitForXamlElement("num2Button");
+			var num4 = await _app.WaitForElement(num4Button);
+			var num2 = await _app.WaitForElement(num2Button);
 
-			var r = driver.ExecuteScript("return config.vfs_prefix;");
+			await _app.Tap(num4Button);
+			await _app.Tap(num2Button);
 
-			_actions
-				.Click(num4)
-				.Click(num2)
-				.Perform();
+			var output = await _app.WaitForElement(normalOutput);
+			Assert.AreEqual("42", output.First().Text);
 
-			var output = WaitForXamlElement("NormalOutput");
-			Assert.AreEqual("42", output.Text);
-		}
-
-		private IWebElement WaitForXamlElement(string xamlName)
-		{
-			IWebElement we = null;
-
-			while((we = driver.FindElements(By.XPath($"//*[@xamlname='{xamlName}']")).FirstOrDefault()) == null)
-			{
-				Thread.Sleep(100);
-			}
-
-			return we;
+			await _app.Screenshot("Test");
 		}
 
 		[TearDown]
 		public void CloseBrowser()
 		{
-			// driver.Close();
+			_app.Dispose();
 		}
 	}
 }

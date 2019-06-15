@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.UITest", "uno.uitest\Un
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{CD1416B0-9C18-47C1-8B73-34582BAB0EE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uno.UITest.Xamarin", "Uno.UITest.Xamarin\Uno.UITest.Xamarin.csproj", "{5821885B-6C0B-4DF2-967D-352DA33D30B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.UITest.Xamarin", "Uno.UITest.Xamarin\Uno.UITest.Xamarin.csproj", "{5821885B-6C0B-4DF2-967D-352DA33D30B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uno.UITest.Selenium", "Uno.UITest.Puppeteer\Uno.UITest.Selenium.csproj", "{328214D1-FAB9-42B5-8245-31AACA0138B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.UITest.Selenium", "Uno.UITest.Puppeteer\Uno.UITest.Selenium.csproj", "{328214D1-FAB9-42B5-8245-31AACA0138B0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.UITests", "Sample\Sample.UITests\Sample.UITests.csproj", "{FB6081EF-0863-4FCA-A4E2-73D5B0E2C38F}"
 EndProject
@@ -21,13 +21,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.iOS", "Sample\Sample
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.UWP", "Sample\Sample\Sample.UWP\Sample.UWP.csproj", "{34403E87-8F3E-40C3-8ECE-7F3873BCD693}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Wasm", "Sample\Sample\Sample.Wasm\Sample.Wasm.csproj", "{74EEBCC9-F40E-422B-8C39-CA6E674301AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.Wasm", "Sample\Sample\Sample.Wasm\Sample.Wasm.csproj", "{74EEBCC9-F40E-422B-8C39-CA6E674301AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uno.UITest.Puppeteer.Runner", "Uno.UITest.Puppeteer.Runner\Uno.UITest.Puppeteer.Runner.csproj", "{A42FEB95-A256-4EAD-9CC1-214228A36D2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.UITest.Puppeteer.Runner", "Uno.UITest.Puppeteer.Runner\Uno.UITest.Puppeteer.Runner.csproj", "{A42FEB95-A256-4EAD-9CC1-214228A36D2F}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Sample\Sample\Sample.Shared\Sample.Shared.projitems*{336cc69a-c9d1-48d3-8029-d80d8989403e}*SharedItemsImports = 4
+		Sample\Sample\Sample.Shared\Sample.Shared.projitems*{34403e87-8f3e-40c3-8ece-7f3873bcd693}*SharedItemsImports = 4
 		Sample\Sample\Sample.Shared\Sample.Shared.projitems*{6279c845-92f8-4333-ab99-3d213163593c}*SharedItemsImports = 13
+		Sample\Sample\Sample.Shared\Sample.Shared.projitems*{dbce58a5-d2d6-4912-abd4-aa7e12519361}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU

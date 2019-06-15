@@ -2,18 +2,18 @@
 {
 	public interface IAppResult
 	{
-		string Id { get; set; }
+		string Id { get; }
 
-		string Description { get; set; }
+		string Description { get; }
 
-		IAppRect Rect { get; set; }
+		IAppRect Rect { get; }
 
-		string Label { get; set; }
+		string Label { get; }
 
-		string Text { get; set; }
+		string Text { get; }
 
-		string Class { get; set; }
+		string Class { get; }
 
-		bool Enabled { get; set; }
+		bool Enabled { get; }
 	}
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Uno.UITest
 {
-	public interface IApp
+	public interface IApp : IDisposable
 	{
 		IDevice Device { get; }
 

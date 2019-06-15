@@ -1,6 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Remote;
@@ -10,18 +15,35 @@ namespace Uno.UITest.Puppeteer
 	internal partial class SeleniumApp : IApp
 	{
 		private readonly RemoteWebDriver _driver;
-		private readonly Actions _actions;
+		private string _screenShotPath;
 
 		public SeleniumApp(ChromeAppConfigurator chromeAppConfigurator)
 		{
 			_driver = new ChromeDriver(chromeAppConfigurator.ChromeDriverPath);
-			_actions = new OpenQA.Selenium.Interactions.Actions(_driver);
+			_driver.Url = chromeAppConfigurator.SiteUri.OriginalString;
+			_screenShotPath = chromeAppConfigurator.InternalScreenShotsPath;
+		}
+
+		void PerformActions(Action<Actions> action) {
+			var actions = new OpenQA.Selenium.Interactions.Actions(_driver);
+			action(actions);
+			actions.Perform();
+		}
+
+		void IDisposable.Dispose()
+		{
+			_driver.Close();
 		}
 
 		private Task CreateTask(Action action)
 		{
 			action();
 			return Task.FromResult(true);
+		}
+
+		private Task<T> CreateTask<T>(Func<T> func)
+		{
+			return Task.FromResult(func());
 		}
 
 		IDevice IApp.Device => new SeleniumDevice(this);
@@ -75,7 +97,15 @@ namespace Uno.UITest.Puppeteer
 		Task<IAppWebResult[]> IApp.Query(Func<IAppQuery, IAppWebQuery> query) => throw new NotImplementedException();
 		Task<T[]> IApp.Query<T>(Func<IAppQuery, IAppTypedSelector<T>> query) => throw new NotImplementedException();
 		Task IApp.Repl() => throw new NotImplementedException();
-		Task<FileInfo> IApp.Screenshot(string title) => throw new NotImplementedException();
+		async Task<FileInfo> IApp.Screenshot(string title)
+		{
+			var shot = _driver.GetScreenshot();
+			var fileName = Path.Combine(_screenShotPath, title + ".png");
+			shot.SaveAsFile(fileName);
+
+			return new FileInfo(fileName);
+		}
+
 		Task IApp.SetOrientationLandscape() => throw new NotImplementedException();
 		Task IApp.SetOrientationPortrait() => throw new NotImplementedException();
 		Task IApp.SetSliderValue(string marked, double value) => throw new NotImplementedException();
@@ -90,7 +120,32 @@ namespace Uno.UITest.Puppeteer
 		Task IApp.SwipeRightToLeft(string marked, double swipePercentage, int swipeSpeed, bool withInertia) => throw new NotImplementedException();
 		Task IApp.Tap(string marked) => throw new NotImplementedException();
 		Task IApp.Tap(Func<IAppQuery, IAppWebQuery> query) => throw new NotImplementedException();
-		Task IApp.Tap(Func<IAppQuery, IAppQuery> query) => throw new NotImplementedException();
+
+		Task IApp.Tap(Func<IAppQuery, IAppQuery> query) => CreateTask(() => {
+
+			var q = query(new SeleniumAppQuery(this));
+			var result = Evaluate(q as SeleniumAppQuery);
+
+			if(result is IEnumerable<IWebElement> elements)
+			{
+				var count = elements.Count();
+
+				if(count == 0)
+				{
+					throw new InvalidOperationException("The query returned no results");
+				}
+				else if(count > 1)
+				{
+					var itemsString = string.Join(", ", elements.Select(e => e.GetAttribute("id")));
+					throw new InvalidOperationException($"The query returned too many results ({itemsString})");
+				}
+				else
+				{
+					PerformActions(a => a.Click(elements.First()));
+				}
+			}
+		});
+
 		Task IApp.TapCoordinates(float x, float y) => throw new NotImplementedException();
 		Task IApp.TouchAndHold(Func<IAppQuery, IAppQuery> query) => throw new NotImplementedException();
 		Task IApp.TouchAndHold(string marked) => throw new NotImplementedException();
@@ -98,9 +153,89 @@ namespace Uno.UITest.Puppeteer
 		Task IApp.WaitFor(Func<bool> predicate, string timeoutMessage, TimeSpan? timeout, TimeSpan? retryFrequency, TimeSpan? postTimeout) => throw new NotImplementedException();
 		Task<IAppWebResult[]> IApp.WaitForElement(Func<IAppQuery, IAppWebQuery> query, string timeoutMessage, TimeSpan? timeout, TimeSpan? retryFrequency, TimeSpan? postTimeout) => throw new NotImplementedException();
 		Task<IAppResult[]> IApp.WaitForElement(string marked, string timeoutMessage, TimeSpan? timeout, TimeSpan? retryFrequency, TimeSpan? postTimeout) => throw new NotImplementedException();
-		Task<IAppResult[]> IApp.WaitForElement(Func<IAppQuery, IAppQuery> query, string timeoutMessage, TimeSpan? timeout, TimeSpan? retryFrequency, TimeSpan? postTimeout) => throw new NotImplementedException();
-		Task IApp.WaitForNoElement(Func<IAppQuery, IAppQuery> query, string timeoutMessage, TimeSpan? timeout, TimeSpan? retryFrequency, TimeSpan? postTimeout) => throw new NotImplementedException();
-		Task IApp.WaitForNoElement(string marked, string timeoutMessage, TimeSpan? timeout, TimeSpan? retryFrequency, TimeSpan? postTimeout) => throw new NotImplementedException();
-		Task IApp.WaitForNoElement(Func<IAppQuery, IAppWebQuery> query, string timeoutMessage, TimeSpan? timeout, TimeSpan? retryFrequency, TimeSpan? postTimeout) => throw new NotImplementedException();
+
+		Task<IAppResult[]> IApp.WaitForElement(
+			Func<IAppQuery, IAppQuery> query,
+			string timeoutMessage,
+			TimeSpan? timeout,
+			TimeSpan? retryFrequency,
+			TimeSpan? postTimeout) => CreateTask(() => {
+				var sw = Stopwatch.StartNew();
+				timeout = timeout ?? TimeSpan.MaxValue;
+				retryFrequency = retryFrequency ?? TimeSpan.FromMilliseconds(500);
+				timeoutMessage = timeoutMessage ?? "Timed out waiting for element...";
+
+				while(sw.Elapsed < timeout)
+				{
+					var q = query(new SeleniumAppQuery(this));
+
+					var result = Evaluate(q as SeleniumAppQuery);
+
+					if(result is IEnumerable<IWebElement> elements)
+					{
+						if(elements.Count() != 0)
+						{
+							return ToAppResults(elements);
+						}
+					}
+
+					Thread.Sleep(retryFrequency.Value);
+				}
+
+				throw new TimeoutException(timeoutMessage);
+			});
+
+		Task IApp.WaitForNoElement(Func<IAppQuery, IAppQuery> query, string timeoutMessage, TimeSpan? timeout, TimeSpan? retryFrequency, TimeSpan? postTimeout)
+			=> throw new NotImplementedException();
+
+		Task IApp.WaitForNoElement(string marked, string timeoutMessage, TimeSpan? timeout, TimeSpan? retryFrequency, TimeSpan? postTimeout)
+			=> throw new NotImplementedException();
+
+		Task IApp.WaitForNoElement(
+			Func<IAppQuery, IAppWebQuery> query,
+			string timeoutMessage,
+			TimeSpan? timeout,
+			TimeSpan? retryFrequency,
+			TimeSpan? postTimeout) => throw new NotImplementedException();
+
+		private IAppResult[] ToAppResults(IEnumerable<IWebElement> elements)
+		{
+			return elements.Select(e => new SeleniumAppResult(e)).ToArray();
+		}
+
+		private object Evaluate(SeleniumAppQuery q)
+		{
+			object currentItem = null;
+
+			foreach(var item in q.QueryItems)
+			{
+				switch(item)
+				{
+					case SeleniumAppQuery.SearchQueryItem query:
+						if(currentItem == null)
+						{
+							currentItem = _driver.FindElements(By.XPath(query.Query));
+						}
+						else if(currentItem is IEnumerable<IWebElement> items)
+						{
+							if(items.Count() == 1)
+							{
+								currentItem = items.First().FindElements(By.XPath(query.Query));
+							}
+							else
+							{
+								throw new InvalidOperationException($"Unable to execute a search on multiple items");
+							}
+						}
+						else
+						{
+							throw new InvalidOperationException($"Unable to execute a search on {currentItem?.GetType()}");
+						}
+						break;
+				}
+			}
+
+			return currentItem;
+		}
 	}
 }

@@ -336,6 +336,6 @@ namespace Uno.UITest.Xamarin
 
 		public Task SwipeRightToLeft(string marked, double swipePercentage = 0.67, int swipeSpeed = 500, bool withInertia = true) =>
 			throw new NotImplementedException();
-
+		public void Dispose() { }
 	}
 }
