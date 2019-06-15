@@ -28,7 +28,7 @@ namespace Uno.UITest
 		IAppQuery Marked(string text);
 		IAppQuery Parent(string className = null);
 		IAppQuery Parent(int index);
-		IPropertyQuery Property(string propertyName);
+		IPropertyAppQuery Property(string propertyName);
 		IAppQuery Property(string propertyName, string value);
 		IAppQuery Property(string propertyName, bool value);
 		IAppQuery Property(string propertyName, int value);

@@ -5,10 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\Uno.UITest.Puppeteer\Uno.UITest.Selenium.csproj" />
+    <ProjectReference Include="..\Uno.UITest.Xamarin\Uno.UITest.Xamarin.csproj" />
     <ProjectReference Include="..\uno.uitest\Uno.UITest.csproj" />
   </ItemGroup>
 

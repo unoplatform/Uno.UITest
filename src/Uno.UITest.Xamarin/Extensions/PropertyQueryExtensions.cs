@@ -7,7 +7,7 @@ namespace Uno.UITest.Xamarin.Extensions
 {
 	public static class PropertyQueryExtensions
 	{
-		public static IPropertyQuery AsGenericPropertyQuery(this PropertyAppQuery query)
+		public static IPropertyAppQuery AsGenericPropertyQuery(this PropertyAppQuery query)
 			=> new XamarinPropertyAppQuery(query);
 	}
 }

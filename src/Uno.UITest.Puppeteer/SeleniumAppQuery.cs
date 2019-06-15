@@ -78,7 +78,7 @@ namespace Uno.UITest.Puppeteer
 		IAppQuery IAppQuery.Parent(int index)
 			=> Apply(() => _queryItems.Add(new SearchQueryItem($"./ancestor::*[position()={index}]")));
 
-		IPropertyQuery IAppQuery.Property(string propertyName) => throw new System.NotImplementedException();
+		IPropertyAppQuery IAppQuery.Property(string propertyName) => throw new System.NotImplementedException();
 		IAppQuery IAppQuery.Property(string propertyName, string value) => throw new System.NotImplementedException();
 		IAppQuery IAppQuery.Property(string propertyName, bool value) => throw new System.NotImplementedException();
 		IAppQuery IAppQuery.Property(string propertyName, int value) => throw new System.NotImplementedException();

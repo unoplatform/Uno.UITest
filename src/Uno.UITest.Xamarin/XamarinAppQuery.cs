@@ -76,7 +76,7 @@ namespace Uno.UITest.Xamarin.Extensions
 		IAppQuery IAppQuery.Parent(int index)
 			=> SourceQuery.Parent(index).AsGenericAppQuery();
 
-		IPropertyQuery IAppQuery.Property(string propertyName)
+		IPropertyAppQuery IAppQuery.Property(string propertyName)
 			=> SourceQuery.Property(propertyName).AsGenericPropertyQuery();
 
 		IAppQuery IAppQuery.Property(string propertyName, string value)

@@ -3,24 +3,24 @@ using Uno.UITest.Xamarin.Extensions;
 
 namespace Uno.UITest.Xamarin
 {
-	internal class XamarinPropertyAppQuery : IPropertyQuery
+	internal class XamarinPropertyAppQuery : IPropertyAppQuery
 	{
 		private PropertyAppQuery _source;
 
 		public XamarinPropertyAppQuery(PropertyAppQuery query) => this._source = query;
 
-		QueryPlatform IPropertyQuery.QueryPlatform => (QueryPlatform)_source.QueryPlatform;
+		QueryPlatform IPropertyAppQuery.QueryPlatform => (QueryPlatform)_source.QueryPlatform;
 
-		IAppQuery IPropertyQuery.Contains(string text) => _source.Contains(text).AsGenericAppQuery();
+		IAppQuery IPropertyAppQuery.Contains(string text) => _source.Contains(text).AsGenericAppQuery();
 
-		IAppQuery IPropertyQuery.EndsWith(string text) => _source.EndsWith(text).AsGenericAppQuery();
+		IAppQuery IPropertyAppQuery.EndsWith(string text) => _source.EndsWith(text).AsGenericAppQuery();
 
-		IAppQuery IPropertyQuery.Like(string text) => _source.Like(text).AsGenericAppQuery();
+		IAppQuery IPropertyAppQuery.Like(string text) => _source.Like(text).AsGenericAppQuery();
 
-		IAppQuery IPropertyQuery.Predicate(string predicate, string text) => _source.Predicate(predicate, text).AsGenericAppQuery();
+		IAppQuery IPropertyAppQuery.Predicate(string predicate, string text) => _source.Predicate(predicate, text).AsGenericAppQuery();
 
-		IAppQuery IPropertyQuery.StartsWith(string text) => _source.StartsWith(text).AsGenericAppQuery();
+		IAppQuery IPropertyAppQuery.StartsWith(string text) => _source.StartsWith(text).AsGenericAppQuery();
 
-		IAppTypedSelector<T> IPropertyQuery.Value<T>() => _source.Value<T>().AsGenericAppTypedSelector();
+		IAppTypedSelector<T> IPropertyAppQuery.Value<T>() => _source.Value<T>().AsGenericAppTypedSelector();
 	}
 }

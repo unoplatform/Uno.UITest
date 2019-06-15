@@ -1,6 +1,6 @@
 ﻿namespace Uno.UITest
 {
-	public interface IPropertyQuery
+	public interface IPropertyAppQuery
 	{
 		QueryPlatform QueryPlatform { get; }
 
