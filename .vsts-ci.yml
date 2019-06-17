@@ -82,6 +82,7 @@ jobs:
     env:
       GIT_TARGETBRANCH: "$(System.PullRequest.TargetBranch)"
       GIT_SOURCEBRANCH: "$(Build.SourceBranch)"
+      BUILD_SOURCESDIRECTORY: "$(build.sourcesdirectory)"
 
     displayName: 'Running build'
 
