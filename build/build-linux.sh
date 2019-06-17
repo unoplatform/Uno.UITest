@@ -1,8 +1,9 @@
 #!/bin/bash
 
-msbuild /r /p:Configuration=Release /uno.uitest/src/Sample/Sample.UITests/Sample.UITests.csproj
-msbuild /r /p:Configuration=Release /uno.uitest/src/Sample/Sample.Wasm/Sample.Wasm.csproj
+cd /uno.uitest
 
+msbuild /r /p:Configuration=Release src/Sample/Sample.UITests/Sample.UITests.csproj
+msbuild /r /p:Configuration=Release src/Sample/Sample.Wasm/Sample.Wasm.csproj
 
 cd /uno.uitest/build
 
