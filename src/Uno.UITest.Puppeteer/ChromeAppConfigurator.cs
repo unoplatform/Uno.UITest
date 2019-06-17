@@ -10,7 +10,7 @@ namespace Uno.UITest.Selenium
 		internal bool InternalHeadless { get; private set; } = true;
 		internal int InternalWindowWidth { get; private set; } = 1024;
 		internal int InternalWindowHeight { get; private set; } = 768;
-		internal string InternalBrowserBinaryPath { get; private set; };
+		internal string InternalBrowserBinaryPath { get; private set; }
 
 		public ChromeAppConfigurator()
 		{
