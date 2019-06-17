@@ -16,6 +16,7 @@ namespace Sample.UITests
 				.Uri(new Uri(GetEnvironmentVariable("UNO_UITEST_TARGETURI", Constants.DefaultUri)))
 				.ChromeDriverLocation(GetEnvironmentVariable("UNO_UITEST_DRIVERPATH_CHROME", Constants.ChromeDriver))
 				.ScreenShotsPath(GetEnvironmentVariable("UNO_UITEST_SCREENSHOT_PATH", TestContext.CurrentContext.TestDirectory))
+				.ChromeDriverLocation(GetEnvironmentVariable("UNO_UITEST_CHROME_BINARY_PATH", ""))
 #if DEBUG
 				.Headless(false)
 #endif

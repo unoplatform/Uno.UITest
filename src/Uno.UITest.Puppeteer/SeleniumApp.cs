@@ -27,7 +27,12 @@ namespace Uno.UITest.Selenium
 				options.AddArgument("headless");
 			}
 
-			options.AddArgument($"window-size={config.InternalWindowWidth}x{config.InternalWindowHeight}"); 
+			options.AddArgument($"window-size={config.InternalWindowWidth}x{config.InternalWindowHeight}");
+
+			if(!string.IsNullOrEmpty(config.InternalBrowserBinaryPath))
+			{
+				options.BinaryLocation = config.InternalBrowserBinaryPath;
+			}
 
 			_driver = new ChromeDriver(config.ChromeDriverPath, options);
 			_driver.Url = config.SiteUri.OriginalString;

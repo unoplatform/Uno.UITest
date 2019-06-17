@@ -10,6 +10,7 @@ namespace Uno.UITest.Selenium
 		internal bool InternalHeadless { get; private set; } = true;
 		internal int InternalWindowWidth { get; private set; } = 1024;
 		internal int InternalWindowHeight { get; private set; } = 768;
+		internal string InternalBrowserBinaryPath { get; private set; };
 
 		public ChromeAppConfigurator()
 		{
@@ -20,6 +21,8 @@ namespace Uno.UITest.Selenium
 		public ChromeAppConfigurator ChromeDriverLocation(string chromeDriverPath) { ChromeDriverPath = chromeDriverPath; return this; }
 
 		public ChromeAppConfigurator ScreenShotsPath(string path) { InternalScreenShotsPath = path; return this; }
+
+		public ChromeAppConfigurator BrowserBinaryPath(string path) { InternalBrowserBinaryPath = path; return this; }
 
 		/// <summary>
 		/// Runs the browser as headless. Defaults to true.
