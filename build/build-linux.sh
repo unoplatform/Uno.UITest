@@ -12,7 +12,7 @@ npm i puppeteer@1.13.0
 mono nuget.exe install NUnit.ConsoleRunner -Version 3.10.0
 
 export UNO_UITEST_TARGETURI=http://localhost:8000
-export UNO_UITEST_DRIVERPATH_CHROME=$BUILD_SOURCESDIRECTORY/build/node_modules/chromedriver/lib/chromedriver/chromedriver
+export UNO_UITEST_DRIVERPATH_CHROME=$BUILD_SOURCESDIRECTORY/build/node_modules/chromedriver/lib/chromedriver
 export UNO_UITEST_CHROME_BINARY_PATH=$BUILD_SOURCESDIRECTORY/build/node_modules/puppeteer/.local-chromium/linux-637110/chrome-linux
 export UNO_UITEST_SCREENSHOTS_PATH=$BUILD_ARTIFACTSTAGINGDIRECTORY/screenshots
 
