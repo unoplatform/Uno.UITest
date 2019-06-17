@@ -24,6 +24,7 @@ namespace Uno.UITest.Selenium
 
 			if(config.InternalHeadless)
 			{
+				options.AddArguments("--no-sandbox");
 				options.AddArgument("headless");
 			}
 
