@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd $BUILD_SOURCESDIRECTOR
+cd $BUILD_SOURCESDIRECTORY
 
 msbuild /r /p:Configuration=Release $BUILD_SOURCESDIRECTORY/src/Sample/Sample.UITests/Sample.UITests.csproj
 msbuild /r /p:Configuration=Release $BUILD_SOURCESDIRECTORY/src/Sample/Sample.Wasm/Sample.Wasm.csproj
@@ -14,7 +14,7 @@ mono nuget.exe install NUnit.ConsoleRunner -Version 3.10.0
 export UNO_UITEST_TARGETURI=http://localhost:8000
 export UNO_UITEST_DRIVERPATH_CHROME=$BUILD_SOURCESDIRECTORY/build/node_modules/chromedriver/lib/chromedriver/chromedriver
 export UNO_UITEST_CHROME_BINARY_PATH=$BUILD_SOURCESDIRECTORY/build/node_modules/puppeteer/.local-chromium/linux-637110/chrome-linux
-cp $BUILD_SOURCESDIRECTORY/build/node_modules/chromedriver/lib/chromedriver/chromedriver $BUILD_SOURCESDIRECTORY/build/node_modules/puppeteer/.local-chromium/linux-637110/chrome-linux/
+export UNO_UITEST_SCREENSHOTS_PATH=$BUILD_ARTIFACTSTAGINGDIRECTORY/screenshots
 
 ## The python server serves the current working directory, and may be changed by the nunit runner
 bash -c "cd $BUILD_SOURCESDIRECTORY/src/Sample/Sample.Wasm/bin/Release/netstandard2.0/dist/; python server.py &"

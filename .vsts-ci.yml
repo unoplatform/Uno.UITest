@@ -58,7 +58,7 @@ jobs:
     condition: always()
     inputs:
       PathtoPublish: $(build.artifactstagingdirectory)
-      ArtifactName: unosourcegenerator-drop
+      ArtifactName: uno-uitest-drop
       ArtifactType: Container
 
 
@@ -83,10 +83,18 @@ jobs:
       GIT_TARGETBRANCH: "$(System.PullRequest.TargetBranch)"
       GIT_SOURCEBRANCH: "$(Build.SourceBranch)"
       BUILD_SOURCESDIRECTORY: "$(build.sourcesdirectory)"
+      BUILD_ARTIFACTSTAGINGDIRECTORY: "$(build.artifactstagingdirectory)"
 
     displayName: 'Running build'
 
   - task: PublishTestResults@2
     inputs:
       testResultsFormat: 'NUnit'
-      testResultsFiles: '$(build.sourcesdirectory)/build/TestResult.xml' 
+      testResultsFiles: '$(build.sourcesdirectory)/build/TestResult.xml'
+
+  - task: PublishBuildArtifacts@1
+    condition: always()
+    inputs:
+      PathtoPublish: $(build.artifactstagingdirectory)
+      ArtifactName: uno-uitest-tests
+      ArtifactType: Container
