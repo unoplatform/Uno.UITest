@@ -52,47 +52,47 @@ namespace Uno.UITest.Selenium
 			=> _driver.Navigate().Back();
 
 		void IApp.ClearText()
-			=> throw new NotImplementedException();
+			=> throw new NotSupportedException();
 
 		void IApp.ClearText(string marked)
-			=> throw new NotImplementedException();
+			=> throw new NotSupportedException();
 
-		void IApp.ClearText(Func<IAppQuery, IAppQuery> query) => throw new NotImplementedException();
-		void IApp.ClearText(Func<IAppQuery, IAppWebQuery> query) => throw new NotImplementedException();
+		void IApp.ClearText(Func<IAppQuery, IAppQuery> query) => throw new NotSupportedException();
+		void IApp.ClearText(Func<IAppQuery, IAppWebQuery> query) => throw new NotSupportedException();
 
-		void IApp.DismissKeyboard() => throw new NotImplementedException();
+		void IApp.DismissKeyboard() => throw new NotSupportedException();
 
 		void IApp.DoubleTap(Func<IAppQuery, IAppQuery> query)
 		{
 			var q = query(new SeleniumAppQuery(this));
 		}
 
-		void IApp.DoubleTap(string marked) => throw new NotImplementedException();
-		void IApp.DoubleTapCoordinates(float x, float y) => throw new NotImplementedException();
-		void IApp.DragAndDrop(Func<IAppQuery, IAppQuery> from, Func<IAppQuery, IAppQuery> to) => throw new NotImplementedException();
-		void IApp.DragAndDrop(string from, string to) => throw new NotImplementedException();
-		void IApp.DragCoordinates(float fromX, float fromY, float toX, float toY) => throw new NotImplementedException();
-		void IApp.EnterText(string marked, string text) => throw new NotImplementedException();
-		void IApp.EnterText(string text) => throw new NotImplementedException();
-		void IApp.EnterText(Func<IAppQuery, IAppWebQuery> query, string text) => throw new NotImplementedException();
-		void IApp.EnterText(Func<IAppQuery, IAppQuery> query, string text) => throw new NotImplementedException();
-		IAppResult[] IApp.Flash(string marked) => throw new NotImplementedException();
-		IAppResult[] IApp.Flash(Func<IAppQuery, IAppQuery> query) => throw new NotImplementedException();
-		object IApp.Invoke(string methodName, object[] arguments) => throw new NotImplementedException();
-		object IApp.Invoke(string methodName, object argument) => throw new NotImplementedException();
-		void IApp.PinchToZoomIn(string marked, TimeSpan? duration) => throw new NotImplementedException();
-		void IApp.PinchToZoomIn(Func<IAppQuery, IAppQuery> query, TimeSpan? duration) => throw new NotImplementedException();
-		void IApp.PinchToZoomInCoordinates(float x, float y, TimeSpan? duration) => throw new NotImplementedException();
-		void IApp.PinchToZoomOut(string marked, TimeSpan? duration) => throw new NotImplementedException();
-		void IApp.PinchToZoomOut(Func<IAppQuery, IAppQuery> query, TimeSpan? duration) => throw new NotImplementedException();
-		void IApp.PinchToZoomOutCoordinates(float x, float y, TimeSpan? duration) => throw new NotImplementedException();
-		void IApp.PressEnter() => throw new NotImplementedException();
-		void IApp.PressVolumeDown() => throw new NotImplementedException();
-		void IApp.PressVolumeUp() => throw new NotImplementedException();
-		IAppResult[] IApp.Query(Func<IAppQuery, IAppQuery> query) => throw new NotImplementedException();
-		string[] IApp.Query(Func<IAppQuery, IInvokeJSAppQuery> query) => throw new NotImplementedException();
-		IAppResult[] IApp.Query(string marked) => throw new NotImplementedException();
-		IAppWebResult[] IApp.Query(Func<IAppQuery, IAppWebQuery> query) => throw new NotImplementedException();
+		void IApp.DoubleTap(string marked) => throw new NotSupportedException();
+		void IApp.DoubleTapCoordinates(float x, float y) => throw new NotSupportedException();
+		void IApp.DragAndDrop(Func<IAppQuery, IAppQuery> from, Func<IAppQuery, IAppQuery> to) => throw new NotSupportedException();
+		void IApp.DragAndDrop(string from, string to) => throw new NotSupportedException();
+		void IApp.DragCoordinates(float fromX, float fromY, float toX, float toY) => throw new NotSupportedException();
+		void IApp.EnterText(string marked, string text) => throw new NotSupportedException();
+		void IApp.EnterText(string text) => throw new NotSupportedException();
+		void IApp.EnterText(Func<IAppQuery, IAppWebQuery> query, string text) => throw new NotSupportedException();
+		void IApp.EnterText(Func<IAppQuery, IAppQuery> query, string text) => throw new NotSupportedException();
+		IAppResult[] IApp.Flash(string marked) => throw new NotSupportedException();
+		IAppResult[] IApp.Flash(Func<IAppQuery, IAppQuery> query) => throw new NotSupportedException();
+		object IApp.Invoke(string methodName, object[] arguments) => throw new NotSupportedException();
+		object IApp.Invoke(string methodName, object argument) => throw new NotSupportedException();
+		void IApp.PinchToZoomIn(string marked, TimeSpan? duration) => throw new NotSupportedException();
+		void IApp.PinchToZoomIn(Func<IAppQuery, IAppQuery> query, TimeSpan? duration) => throw new NotSupportedException();
+		void IApp.PinchToZoomInCoordinates(float x, float y, TimeSpan? duration) => throw new NotSupportedException();
+		void IApp.PinchToZoomOut(string marked, TimeSpan? duration) => throw new NotSupportedException();
+		void IApp.PinchToZoomOut(Func<IAppQuery, IAppQuery> query, TimeSpan? duration) => throw new NotSupportedException();
+		void IApp.PinchToZoomOutCoordinates(float x, float y, TimeSpan? duration) => throw new NotSupportedException();
+		void IApp.PressEnter() => throw new NotSupportedException();
+		void IApp.PressVolumeDown() => throw new NotSupportedException();
+		void IApp.PressVolumeUp() => throw new NotSupportedException();
+		IAppResult[] IApp.Query(Func<IAppQuery, IAppQuery> query) => throw new NotSupportedException();
+		string[] IApp.Query(Func<IAppQuery, IInvokeJSAppQuery> query) => throw new NotSupportedException();
+		IAppResult[] IApp.Query(string marked) => throw new NotSupportedException();
+		IAppWebResult[] IApp.Query(Func<IAppQuery, IAppWebQuery> query) => throw new NotSupportedException();
 
 		T[] IApp.Query<T>(Func<IAppQuery, IAppTypedSelector<T>> query)
 		{
@@ -101,7 +101,7 @@ namespace Uno.UITest.Selenium
 			return new[] { (T)Convert.ChangeType(EvaluateTypeSelector<T>(q as SeleniumAppTypedSelector<T>), typeof(T), CultureInfo.InvariantCulture) };
 		}
 
-		void IApp.Repl() => throw new NotImplementedException();
+		void IApp.Repl() => throw new NotSupportedException();
 
 		FileInfo IApp.Screenshot(string title)
 		{
@@ -112,20 +112,20 @@ namespace Uno.UITest.Selenium
 			return new FileInfo(fileName);
 		}
 
-		void IApp.SetOrientationLandscape() => throw new NotImplementedException();
-		void IApp.SetOrientationPortrait() => throw new NotImplementedException();
-		void IApp.SetSliderValue(string marked, double value) => throw new NotImplementedException();
-		void IApp.SetSliderValue(Func<IAppQuery, IAppQuery> query, double value) => throw new NotImplementedException();
-		void IApp.SwipeLeftToRight(Func<IAppQuery, IAppWebQuery> query, double swipePercentage, int swipeSpeed, bool withInertia) => throw new NotImplementedException();
-		void IApp.SwipeLeftToRight(string marked, double swipePercentage, int swipeSpeed, bool withInertia) => throw new NotImplementedException();
-		void IApp.SwipeLeftToRight(double swipePercentage, int swipeSpeed, bool withInertia) => throw new NotImplementedException();
-		void IApp.SwipeLeftToRight(Func<IAppQuery, IAppQuery> query, double swipePercentage, int swipeSpeed, bool withInertia) => throw new NotImplementedException();
-		void IApp.SwipeRightToLeft(double swipePercentage, int swipeSpeed, bool withInertia) => throw new NotImplementedException();
-		void IApp.SwipeRightToLeft(Func<IAppQuery, IAppWebQuery> query, double swipePercentage, int swipeSpeed, bool withInertia) => throw new NotImplementedException();
-		void IApp.SwipeRightToLeft(Func<IAppQuery, IAppQuery> query, double swipePercentage, int swipeSpeed, bool withInertia) => throw new NotImplementedException();
-		void IApp.SwipeRightToLeft(string marked, double swipePercentage, int swipeSpeed, bool withInertia) => throw new NotImplementedException();
-		void IApp.Tap(string marked) => throw new NotImplementedException();
-		void IApp.Tap(Func<IAppQuery, IAppWebQuery> query) => throw new NotImplementedException();
+		void IApp.SetOrientationLandscape() => throw new NotSupportedException();
+		void IApp.SetOrientationPortrait() => throw new NotSupportedException();
+		void IApp.SetSliderValue(string marked, double value) => throw new NotSupportedException();
+		void IApp.SetSliderValue(Func<IAppQuery, IAppQuery> query, double value) => throw new NotSupportedException();
+		void IApp.SwipeLeftToRight(Func<IAppQuery, IAppWebQuery> query, double swipePercentage, int swipeSpeed, bool withInertia) => throw new NotSupportedException();
+		void IApp.SwipeLeftToRight(string marked, double swipePercentage, int swipeSpeed, bool withInertia) => throw new NotSupportedException();
+		void IApp.SwipeLeftToRight(double swipePercentage, int swipeSpeed, bool withInertia) => throw new NotSupportedException();
+		void IApp.SwipeLeftToRight(Func<IAppQuery, IAppQuery> query, double swipePercentage, int swipeSpeed, bool withInertia) => throw new NotSupportedException();
+		void IApp.SwipeRightToLeft(double swipePercentage, int swipeSpeed, bool withInertia) => throw new NotSupportedException();
+		void IApp.SwipeRightToLeft(Func<IAppQuery, IAppWebQuery> query, double swipePercentage, int swipeSpeed, bool withInertia) => throw new NotSupportedException();
+		void IApp.SwipeRightToLeft(Func<IAppQuery, IAppQuery> query, double swipePercentage, int swipeSpeed, bool withInertia) => throw new NotSupportedException();
+		void IApp.SwipeRightToLeft(string marked, double swipePercentage, int swipeSpeed, bool withInertia) => throw new NotSupportedException();
+		void IApp.Tap(string marked) => throw new NotSupportedException();
+		void IApp.Tap(Func<IAppQuery, IAppWebQuery> query) => throw new NotSupportedException();
 
 		void IApp.Tap(Func<IAppQuery, IAppQuery> query)
 		{
@@ -152,13 +152,13 @@ namespace Uno.UITest.Selenium
 			}
 		}
 
-		void IApp.TapCoordinates(float x, float y) => throw new NotImplementedException();
-		void IApp.TouchAndHold(Func<IAppQuery, IAppQuery> query) => throw new NotImplementedException();
-		void IApp.TouchAndHold(string marked) => throw new NotImplementedException();
-		void IApp.TouchAndHoldCoordinates(float x, float y) => throw new NotImplementedException();
-		void IApp.WaitFor(Func<bool> predicate, string timeoutMessage, TimeSpan? timeout, TimeSpan? retryFrequency, TimeSpan? postTimeout) => throw new NotImplementedException();
-		IAppWebResult[] IApp.WaitForElement(Func<IAppQuery, IAppWebQuery> query, string timeoutMessage, TimeSpan? timeout, TimeSpan? retryFrequency, TimeSpan? postTimeout) => throw new NotImplementedException();
-		IAppResult[] IApp.WaitForElement(string marked, string timeoutMessage, TimeSpan? timeout, TimeSpan? retryFrequency, TimeSpan? postTimeout) => throw new NotImplementedException();
+		void IApp.TapCoordinates(float x, float y) => throw new NotSupportedException();
+		void IApp.TouchAndHold(Func<IAppQuery, IAppQuery> query) => throw new NotSupportedException();
+		void IApp.TouchAndHold(string marked) => throw new NotSupportedException();
+		void IApp.TouchAndHoldCoordinates(float x, float y) => throw new NotSupportedException();
+		void IApp.WaitFor(Func<bool> predicate, string timeoutMessage, TimeSpan? timeout, TimeSpan? retryFrequency, TimeSpan? postTimeout) => throw new NotSupportedException();
+		IAppWebResult[] IApp.WaitForElement(Func<IAppQuery, IAppWebQuery> query, string timeoutMessage, TimeSpan? timeout, TimeSpan? retryFrequency, TimeSpan? postTimeout) => throw new NotSupportedException();
+		IAppResult[] IApp.WaitForElement(string marked, string timeoutMessage, TimeSpan? timeout, TimeSpan? retryFrequency, TimeSpan? postTimeout) => throw new NotSupportedException();
 
 		IAppResult[] IApp.WaitForElement(
 			Func<IAppQuery, IAppQuery> query,
@@ -193,17 +193,17 @@ namespace Uno.UITest.Selenium
 		}
 
 		void IApp.WaitForNoElement(Func<IAppQuery, IAppQuery> query, string timeoutMessage, TimeSpan? timeout, TimeSpan? retryFrequency, TimeSpan? postTimeout)
-			=> throw new NotImplementedException();
+			=> throw new NotSupportedException();
 
 		void IApp.WaitForNoElement(string marked, string timeoutMessage, TimeSpan? timeout, TimeSpan? retryFrequency, TimeSpan? postTimeout)
-			=> throw new NotImplementedException();
+			=> throw new NotSupportedException();
 
 		void IApp.WaitForNoElement(
 			Func<IAppQuery, IAppWebQuery> query,
 			string timeoutMessage,
 			TimeSpan? timeout,
 			TimeSpan? retryFrequency,
-			TimeSpan? postTimeout) => throw new NotImplementedException();
+			TimeSpan? postTimeout) => throw new NotSupportedException();
 
 		private IAppResult[] ToAppResults(IEnumerable<IWebElement> elements)
 		{

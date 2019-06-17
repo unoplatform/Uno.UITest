@@ -9,6 +9,6 @@ namespace Sample.UITests
 	public class Constants
 	{
 		public const string DefaultUri = "http://localhost:51669/";
-		public const string ChromeDriver = "http://localhost:51669/";
+		public const string ChromeDriver = @"C:\s\ChromeDriver\74.0.3729.6";
 	}
 }

@@ -1,3 +1,8 @@
+resources:
+  containers:
+  - container: nv-bionic-wasm
+    image: nventive/wasm-build:1.1-bionic
+
 jobs:
 - job: Windows
 
@@ -55,7 +60,33 @@ jobs:
       PathtoPublish: $(build.artifactstagingdirectory)
       ArtifactName: unosourcegenerator-drop
       ArtifactType: Container
-            
+
+
+- job: UITests
+  container: nv-bionic-wasm
+
+  pool:
+    vmImage: 'ubuntu-16.04'
+
+  variables:
+    NUGET_PACKAGES: $(build.sourcesdirectory)/.nuget
+
+  steps:
+  - checkout: self
+    clean: true
+
+  - bash: |
+      msbuild /r /p:Configuration=Release src/Sample/Sample.UITests/Sample.UITests.csproj
+      msbuild /r /p:Configuration=Release src/Sample/Sample.Wasm/Sample.Wasm.csproj
+
+    displayName: 'Build sample app'
+
+  - bash: |
+      cd $(build.sourcesdirectory)/src/Sample/Sample.Wasm/bin/Release/netstandard2.0/dist
+      python server.py &
+
+    displayName: 'Start server'
+
   - task: VSTest@2
     inputs:
       testAssemblyVer2: |

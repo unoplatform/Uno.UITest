@@ -13,24 +13,24 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.UITest.Selenium", "Uno.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.UITests", "Sample\Sample.UITests\Sample.UITests.csproj", "{FB6081EF-0863-4FCA-A4E2-73D5B0E2C38F}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Sample.Shared", "Sample\Sample\Sample.Shared\Sample.Shared.shproj", "{6279C845-92F8-4333-AB99-3D213163593C}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Sample.Shared", "Sample\Sample.Shared\Sample.Shared.shproj", "{6279C845-92F8-4333-AB99-3D213163593C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Droid", "Sample\Sample\Sample.Droid\Sample.Droid.csproj", "{336CC69A-C9D1-48D3-8029-D80D8989403E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Droid", "Sample\Sample.Droid\Sample.Droid.csproj", "{336CC69A-C9D1-48D3-8029-D80D8989403E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.iOS", "Sample\Sample\Sample.iOS\Sample.iOS.csproj", "{DBCE58A5-D2D6-4912-ABD4-AA7E12519361}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.iOS", "Sample\Sample.iOS\Sample.iOS.csproj", "{DBCE58A5-D2D6-4912-ABD4-AA7E12519361}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.UWP", "Sample\Sample\Sample.UWP\Sample.UWP.csproj", "{34403E87-8F3E-40C3-8ECE-7F3873BCD693}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.UWP", "Sample\Sample.UWP\Sample.UWP.csproj", "{34403E87-8F3E-40C3-8ECE-7F3873BCD693}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.Wasm", "Sample\Sample\Sample.Wasm\Sample.Wasm.csproj", "{74EEBCC9-F40E-422B-8C39-CA6E674301AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.Wasm", "Sample\Sample.Wasm\Sample.Wasm.csproj", "{74EEBCC9-F40E-422B-8C39-CA6E674301AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uno.UITest.Helpers", "Uno.UITest.Helpers\Uno.UITest.Helpers.csproj", "{B233D12F-E9FD-4239-9742-A2F712752000}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.UITest.Helpers", "Uno.UITest.Helpers\Uno.UITest.Helpers.csproj", "{B233D12F-E9FD-4239-9742-A2F712752000}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Sample\Sample\Sample.Shared\Sample.Shared.projitems*{336cc69a-c9d1-48d3-8029-d80d8989403e}*SharedItemsImports = 4
-		Sample\Sample\Sample.Shared\Sample.Shared.projitems*{34403e87-8f3e-40c3-8ece-7f3873bcd693}*SharedItemsImports = 4
-		Sample\Sample\Sample.Shared\Sample.Shared.projitems*{6279c845-92f8-4333-ab99-3d213163593c}*SharedItemsImports = 13
-		Sample\Sample\Sample.Shared\Sample.Shared.projitems*{dbce58a5-d2d6-4912-abd4-aa7e12519361}*SharedItemsImports = 4
+		Sample\Sample.Shared\Sample.Shared.projitems*{336cc69a-c9d1-48d3-8029-d80d8989403e}*SharedItemsImports = 4
+		Sample\Sample.Shared\Sample.Shared.projitems*{34403e87-8f3e-40c3-8ece-7f3873bcd693}*SharedItemsImports = 4
+		Sample\Sample.Shared\Sample.Shared.projitems*{6279c845-92f8-4333-ab99-3d213163593c}*SharedItemsImports = 13
+		Sample\Sample.Shared\Sample.Shared.projitems*{dbce58a5-d2d6-4912-abd4-aa7e12519361}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU

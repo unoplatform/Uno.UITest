@@ -13,9 +13,9 @@ namespace Sample.UITests
 		public void StartBrowser()
 		{
 			App = ConfigureApp.WebAssembly
-				.Uri(new Uri(Constants.DefaultUri))
-				.ChromeDriverLocation(@"C:\s\ChromeDriver\74.0.3729.6")
-				.ScreenShotsPath(TestContext.CurrentContext.TestDirectory)
+				.Uri(new Uri(GetEnvironmentVariable("UNO_UITEST_TARGETURI", Constants.DefaultUri)))
+				.ChromeDriverLocation(GetEnvironmentVariable("UNO_UITEST_DRIVERPATH_CHROME", Constants.ChromeDriver))
+				.ScreenShotsPath(GetEnvironmentVariable("UNO_UITEST_SCREENSHOT_PATH", TestContext.CurrentContext.TestDirectory))
 #if DEBUG
 				.Headless(false)
 #endif
@@ -28,6 +28,12 @@ namespace Sample.UITests
 		public void CloseBrowser()
 		{
 			App.Dispose();
+		}
+
+		private string GetEnvironmentVariable(string variableName, string defaultValue)
+		{
+			var value = Environment.GetEnvironmentVariable(variableName);
+			return string.IsNullOrWhiteSpace(value) ? defaultValue : value;
 		}
 	}
 }
