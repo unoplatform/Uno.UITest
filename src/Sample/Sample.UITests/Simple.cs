@@ -16,6 +16,7 @@ namespace Sample.UITests
 	public class SimpleFixture : TestBase
 	{
 		[Test]
+		[Ignore("local testing")]
 		public void BasicTest()
 		{
 			IAppQuery num4Button(IAppQuery q) => q.Marked("num4Button");
