@@ -77,7 +77,7 @@ jobs:
 
   - bash: |
       chmod +x build/build-linux.sh
-      build/build.sh
+      build/build-linux.sh
 
     env:
       GIT_TARGETBRANCH: "$(System.PullRequest.TargetBranch)"
