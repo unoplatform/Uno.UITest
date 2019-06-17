@@ -76,22 +76,16 @@ jobs:
     clean: true
 
   - bash: |
-      msbuild /r /p:Configuration=Release src/Sample/Sample.UITests/Sample.UITests.csproj
-      msbuild /r /p:Configuration=Release src/Sample/Sample.Wasm/Sample.Wasm.csproj
+      chmod +x build/build-linux.sh
+      build/build.sh
 
-    displayName: 'Build sample app'
+    env:
+      GIT_TARGETBRANCH: "$(System.PullRequest.TargetBranch)"
+      GIT_SOURCEBRANCH: "$(Build.SourceBranch)"
 
-  - bash: |
-      cd $(build.sourcesdirectory)/src/Sample/Sample.Wasm/bin/Release/netstandard2.0/dist
-      python server.py &
+    displayName: 'Running build'
 
-    displayName: 'Start server'
-
-  - task: VSTest@2
+  - task: PublishTestResults@2
     inputs:
-      testAssemblyVer2: |
-        src\Samples\**\*UITests.dll
-        !src\Samples\**\obj\**
-      vstestLocationMethod: version
-      vsTestVersion: latest
-      testSelector: testAssemblies
+      testResultsFormat: 'NUnit'
+      testResultsFiles: ' (build.sourcesdirectory)/build/TestResult.xml' 
