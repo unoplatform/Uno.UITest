@@ -89,4 +89,4 @@ jobs:
   - task: PublishTestResults@2
     inputs:
       testResultsFormat: 'NUnit'
-      testResultsFiles: ' (build.sourcesdirectory)/build/TestResult.xml' 
+      testResultsFiles: '$(build.sourcesdirectory)/build/TestResult.xml' 

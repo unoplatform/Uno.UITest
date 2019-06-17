@@ -16,8 +16,7 @@ export UNO_UITEST_DRIVERPATH_CHROME=$BUILD_SOURCESDIRECTORY/build/node_modules/c
 export UNO_UITEST_CHROME_BINARY_PATH=$BUILD_SOURCESDIRECTORY/build/node_modules/puppeteer/.local-chromium/linux-637110/chrome-linux
 cp $BUILD_SOURCESDIRECTORY/build/node_modules/chromedriver/lib/chromedriver/chromedriver $BUILD_SOURCESDIRECTORY/build/node_modules/puppeteer/.local-chromium/linux-637110/chrome-linux/
 
-cd $BUILD_SOURCESDIRECTORY/src/Sample/Sample.Wasm/bin/Release/netstandard2.0/dist
-python server.py &
-disown
+## The python server serves the current working directory, and may be changed by the nunit runner
+bash -c "python $BUILD_SOURCESDIRECTORY/src/Sample/Sample.Wasm/bin/Release/netstandard2.0/dist/server.py &"
 
 mono $BUILD_SOURCESDIRECTORY/build/NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe $BUILD_SOURCESDIRECTORY/src/Sample/Sample.UITests/bin/Release/net47/Sample.UITests.dll
