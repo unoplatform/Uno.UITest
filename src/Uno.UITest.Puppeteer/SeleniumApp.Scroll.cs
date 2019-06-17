@@ -2,9 +2,9 @@
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Uno.UITest.Puppeteer
+namespace Uno.UITest.Selenium
 {
-	internal partial class SeleniumApp : IApp
+	public partial class SeleniumApp : IApp
 	{
 		void IApp.ScrollDown(string withinMarked, ScrollStrategy strategy, double swipePercentage, int swipeSpeed, bool withInertia) => throw new NotImplementedException();
 		void IApp.ScrollDown(Func<IAppQuery, IAppQuery> withinQuery, ScrollStrategy strategy, double swipePercentage, int swipeSpeed, bool withInertia) => throw new NotImplementedException();

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Uno.UITest.Puppeteer
+namespace Uno.UITest.Selenium
 {
 	internal class SeleniumDevice : IDevice
 	{

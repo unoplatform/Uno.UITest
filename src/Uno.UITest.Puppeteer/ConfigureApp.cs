@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Uno.UITest.Puppeteer
+namespace Uno.UITest.Selenium
 {
 	public static class ConfigureApp
 	{

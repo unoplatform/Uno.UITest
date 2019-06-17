@@ -74,7 +74,7 @@ namespace Uno.UITest.Helpers.Queries
 			}
 		}
 
-		public static global::Xamarin.UITest.Platform Platform
+		public static Platform Platform
 		{
 			get
 			{
@@ -82,11 +82,18 @@ namespace Uno.UITest.Helpers.Queries
 				{
 					if(xa.Source is global::Xamarin.UITest.iOS.iOSApp)
 					{
-						return global::Xamarin.UITest.Platform.iOS;
+						return Platform.iOS;
 					}
 					if(xa.Source is global::Xamarin.UITest.Android.AndroidApp)
 					{
-						return global::Xamarin.UITest.Platform.Android;
+						return Platform.Android;
+					}
+				}
+				else
+				{
+					if(Helpers.App is Selenium.SeleniumApp sa)
+					{
+						return Platform.Browser;
 					}
 				}
 				throw new Exception("Current platform cannot be determined");
@@ -110,12 +117,12 @@ namespace Uno.UITest.Helpers.Queries
 		public static T On<T>(T iOS, T Android)
 		{
 			var platform = Platform;
-			if(platform == global::Xamarin.UITest.Platform.Android)
+			if(platform == Platform.Android)
 			{
 				return Android;
 			}
 
-			if(platform != global::Xamarin.UITest.Platform.iOS)
+			if(platform != Platform.iOS)
 			{
 				throw new ArgumentOutOfRangeException();
 			}

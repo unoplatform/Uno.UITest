@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -25,6 +26,39 @@ namespace Sample
 		public MainPage()
 		{
 			this.InitializeComponent();
+
+			TestControls.Add(new TestControl("ComboBox 1", "Sample.Shared.Tests.ComboBox_Tests"));
+			TestControls.Add(new TestControl("CheckBox 1", "Sample.Shared.Tests.CheckBox_Tests"));
 		}
+
+		public ObservableCollection<TestControl> TestControls { get; } = new ObservableCollection<TestControl>();
+
+		private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+		{
+			if(sender is HyperlinkButton button && button.DataContext is TestControl tc)
+			{
+				var type = Type.GetType(tc.Type);
+
+				var instance = Activator.CreateInstance(type) as FrameworkElement;
+
+				if(instance != null)
+				{
+					testHost.Content = instance;
+				}
+			}
+		}
+	}
+
+	[Bindable]
+	public class TestControl
+	{
+		public TestControl(string name, string type)
+		{
+			Name = name;
+			Type = type;
+		}
+
+		public string Name { get; }
+		public string Type { get; }
 	}
 }

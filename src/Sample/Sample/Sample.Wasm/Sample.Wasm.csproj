@@ -30,8 +30,8 @@
     <Content Include="LinkerConfig.xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Uno.UI" Version="1.43.1" />
-    <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.0.0-dev.137" />
+    <PackageReference Include="Uno.UI" Version="1.45.0-dev.1797" />
+    <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.0.0-dev.298" />
     <DotNetCliToolReference Include="Uno.Wasm.Bootstrap.Cli" Version="1.0.0-dev.137" />
   </ItemGroup>
   <Import Project="..\Sample.Shared\Sample.Shared.projitems" Label="Shared" Condition="Exists('..\Sample.Shared\Sample.Shared.projitems')" />

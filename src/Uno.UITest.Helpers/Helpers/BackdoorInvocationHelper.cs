@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Uno.UITest.Helpers.Queries;
 
 namespace Uno.UITest.Helpers
 {
@@ -23,11 +24,15 @@ namespace Uno.UITest.Helpers
 		/// The ":" is automatically appended for iOS.
 		/// </summary>
 		public static object InvokeGeneric(this IApp app, string methodName, object arg1)
-			=> app.Invoke(FormatBackdoorMethodName(methodName) + (Queries.Helpers.Platform == global::Xamarin.UITest.Platform.iOS ? ":" : ""), arg1);
+			=> app.Invoke(FormatBackdoorMethodName(methodName) + (Queries.Helpers.Platform == Platform.iOS ? ":" : ""), arg1);
 
 		public static string FormatBackdoorMethodName(string methodName)
 		{
-			return PlatformHelpers.On(iOS: () => FormatAsiOSMethodName(methodName), Android: () => methodName);
+			return PlatformHelpers.On(
+				iOS: () => FormatAsiOSMethodName(methodName),
+				Android: () => methodName,
+				Browser: () => "Uno.UI.WindowManager.current." + methodName
+			);
 		}
 
 		public static string FormatAsiOSMethodName(string methodName)

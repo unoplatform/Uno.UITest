@@ -1,6 +1,6 @@
 ﻿using OpenQA.Selenium;
 
-namespace Uno.UITest.Puppeteer
+namespace Uno.UITest.Selenium
 {
 	internal class SeleniumAppResult : IAppResult
 	{

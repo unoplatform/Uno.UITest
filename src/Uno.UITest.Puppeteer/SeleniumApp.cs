@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -10,18 +11,27 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Remote;
 
-namespace Uno.UITest.Puppeteer
+namespace Uno.UITest.Selenium
 {
-	internal partial class SeleniumApp : IApp
+	public partial class SeleniumApp : IApp
 	{
 		private readonly RemoteWebDriver _driver;
 		private string _screenShotPath;
 
-		public SeleniumApp(ChromeAppConfigurator chromeAppConfigurator)
+		public SeleniumApp(ChromeAppConfigurator config)
 		{
-			_driver = new ChromeDriver(chromeAppConfigurator.ChromeDriverPath);
-			_driver.Url = chromeAppConfigurator.SiteUri.OriginalString;
-			_screenShotPath = chromeAppConfigurator.InternalScreenShotsPath;
+			var options = new ChromeOptions();
+
+			if(config.InternalHeadless)
+			{
+				options.AddArgument("headless");
+			}
+
+			options.AddArgument($"window-size={config.InternalWindowWidth}x{config.InternalWindowHeight}"); 
+
+			_driver = new ChromeDriver(config.ChromeDriverPath, options);
+			_driver.Url = config.SiteUri.OriginalString;
+			_screenShotPath = config.InternalScreenShotsPath;
 		}
 
 		void PerformActions(Action<Actions> action)
@@ -83,7 +93,14 @@ namespace Uno.UITest.Puppeteer
 		string[] IApp.Query(Func<IAppQuery, IInvokeJSAppQuery> query) => throw new NotImplementedException();
 		IAppResult[] IApp.Query(string marked) => throw new NotImplementedException();
 		IAppWebResult[] IApp.Query(Func<IAppQuery, IAppWebQuery> query) => throw new NotImplementedException();
-		T[] IApp.Query<T>(Func<IAppQuery, IAppTypedSelector<T>> query) => throw new NotImplementedException();
+
+		T[] IApp.Query<T>(Func<IAppQuery, IAppTypedSelector<T>> query)
+		{
+			var q = query(new SeleniumAppQuery(this));
+
+			return new[] { (T)Convert.ChangeType(EvaluateTypeSelector<T>(q as SeleniumAppTypedSelector<T>), typeof(T), CultureInfo.InvariantCulture) };
+		}
+
 		void IApp.Repl() => throw new NotImplementedException();
 
 		FileInfo IApp.Screenshot(string title)
@@ -226,6 +243,31 @@ namespace Uno.UITest.Puppeteer
 			}
 
 			return currentItem;
+		}
+
+		private object EvaluateTypeSelector<T>(SeleniumAppTypedSelector<T> selector)
+		{
+			if(selector.Invocations.Count() > 1)
+			{
+				throw new NotSupportedException($"Multiple invocations are not supporte in IAppTypedSelector");
+			}
+
+			var invocation = selector.Invocations.First();
+			var evaluationResult = Evaluate(selector.Parent as SeleniumAppQuery);
+
+			if(evaluationResult is IEnumerable<IWebElement> elements)
+			{
+				var element = elements.First();
+
+				var xamlHandle = element is IWebElement we ? we.GetAttribute("xamlhandle") : "";
+
+				var args = string.Join(", ", invocation.Args.Select(a => $"\'{a}\'"));
+
+				var script = $"return {invocation.MethodName}({xamlHandle}, {args});";
+				return _driver.ExecuteScript(script);
+			}
+
+			throw new InvalidOperationException($"Unable to invoke {invocation.MethodName} {evaluationResult}");
 		}
 	}
 }

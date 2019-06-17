@@ -7,7 +7,22 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-		<TextBlock Text="Hello, world !" Margin="20" FontSize="30" />
-    </Grid>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="12">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="150" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+		<ScrollViewer Grid.Column="0">
+			<ItemsControl ItemsSource="{x:Bind TestControls}">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<HyperlinkButton Content="{Binding Name}" Click="HyperlinkButton_Click" />
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</ScrollViewer>
+		<Border Grid.Column="1" Margin="12">
+			<ContentControl x:Name="testHost" />
+		</Border>
+	</Grid>
 </Page>

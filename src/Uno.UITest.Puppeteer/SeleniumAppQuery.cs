@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Uno.UITest.Puppeteer
+namespace Uno.UITest.Selenium
 {
 	internal class SeleniumAppQuery : IAppQuery
 	{
@@ -61,12 +61,50 @@ namespace Uno.UITest.Puppeteer
 			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[id='{id}')]")));
 
 		IAppQuery IAppQuery.Index(int index) => throw new System.NotImplementedException();
-		IAppTypedSelector<object> IAppQuery.Invoke(string methodName, object arg1, object arg2, object arg3, object arg4) => throw new System.NotImplementedException();
-		IAppTypedSelector<object> IAppQuery.Invoke(string methodName, object arg1, object arg2, object arg3, object arg4, object arg5) => throw new System.NotImplementedException();
-		IAppTypedSelector<object> IAppQuery.Invoke(string methodName) => throw new System.NotImplementedException();
-		IAppTypedSelector<object> IAppQuery.Invoke(string methodName, object arg1, object arg2, object arg3) => throw new System.NotImplementedException();
-		IAppTypedSelector<object> IAppQuery.Invoke(string methodName, object arg1) => throw new System.NotImplementedException();
-		IAppTypedSelector<object> IAppQuery.Invoke(string methodName, object arg1, object arg2) => throw new System.NotImplementedException();
+
+		IAppTypedSelector<object> IAppQuery.Invoke(string methodName)
+		{
+			var selector = new SeleniumAppTypedSelector<object>(this);
+			selector.Invoke(methodName);
+			return selector;
+		}
+
+		IAppTypedSelector<object> IAppQuery.Invoke(string methodName, object arg1)
+		{
+			var selector = new SeleniumAppTypedSelector<object>(this);
+			selector.Invoke(methodName, arg1);
+
+			return selector;
+		}
+
+		IAppTypedSelector<object> IAppQuery.Invoke(string methodName, object arg1, object arg2)
+		{
+			var selector = new SeleniumAppTypedSelector<object>(this);
+			selector.Invoke(methodName, arg1, arg2);
+			return selector;
+		}
+
+		IAppTypedSelector<object> IAppQuery.Invoke(string methodName, object arg1, object arg2, object arg3)
+		{
+			var selector = new SeleniumAppTypedSelector<object>(this);
+			selector.Invoke(methodName, arg1, arg2, arg3);
+			return selector;
+		}
+
+		IAppTypedSelector<object> IAppQuery.Invoke(string methodName, object arg1, object arg2, object arg3, object arg4)
+		{
+			var selector = new SeleniumAppTypedSelector<object>(this);
+			selector.Invoke(methodName, arg1, arg2, arg3, arg4);
+			return selector;
+		}
+
+		IAppTypedSelector<object> IAppQuery.Invoke(string methodName, object arg1, object arg2, object arg3, object arg4, object arg5)
+		{
+			var selector = new SeleniumAppTypedSelector<object>(this);
+			selector.Invoke(methodName, arg1, arg2, arg3, arg4, arg5);
+			return selector;
+		}
+
 		IInvokeJSAppQuery IAppQuery.InvokeJS(string javascript) => throw new System.NotImplementedException();
 
 		IAppQuery IAppQuery.Marked(string text)
@@ -85,7 +123,9 @@ namespace Uno.UITest.Puppeteer
 		IAppQuery IAppQuery.Sibling(int index) => throw new System.NotImplementedException();
 		IAppQuery IAppQuery.Sibling(string className) => throw new System.NotImplementedException();
 		IAppQuery IAppQuery.Switch(string marked) => throw new System.NotImplementedException();
-		IAppQuery IAppQuery.Text(string text) => throw new System.NotImplementedException();
+		IAppQuery IAppQuery.Text(string text)
+			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[text()='{text}']")));
+
 		IAppQuery IAppQuery.TextField(string marked) => throw new System.NotImplementedException();
 		IAppQuery IAppQuery.WebView() => throw new System.NotImplementedException();
 		IAppQuery IAppQuery.WebView(int index) => throw new System.NotImplementedException();
