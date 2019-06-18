@@ -1,15 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net47</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net47</TargetFramework>
+		<GeneratePackageOnBuild Condition="'$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\uno.uitest\Uno.UITest.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\uno.uitest\Uno.UITest.csproj" />
+	</ItemGroup>
 
 </Project>
