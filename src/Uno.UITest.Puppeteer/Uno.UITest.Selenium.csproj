@@ -2,6 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net47</TargetFramework>
+		<IsTestProject>false</IsTestProject>
 		<GeneratePackageOnBuild Condition="'$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
 	</PropertyGroup>
 
