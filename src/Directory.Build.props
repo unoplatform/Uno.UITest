@@ -10,7 +10,7 @@
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
 
     <!-- Version management is now done through NuGet, this avoids issues related version mismatch -->
-    <Version>255.255.255.255</Version>
+    <Version>0.1.0.0-dev.1</Version>
 
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
     <DefaultLanguage>en-US</DefaultLanguage>
