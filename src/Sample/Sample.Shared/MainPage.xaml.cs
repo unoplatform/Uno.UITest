@@ -29,6 +29,7 @@ namespace Sample
 
 			TestControls.Add(new TestControl("ComboBox 1", "Sample.Shared.Tests.ComboBox_Tests"));
 			TestControls.Add(new TestControl("CheckBox 1", "Sample.Shared.Tests.CheckBox_Tests"));
+			TestControls.Add(new TestControl("RadioButton 01", "Sample.Shared.Tests.RadioButton_Tests_01"));
 		}
 
 		public ObservableCollection<TestControl> TestControls { get; } = new ObservableCollection<TestControl>();

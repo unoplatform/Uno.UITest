@@ -23,6 +23,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Tests\CheckBox_Tests.xaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tests\ComboBox_Tests.xaml.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tests\RadioButton_Tests_01.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)MainPage.xaml">
@@ -34,6 +35,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Tests\ComboBox_Tests.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Tests\RadioButton_Tests_01.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -51,6 +56,9 @@
     <PRIResource Include="$(MSBuildThisFileDirectory)Strings\en\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="C:\s\nv.github\uno.uitest\src\Sample\Sample.Shared\Tests\RadioButton_Tests_01.xaml.cs">
+      <DependentUpon>RadioButton_Tests_01.xaml</DependentUpon>
+    </Compile>
     <Compile Update="C:\s\nv.github\uno.uitest\src\Sample\Sample\Sample.Shared\Tests\CheckBox_Tests.xaml.cs">
       <DependentUpon>CheckBox_Tests.xaml</DependentUpon>
     </Compile>
