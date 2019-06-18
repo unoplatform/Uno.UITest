@@ -20,6 +20,11 @@ namespace Uno.UITest.Selenium
 
 		public SeleniumApp(ChromeAppConfigurator config)
 		{
+			var targetUri = GetEnvironmentVariable("UNO_UITEST_TARGETURI", config.SiteUri.OriginalString);
+			var driverPath = GetEnvironmentVariable("UNO_UITEST_DRIVERPATH_CHROME", config.ChromeDriverPath);
+			var screenShotPath = GetEnvironmentVariable("UNO_UITEST_SCREENSHOT_PATH", config.InternalScreenShotsPath);
+			var chromeBinPath = GetEnvironmentVariable("UNO_UITEST_CHROME_BINARY_PATH", config.InternalBrowserBinaryPath);
+
 			var options = new ChromeOptions();
 
 			if(config.InternalHeadless)
@@ -30,14 +35,28 @@ namespace Uno.UITest.Selenium
 
 			options.AddArgument($"window-size={config.InternalWindowWidth}x{config.InternalWindowHeight}");
 
-			if(!string.IsNullOrEmpty(config.InternalBrowserBinaryPath))
+			if(!string.IsNullOrEmpty(chromeBinPath))
 			{
-				options.BinaryLocation = config.InternalBrowserBinaryPath;
+				options.BinaryLocation = chromeBinPath;
 			}
 
-			_driver = new ChromeDriver(config.ChromeDriverPath, options);
-			_driver.Url = config.SiteUri.OriginalString;
-			_screenShotPath = config.InternalScreenShotsPath;
+			_driver = new ChromeDriver(driverPath, options);
+			_driver.Url = targetUri;
+			_screenShotPath = screenShotPath;
+		}
+
+		private string GetEnvironmentVariable(string variableName, string defaultValue)
+		{
+			var value = Environment.GetEnvironmentVariable(variableName);
+
+			var hasValue = !string.IsNullOrWhiteSpace(value);
+
+			if(hasValue)
+			{
+				Console.WriteLine($"Overriding value with {variableName} = {value}");
+			}
+
+			return hasValue ? value : defaultValue;
 		}
 
 		void PerformActions(Action<Actions> action)
