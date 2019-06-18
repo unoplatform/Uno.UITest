@@ -10,13 +10,13 @@ namespace Uno.UITest.Helpers.Queries
         /// Gets the DependencyProperty value of the DependencyObject return by the query.
         /// </summary>
         public static T GetDependencyPropertyValue<T>(this QueryEx query, string dependencyPropertyName) 
-            => App.Query(q => query.Unwrap(q).InvokeGeneric("GetDependencyPropertyValue", dependencyPropertyName).Value<T>()).First();
+            => App.Query(q => query.Unwrap(q).InvokeGeneric("browser:Uno.UI.WindowManager.current|GetDependencyPropertyValue", dependencyPropertyName).Value<T>()).First();
 
         /// <summary>
         /// Gets the DependencyProperty value of the DependencyObject return by the query.
         /// </summary>
         public static object GetDependencyPropertyValue(this QueryEx query, string dependencyPropertyName) 
-            => App.Query(q => query.Unwrap(q).InvokeGeneric("GetDependencyPropertyValue", dependencyPropertyName)).FirstOrDefault();
+            => App.Query(q => query.Unwrap(q).InvokeGeneric("browser:Uno.UI.WindowManager.current|GetDependencyPropertyValue", dependencyPropertyName)).FirstOrDefault();
 
         /// <summary>
         /// Waits for a specific value on an element's dependency property

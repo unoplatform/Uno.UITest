@@ -38,7 +38,7 @@ namespace Uno.UITest.Helpers.Queries
 		public static IAppTypedSelector<object> GetDependencyPropertyValue(this IAppQuery query, string dependencyPropertyName)
 		{
 			return query
-				.Invoke(FormatBackdoorMethodName("GetDependencyPropertyValue"), dependencyPropertyName);
+				.Invoke(FormatBackdoorMethodName("browser:Uno.UI.WindowManager.current|GetDependencyPropertyValue"), dependencyPropertyName);
 		}
 
 

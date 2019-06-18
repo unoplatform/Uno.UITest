@@ -31,12 +31,14 @@ namespace Uno.UITest.Helpers
 			return PlatformHelpers.On(
 				iOS: () => FormatAsiOSMethodName(methodName),
 				Android: () => methodName,
-				Browser: () => "Uno.UI.WindowManager.current." + methodName
+				Browser: () => BuildMethodName(Platform.Browser, methodName)
 			);
 		}
 
 		public static string FormatAsiOSMethodName(string methodName)
 		{
+			methodName = BuildMethodName(Platform.iOS, methodName);
+
 			if (string.IsNullOrEmpty(methodName))
 			{
 				return methodName;
@@ -50,6 +52,40 @@ namespace Uno.UITest.Helpers
 			}
 
 			return $"{methodName.TrimEnd(':')}";
+		}
+
+		private static string BuildMethodName(Platform platform, string methodName)
+		{
+			var parts = methodName.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+
+			if(parts.Length == 1)
+			{
+				return methodName;
+			}
+			else
+			{
+				var platforms = parts[0].Split(';');
+
+				var q = from p in platforms
+						let pair = p.Split(':')
+						select new { Platform = pair[0], Prefix = pair[1] };
+
+				var map = q.ToDictionary(
+					p => (Platform)Enum.Parse(typeof(Platform), p.Platform, true),
+					p => p.Prefix
+				);
+
+				if(map.TryGetValue(platform, out var prefix))
+				{
+					switch(platform)
+					{
+						case Platform.Browser:
+							return prefix + "." + parts.Last();
+					}
+				}
+
+				return methodName;
+			}
 		}
 	}
 }

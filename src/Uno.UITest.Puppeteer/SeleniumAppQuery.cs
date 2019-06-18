@@ -33,22 +33,22 @@ namespace Uno.UITest.Selenium
 			=> this.seleniumApp = seleniumApp;
 
 		IAppQuery IAppQuery.All(string className)
-			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[ends-with(@xamlType, '{className}')]")));
+			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[ends-with(@xamltype, '{className}')]")));
 
 		IAppQuery IAppQuery.Button(string marked)
-			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[@xamlType='Windows.UI.Xaml.Controls.Button' and xamlName='{marked}')]")));
+			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[@xamltype='Windows.UI.Xaml.Controls.Button' and (xamlname='{marked}') or @xuid='{marked}')]")));
 
 		IAppQuery IAppQuery.Child(string className)
-			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[ends-with(@xamlType, '{className}')]")));
+			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[ends-with(@xamltype, '{className}')]")));
 
 		IAppQuery IAppQuery.Child(int index)
 			=> Apply(() => _queryItems.Add(new SearchQueryItem($"/[{index}]")));
 
 		IAppQuery IAppQuery.Class(string className)
-			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[ends-with(@xamlType, '{className}')]")));
+			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[ends-with(@xamltype, '{className}')]")));
 
 		IAppQuery IAppQuery.ClassFull(string className)
-			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[@xamlType='{className}']")));
+			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[@xamltype='{className}']")));
 
 		IAppQuery IAppQuery.Descendant(int index) => throw new System.NotImplementedException();
 		IAppQuery IAppQuery.Descendant(string className) => throw new System.NotImplementedException();
@@ -108,10 +108,10 @@ namespace Uno.UITest.Selenium
 		IInvokeJSAppQuery IAppQuery.InvokeJS(string javascript) => throw new System.NotImplementedException();
 
 		IAppQuery IAppQuery.Marked(string text)
-			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[@xamlname='{text}']")));
+			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[@xamlname='{text}' or @xuid='{text}']")));
 
 		IAppQuery IAppQuery.Parent(string className)
-			=> Apply(() => _queryItems.Add(new SearchQueryItem($"./ancestor::*[ends-with(@xamlType, {className})]")));
+			=> Apply(() => _queryItems.Add(new SearchQueryItem($"./ancestor::*[ends-with(@xamltype, {className})]")));
 
 		IAppQuery IAppQuery.Parent(int index)
 			=> Apply(() => _queryItems.Add(new SearchQueryItem($"./ancestor::*[position()={index}]")));
