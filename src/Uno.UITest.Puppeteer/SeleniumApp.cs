@@ -103,8 +103,20 @@ namespace Uno.UITest.Selenium
 		void IApp.EnterText(Func<IAppQuery, IAppQuery> query, string text) => throw new NotSupportedException();
 		IAppResult[] IApp.Flash(string marked) => throw new NotSupportedException();
 		IAppResult[] IApp.Flash(Func<IAppQuery, IAppQuery> query) => throw new NotSupportedException();
-		object IApp.Invoke(string methodName, object[] arguments) => throw new NotSupportedException();
-		object IApp.Invoke(string methodName, object argument) => throw new NotSupportedException();
+
+		object IApp.Invoke(string methodName, object[] arguments)
+		{
+			var args = string.Join(", ", arguments.Select(a => $"\'{a}\'"));
+			var script = $"return {methodName}({args});";
+			return _driver.ExecuteScript(script);
+		}
+
+		object IApp.Invoke(string methodName, object argument)
+		{
+			var script = $"return {methodName}(\'{argument}\');";
+			return _driver.ExecuteScript(script);
+		}
+
 		void IApp.PinchToZoomIn(string marked, TimeSpan? duration) => throw new NotSupportedException();
 		void IApp.PinchToZoomIn(Func<IAppQuery, IAppQuery> query, TimeSpan? duration) => throw new NotSupportedException();
 		void IApp.PinchToZoomInCoordinates(float x, float y, TimeSpan? duration) => throw new NotSupportedException();
@@ -181,9 +193,34 @@ namespace Uno.UITest.Selenium
 		void IApp.TouchAndHold(Func<IAppQuery, IAppQuery> query) => throw new NotSupportedException();
 		void IApp.TouchAndHold(string marked) => throw new NotSupportedException();
 		void IApp.TouchAndHoldCoordinates(float x, float y) => throw new NotSupportedException();
-		void IApp.WaitFor(Func<bool> predicate, string timeoutMessage, TimeSpan? timeout, TimeSpan? retryFrequency, TimeSpan? postTimeout) => throw new NotSupportedException();
+		void IApp.WaitFor(Func<bool> predicate, string timeoutMessage, TimeSpan? timeout, TimeSpan? retryFrequency, TimeSpan? postTimeout)
+		{
+			var sw = Stopwatch.StartNew();
+			timeout = timeout ?? TimeSpan.MaxValue;
+			retryFrequency = retryFrequency ?? TimeSpan.FromMilliseconds(500);
+			timeoutMessage = timeoutMessage ?? "Timed out waiting for element...";
+
+			while(sw.Elapsed < timeout)
+			{
+				if(predicate())
+				{
+					return;
+				}
+
+				Thread.Sleep(retryFrequency.Value);
+			}
+
+			throw new TimeoutException(timeoutMessage);
+		}
+
 		IAppWebResult[] IApp.WaitForElement(Func<IAppQuery, IAppWebQuery> query, string timeoutMessage, TimeSpan? timeout, TimeSpan? retryFrequency, TimeSpan? postTimeout) => throw new NotSupportedException();
-		IAppResult[] IApp.WaitForElement(string marked, string timeoutMessage, TimeSpan? timeout, TimeSpan? retryFrequency, TimeSpan? postTimeout) => throw new NotSupportedException();
+		IAppResult[] IApp.WaitForElement(string marked, string timeoutMessage, TimeSpan? timeout, TimeSpan? retryFrequency, TimeSpan? postTimeout)
+			=> (this as IApp).WaitForElement(
+				query: q => q.Marked(marked),
+				timeoutMessage: timeoutMessage,
+				timeout: timeout,
+				retryFrequency: retryFrequency,
+				postTimeout: postTimeout);
 
 		IAppResult[] IApp.WaitForElement(
 			Func<IAppQuery, IAppQuery> query,

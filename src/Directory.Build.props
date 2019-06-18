@@ -16,13 +16,8 @@
     <DefaultLanguage>en-US</DefaultLanguage>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
-    <IsSampleProject>$(MSBuildProjectName.Contains('Sample'))</IsSampleProject>
-  </PropertyGroup>
-
   <Choose>
-    <When Condition="'$(Configuration)' != 'Debug' and '$(IsTestProject)' != 'true' and '$(SourceLinkEnabled)' != 'false' and '$(IsSampleProject)' != 'true'">
+    <When Condition="'$(Configuration)' != 'Debug' and '$(SourceLinkEnabled)' != 'false'">
       <PropertyGroup>
         <!-- Optional: Declare that the Repository URL can be published to NuSpec -->
         <PublishRepositoryUrl>true</PublishRepositoryUrl>

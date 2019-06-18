@@ -1,3 +1,25 @@
 <Project ToolsVersion="15.0">
 
+  <Import Project="$(SolutionDir)\nuget_override.props" Condition="exists('$(SolutionDir)\nuget_override.props')" />
+
+  <Target Name="_UnoUITestOverrideNuget"
+		AfterTargets="AfterBuild"
+		DependsOnTargets="BuiltProjectOutputGroup"
+		Condition="'$(UnoUITestNugetOverrideVersion)'!=''">
+
+    <PropertyGroup>
+      <_OverrideTargetFramework>$(TargetFramework)</_OverrideTargetFramework>
+      <_TargetNugetFolder>$(USERPROFILE)\.nuget\packages\$(AssemblyName)\$(UnoUITestNugetOverrideVersion)\lib\$(_OverrideTargetFramework)</_TargetNugetFolder>
+    </PropertyGroup>
+    <ItemGroup>
+      <_OutputFiles Include="$(TargetDir)\*.*" />
+    </ItemGroup>
+    <MakeDir Directories="$(_TargetNugetFolder)" />
+
+    <Message Importance="high" Text="OVERRIDING NUGET PACKAGE CACHE: $(_TargetNugetFolder)" />
+
+    <Copy SourceFiles="@(_OutputFiles)"
+		  DestinationFiles="@(_OutputFiles->'$(_TargetNugetFolder)\%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
+
 </Project>
