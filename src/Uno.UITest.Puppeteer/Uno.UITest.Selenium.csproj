@@ -5,6 +5,19 @@
 		<IsTestProject>false</IsTestProject>
 		<GeneratePackageOnBuild Condition="'$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
 	</PropertyGroup>
+	
+	<PropertyGroup>
+		<PackageProjectUrl>https://github.com/nventive/Uno.UITest</PackageProjectUrl>
+		<PackageIconUrl>https://nv-assets.azurewebsites.net/logos/uno.png</PackageIconUrl>
+		<Description>
+			This package provides the support of the Uno.UITest framework for Uno Platform WebAssembly apps.
+
+			This framework can be used to test Uno PlatformWebAssembly apps through the use
+			of Selenuim, Xamarin.iOS and Xamarin.Android applications through Xamarin.UITest
+			and Microsoft AppCenter.
+		</Description>
+		<Copyright>Copyright (C) 2015-2019 nventive inc. - all rights reserved</Copyright>
+	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
