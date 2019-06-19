@@ -17,6 +17,8 @@ namespace Uno.UITest.Selenium
 	{
 		private readonly RemoteWebDriver _driver;
 		private string _screenShotPath;
+		private readonly TimeSpan DefaultRetry = TimeSpan.FromMilliseconds(500);
+
 
 		public SeleniumApp(ChromeAppConfigurator config)
 		{
@@ -126,9 +128,24 @@ namespace Uno.UITest.Selenium
 		void IApp.PressEnter() => throw new NotSupportedException();
 		void IApp.PressVolumeDown() => throw new NotSupportedException();
 		void IApp.PressVolumeUp() => throw new NotSupportedException();
-		IAppResult[] IApp.Query(Func<IAppQuery, IAppQuery> query) => throw new NotSupportedException();
+		IAppResult[] IApp.Query(Func<IAppQuery, IAppQuery> query)
+		{
+			var q = query(new SeleniumAppQuery(this));
+
+			var result = Evaluate(q as SeleniumAppQuery);
+
+			if(result is IEnumerable<IWebElement> elements)
+			{
+				return ToAppResults(elements);
+			}
+
+			return Array.Empty<IAppResult>();
+		}
 		string[] IApp.Query(Func<IAppQuery, IInvokeJSAppQuery> query) => throw new NotSupportedException();
-		IAppResult[] IApp.Query(string marked) => throw new NotSupportedException();
+
+		IAppResult[] IApp.Query(string marked)
+			=> (this as IApp).Query(q => q.Marked(marked));
+
 		IAppWebResult[] IApp.Query(Func<IAppQuery, IAppWebQuery> query) => throw new NotSupportedException();
 
 		T[] IApp.Query<T>(Func<IAppQuery, IAppTypedSelector<T>> query)
@@ -189,8 +206,15 @@ namespace Uno.UITest.Selenium
 			}
 		}
 
-		void IApp.TapCoordinates(float x, float y) => throw new NotSupportedException();
-		void IApp.TouchAndHold(Func<IAppQuery, IAppQuery> query) => throw new NotSupportedException();
+        void IApp.TapCoordinates(float x, float y)
+        {
+            PerformActions(a => a
+				.MoveToElement(_driver.FindElementByTagName("body"), 0, 0)
+				.MoveByOffset((int)x, (int)y)
+				.Click());
+        }
+
+        void IApp.TouchAndHold(Func<IAppQuery, IAppQuery> query) => throw new NotSupportedException();
 		void IApp.TouchAndHold(string marked) => throw new NotSupportedException();
 		void IApp.TouchAndHoldCoordinates(float x, float y) => throw new NotSupportedException();
 		void IApp.WaitFor(Func<bool> predicate, string timeoutMessage, TimeSpan? timeout, TimeSpan? retryFrequency, TimeSpan? postTimeout)
@@ -231,21 +255,16 @@ namespace Uno.UITest.Selenium
 		{
 			var sw = Stopwatch.StartNew();
 			timeout = timeout ?? TimeSpan.MaxValue;
-			retryFrequency = retryFrequency ?? TimeSpan.FromMilliseconds(500);
+			retryFrequency = retryFrequency ?? DefaultRetry;
 			timeoutMessage = timeoutMessage ?? "Timed out waiting for element...";
 
 			while(sw.Elapsed < timeout)
 			{
-				var q = query(new SeleniumAppQuery(this));
+				var results = (this as IApp).Query(query);
 
-				var result = Evaluate(q as SeleniumAppQuery);
-
-				if(result is IEnumerable<IWebElement> elements)
+				if(results.Count() != 0)
 				{
-					if(elements.Count() != 0)
-					{
-						return ToAppResults(elements);
-					}
+					return results;
 				}
 
 				Thread.Sleep(retryFrequency.Value);
@@ -319,14 +338,21 @@ namespace Uno.UITest.Selenium
 
 			if(evaluationResult is IEnumerable<IWebElement> elements)
 			{
-				var element = elements.First();
 
-				var xamlHandle = element is IWebElement we ? we.GetAttribute("xamlhandle") : "";
+				if(elements.FirstOrDefault() is IWebElement element)
+				{
 
-				var args = string.Join(", ", invocation.Args.Select(a => $"\'{a}\'"));
+					var xamlHandle = element is IWebElement we ? we.GetAttribute("xamlhandle") : "";
 
-				var script = $"return {invocation.MethodName}({xamlHandle}, {args});";
-				return _driver.ExecuteScript(script);
+					var args = string.Join(", ", invocation.Args.Select(a => $"\'{a}\'"));
+
+					var script = $"return {invocation.MethodName}({xamlHandle}, {args});";
+					return _driver.ExecuteScript(script);
+				}
+				else
+				{
+					return null;
+				}
 			}
 
 			throw new InvalidOperationException($"Unable to invoke {invocation.MethodName} {evaluationResult}");

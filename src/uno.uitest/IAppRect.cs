@@ -2,16 +2,16 @@
 {
 	public interface IAppRect
 	{
-		float Width { get; set; }
+		float Width { get; }
 
-		float Height { get; set; }
+		float Height { get; }
 
-		float X { get; set; }
+		float X { get; }
 
-		float Y { get; set; }
+		float Y { get; }
 
-		float CenterX { get; set; }
+		float CenterX { get; }
 
-		float CenterY { get; set; }
+		float CenterY { get; }
 	}
 }
