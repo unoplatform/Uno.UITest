@@ -20,7 +20,7 @@ namespace Uno.UITest.Selenium
 
 		public IAppRect Rect
 		{
-			get => null;
+			get => new SeleniumAppRect(_source);
 		}
 
 		public string Label
