@@ -4,13 +4,13 @@ namespace Uno.UITest.Selenium
 {
 	internal class SeleniumAppResult : IAppResult
 	{
-		private IWebElement _source;
+		private readonly IWebElement _source;
 
-		public SeleniumAppResult(IWebElement e) => this._source = e;
+		public SeleniumAppResult(IWebElement e) => _source = e;
 
 		public string Id
 		{
-			get => _source.GetAttribute("id");
+			get => Source.GetAttribute("id");
 		}
 
 		public string Description
@@ -20,7 +20,7 @@ namespace Uno.UITest.Selenium
 
 		public IAppRect Rect
 		{
-			get => new SeleniumAppRect(_source);
+			get => new SeleniumAppRect(Source);
 		}
 
 		public string Label
@@ -30,17 +30,19 @@ namespace Uno.UITest.Selenium
 
 		public string Text
 		{
-			get => _source.GetAttribute("innerText");
+			get => Source.GetAttribute("innerText");
 		}
 
 		public string Class
 		{
-			get => _source.GetAttribute("xamltype");
+			get => Source.GetAttribute("xamltype");
 		}
 
 		public bool Enabled
 		{
-			get => _source.Enabled;
+			get => Source.Enabled;
 		}
+
+		internal IWebElement Source => _source;
 	}
 }
