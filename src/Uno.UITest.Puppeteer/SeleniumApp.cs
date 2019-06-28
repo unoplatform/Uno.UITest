@@ -79,12 +79,24 @@ namespace Uno.UITest.Selenium
 			=> _driver.Navigate().Back();
 
 		void IApp.ClearText()
-			=> throw new NotSupportedException();
+			=> PerformActions(a =>
+				a.KeyDown(Keys.Control)
+				.SendKeys("a")
+				.KeyUp(Keys.Control)
+				.SendKeys(Keys.Delete));
 
 		void IApp.ClearText(string marked)
-			=> throw new NotSupportedException();
+			=> (this as IApp).ClearText(q => q.Marked(marked));
 
-		void IApp.ClearText(Func<IAppQuery, IAppQuery> query) => throw new NotSupportedException();
+		void IApp.ClearText(Func<IAppQuery, IAppQuery> query)
+		{
+			var element = GetSingleElement(query);
+			PerformActions(a =>
+				a.KeyDown(element, Keys.Control)
+				.SendKeys(element, "a"+Keys.Delete)
+				.KeyUp(element, Keys.Control));
+		}
+
 		void IApp.ClearText(Func<IAppQuery, IAppWebQuery> query) => throw new NotSupportedException();
 
 		void IApp.DismissKeyboard() => throw new NotSupportedException();
@@ -95,15 +107,33 @@ namespace Uno.UITest.Selenium
 		}
 
 		void IApp.DoubleTap(string marked) => throw new NotSupportedException();
+
 		void IApp.DoubleTapCoordinates(float x, float y) => throw new NotSupportedException();
+
 		void IApp.DragAndDrop(Func<IAppQuery, IAppQuery> from, Func<IAppQuery, IAppQuery> to) => throw new NotSupportedException();
+
 		void IApp.DragAndDrop(string from, string to) => throw new NotSupportedException();
+
 		void IApp.DragCoordinates(float fromX, float fromY, float toX, float toY) => throw new NotSupportedException();
-		void IApp.EnterText(string marked, string text) => throw new NotSupportedException();
-		void IApp.EnterText(string text) => throw new NotSupportedException();
-		void IApp.EnterText(Func<IAppQuery, IAppWebQuery> query, string text) => throw new NotSupportedException();
-		void IApp.EnterText(Func<IAppQuery, IAppQuery> query, string text) => throw new NotSupportedException();
+
+
+		void IApp.EnterText(string marked, string text)
+			=> (this as IApp).EnterText(q => q.Marked(marked), text);
+
+		void IApp.EnterText(string text)
+			=> PerformActions(a => a.SendKeys(text));
+
+		void IApp.EnterText(Func<IAppQuery, IAppWebQuery> query, string text)
+			=> throw new NotSupportedException();
+
+		void IApp.EnterText(Func<IAppQuery, IAppQuery> query, string text)
+		{
+			var element = GetSingleElement(query);
+			PerformActions(a => a.SendKeys(element, text));
+		}
+
 		IAppResult[] IApp.Flash(string marked) => throw new NotSupportedException();
+
 		IAppResult[] IApp.Flash(Func<IAppQuery, IAppQuery> query) => throw new NotSupportedException();
 
 		object IApp.Invoke(string methodName, object[] arguments)
@@ -357,5 +387,26 @@ namespace Uno.UITest.Selenium
 
 			throw new InvalidOperationException($"Unable to invoke {invocation.MethodName} {evaluationResult}");
 		}
+
+		private IWebElement GetSingleElement(Func<IAppQuery, IAppQuery> query)
+		{
+			var elements = (this as IApp).Query(query);
+
+			if(elements.Length == 1)
+			{
+				return (elements[0] as SeleniumAppResult).Source;
+			}
+			else if(elements.Length == 0)
+			{
+				throw new InvalidOperationException($"Unable to find element");
+			}
+			else if(elements.Length > 1)
+			{
+				throw new InvalidOperationException($"Too many elements matching");
+			}
+
+			throw new InvalidOperationException($"Invalid query results");
+		}
+
 	}
 }
