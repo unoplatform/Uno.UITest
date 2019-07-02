@@ -10,10 +10,19 @@ namespace Uno.UITest.Xamarin
 	public class XamarinApp : IApp
 	{
 		global::Xamarin.UITest.IApp _source;
+		global::Xamarin.UITest.iOS.iOSApp _iOSApp;
+		global::Xamarin.UITest.Android.AndroidApp _androidApp;
 
-		public XamarinApp(global::Xamarin.UITest.IApp xamarinApp)
+		public XamarinApp(global::Xamarin.UITest.iOS.iOSApp iOSApp)
 		{
-			_source = xamarinApp;
+			_source = iOSApp;
+			_iOSApp = iOSApp;
+		}
+
+		public XamarinApp(global::Xamarin.UITest.Android.AndroidApp androidApp)
+		{
+			_source = androidApp;
+			_androidApp = androidApp;
 		}
 
 		public IDevice Device => new XamarinDevice(_source.Device);
