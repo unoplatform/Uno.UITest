@@ -89,6 +89,7 @@ jobs:
 
   - task: PublishTestResults@2
     inputs:
+      testRunTitle: 'WebAssembly Test Run'
       testResultsFormat: 'NUnit'
       testResultsFiles: '$(build.sourcesdirectory)/build/TestResult.xml'
 
@@ -127,6 +128,7 @@ jobs:
   - task: PublishTestResults@2
     condition: always()
     inputs:
+      testRunTitle: 'Android Test Run'
       testResultsFormat: 'NUnit'
       testResultsFiles: '$(build.sourcesdirectory)/build/TestResult.xml'
 
