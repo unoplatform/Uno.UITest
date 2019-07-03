@@ -18,7 +18,7 @@ namespace SamplesApp.UITests
 
 		private const string DriverPath = @"..\..\..\..\SamplesApp.Wasm.UITests\node_modules\chromedriver\lib\chromedriver";
 
-		public static IApp StartApp()
+		public static IApp StartApp(bool alreadyRunningApp)
 		{
 			switch (Xamarin.UITest.TestEnvironment.Platform)
 			{
@@ -39,10 +39,10 @@ namespace SamplesApp.UITests
 					switch (GetLocalPlatform())
 					{
 						case Platform.Android:
-							return CreateAndroidApp();
+							return CreateAndroidApp(alreadyRunningApp);
 
 						case Platform.iOS:
-							return CreateiOSApp();
+							return CreateiOSApp(alreadyRunningApp);
 
 						case Platform.Browser:
 							return CreateBrowserApp();
@@ -63,11 +63,15 @@ namespace SamplesApp.UITests
 #endif
 			.StartApp();
 
-		private static IApp CreateAndroidApp()
+		private static IApp CreateAndroidApp(bool alreadyRunningApp)
 		{
+			Environment.SetEnvironmentVariable("ANDROID_HOME", @"C:\Program Files (x86)\Android\android-sdk");
+			Environment.SetEnvironmentVariable("JAVA_HOME", @"C:\Program Files\Android\Jdk\microsoft_dist_openjdk_1.8.0.25");
+
 			var androidConfig = Xamarin.UITest.ConfigureApp
 				.Android
 				.Debug()
+				.PreferIdeSettings()
 				.EnableLocalScreenshots();
 
 			if(GetAndroidApkPath() is string bundlePath)
@@ -79,12 +83,13 @@ namespace SamplesApp.UITests
 				androidConfig = androidConfig.InstalledApp(Constants.AndroidAppName);
 			}
 
-			var app = androidConfig.StartApp()
-				.ToUnoApp();
+			var app = alreadyRunningApp
+				? androidConfig.ConnectToApp()
+				: androidConfig.StartApp();
 
 			ApplyScreenShotPath();
 
-			return app;
+			return app.ToUnoApp();
 		}
 
 		private static void ApplyScreenShotPath()
@@ -94,9 +99,13 @@ namespace SamplesApp.UITests
 			{
 				Environment.CurrentDirectory = value;
 			}
+			else
+			{
+				Environment.CurrentDirectory = Path.GetDirectoryName(new Uri(typeof(AppInitializer).Assembly.Location).LocalPath);
+			}
 		}
 
-		private static IApp CreateiOSApp()
+		private static IApp CreateiOSApp(bool alreadyRunningApp)
 		{
 			var iOSConfig = Xamarin.UITest.ConfigureApp
 				.iOS
@@ -112,25 +121,25 @@ namespace SamplesApp.UITests
 				iOSConfig = iOSConfig.InstalledApp(Constants.AndroidAppName);
 			}
 
-			var app = iOSConfig
-				.StartApp()
-				.ToUnoApp();
+			var app = alreadyRunningApp
+				? iOSConfig.ConnectToApp()
+				: iOSConfig.StartApp();
 
 			ApplyScreenShotPath();
 
-			return app;
+			return app.ToUnoApp();
 		}
 
 		private static string GetAndroidApkPath()
 		{
 			var value = Environment.GetEnvironmentVariable(UITEST_ANDROIDAPK_PATH);
-			return string.IsNullOrWhiteSpace(value) ? "" : value;
+			return string.IsNullOrWhiteSpace(value) ? null : value;
 		}
 
 		private static string GetiOSAppBundlePath()
 		{
 			var value = Environment.GetEnvironmentVariable(UITEST_IOSBUNDLE_PATH);
-			return string.IsNullOrWhiteSpace(value) ? "" : value;
+			return string.IsNullOrWhiteSpace(value) ? null : value;
 		}
 
 		public static Platform GetLocalPlatform()
