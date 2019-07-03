@@ -73,7 +73,6 @@ namespace SamplesApp.UITests
 			var androidConfig = Xamarin.UITest.ConfigureApp
 				.Android
 				.Debug()
-				.PreferIdeSettings()
 				.EnableLocalScreenshots();
 
 			if(GetAndroidApkPath() is string bundlePath)
