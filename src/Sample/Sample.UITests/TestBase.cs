@@ -4,6 +4,7 @@ using SamplesApp.UITests;
 using Uno.UITest;
 using Uno.UITest.Selenium;
 
+[TestFixture]
 public class AssemblySetup
 {
 
