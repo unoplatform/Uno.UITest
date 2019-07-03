@@ -10,11 +10,11 @@ namespace Uno.UITest.Xamarin
 
 		public XamarinAppRect(AppRect rect) => this._source = rect;
 
-		public float Width { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-		public float Height { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-		public float X { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-		public float Y { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-		public float CenterX { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-		public float CenterY { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+		public float Width => _source.Width;
+		public float Height => _source.Height;
+		public float X => _source.X;
+		public float Y => _source.Y;
+		public float CenterX => _source.CenterX;
+		public float CenterY => _source.CenterY;
 	}
 }
