@@ -125,6 +125,7 @@ jobs:
       BUILD_ARTIFACTSTAGINGDIRECTORY: "$(build.artifactstagingdirectory)"
 
   - task: PublishTestResults@2
+    condition: always()
     inputs:
       testResultsFormat: 'NUnit'
       testResultsFiles: '$(build.sourcesdirectory)/build/TestResult.xml'

@@ -20,6 +20,8 @@ namespace SamplesApp.UITests
 
 		public static IApp StartApp(bool alreadyRunningApp)
 		{
+			Console.WriteLine($"Starting app ({alreadyRunningApp})");
+
 			switch (Xamarin.UITest.TestEnvironment.Platform)
 			{
 				case Xamarin.UITest.TestPlatform.TestCloudiOS:
