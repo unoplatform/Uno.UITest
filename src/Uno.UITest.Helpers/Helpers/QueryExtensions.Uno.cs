@@ -24,7 +24,7 @@ namespace Uno.UITest.Helpers.Queries
 		public static void WaitForDependencyPropertyValue(this IApp app, QueryEx element, string dependencyPropertyName, string value)
 			=> app.WaitFor(() =>
 			{
-				string v = element.GetDependencyPropertyValue<string>(dependencyPropertyName);
+				string v = element.GetDependencyPropertyValue<string>(dependencyPropertyName) ?? "";
 				return value == v;
 			}, timeoutMessage: $"Failed to find [{value}] on [{dependencyPropertyName}]"
 		);
