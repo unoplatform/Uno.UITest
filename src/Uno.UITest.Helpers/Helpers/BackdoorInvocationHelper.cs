@@ -29,8 +29,8 @@ namespace Uno.UITest.Helpers
 		public static string FormatBackdoorMethodName(string methodName)
 		{
 			return PlatformHelpers.On(
-				iOS: () => FormatAsiOSMethodName(methodName),
-				Android: () => methodName,
+				iOS: () => FormatAsiOSMethodName(BuildMethodName(Platform.iOS, methodName)),
+				Android: () => BuildMethodName(Platform.Android, methodName),
 				Browser: () => BuildMethodName(Platform.Browser, methodName)
 			);
 		}
@@ -81,10 +81,14 @@ namespace Uno.UITest.Helpers
 					{
 						case Platform.Browser:
 							return prefix + "." + parts.Last();
+
+						case Platform.Android:
+						case Platform.iOS:
+							return parts.Last();
 					}
 				}
 
-				return methodName;
+				return parts.Last();
 			}
 		}
 	}
