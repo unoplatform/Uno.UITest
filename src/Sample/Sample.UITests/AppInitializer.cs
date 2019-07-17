@@ -16,7 +16,7 @@ namespace SamplesApp.UITests
 		public const string UITEST_ANDROIDAPK_PATH = "UNO_UITEST_ANDROIDAPK_PATH";
 		public const string UITEST_SCREENSHOT_PATH = "UNO_UITEST_SCREENSHOT_PATH";
 
-		private const string DriverPath = @"..\..\..\..\SamplesApp.Wasm.UITests\node_modules\chromedriver\lib\chromedriver";
+		private const string DriverPath = @"..\..\..\..\..\..\build\node_modules\chromedriver\lib\chromedriver";
 
 		public static IApp StartApp(bool alreadyRunningApp)
 		{

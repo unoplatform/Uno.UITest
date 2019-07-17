@@ -14,6 +14,6 @@ namespace Sample.UITests
 		public readonly static string iOSAppName;
 		public readonly static string AndroidAppName = "uno.platform.uitestsample";
 
-		public readonly static Platform CurrentPlatform = Platform.Android;
+		public readonly static Platform CurrentPlatform = Platform.Browser;
 	}
 }
