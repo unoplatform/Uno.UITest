@@ -31,6 +31,7 @@ namespace Sample
 			TestControls.Add(new TestControl("CheckBox 1", "Sample.Shared.Tests.CheckBox_Tests"));
 			TestControls.Add(new TestControl("RadioButton 01", "Sample.Shared.Tests.RadioButton_Tests_01"));
 			TestControls.Add(new TestControl("TextBox 01", "Sample.Shared.Tests.TextBox_Tests_01"));
+			TestControls.Add(new TestControl("DragCoordinates 01", "Sample.Shared.Tests.DragCoordinates_Tests"));
 		}
 
 		public ObservableCollection<TestControl> TestControls { get; } = new ObservableCollection<TestControl>();
