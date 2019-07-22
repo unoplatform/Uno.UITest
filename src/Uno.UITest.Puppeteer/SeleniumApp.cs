@@ -114,8 +114,16 @@ namespace Uno.UITest.Selenium
 
 		void IApp.DragAndDrop(string from, string to) => throw new NotSupportedException();
 
-		void IApp.DragCoordinates(float fromX, float fromY, float toX, float toY) => throw new NotSupportedException();
-
+		void IApp.DragCoordinates(float fromX, float fromY, float toX, float toY)
+		{
+			PerformActions(a => a
+				.MoveToElement(_driver.FindElementByTagName("body"), 0, 0)
+				.MoveByOffset((int)fromX, (int)fromY)
+				.ClickAndHold()
+				.MoveByOffset((int)(toX - fromX), (int)(toY - fromY))
+				.Release()
+			);
+		}
 
 		void IApp.EnterText(string marked, string text)
 			=> (this as IApp).EnterText(q => q.Marked(marked), text);
