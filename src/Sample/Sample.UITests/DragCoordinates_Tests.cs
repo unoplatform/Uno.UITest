@@ -40,6 +40,13 @@ namespace Sample.UITests
 
 			App.Screenshot("DragBorder01 - Step 2");
 
+			if(Xamarin.UITest.TestEnvironment.Platform == Xamarin.UITest.TestPlatform.TestCloudAndroid
+				|| SamplesApp.UITests.AppInitializer.GetLocalPlatform() == Platform.Android)
+			{
+				// PointerEvents don't fire properly on Android, causing this test to fail https://github.com/unoplatform/uno/issues/1257
+				return;
+			}
+
 			App.WaitForDependencyPropertyValue(topValue, "Text", "50");
 			App.WaitForDependencyPropertyValue(leftValue, "Text", "50");
 		}
