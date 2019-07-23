@@ -13,6 +13,7 @@
 		<StackPanel VerticalAlignment="Bottom">
 			<TextBlock x:Name="borderPositionLeft" Text="{Binding (Canvas.Left), ElementName=myBorder}" />
 			<TextBlock x:Name="borderPositionTop" Text="{Binding (Canvas.Top), ElementName=myBorder}"/>
+			<TextBlock x:Name="movedCount" Text="0"/>
 		</StackPanel>
 		
 		<Canvas x:Name="rootCanvas" Width="500" Height="500">

@@ -22,6 +22,8 @@ namespace Sample.UITests
 			Query topValue = q => q.Marked("borderPositionTop");
 			Query leftValue = q => q.Marked("borderPositionLeft");
 
+			Query movedCountValue = q => q.Marked("movedCount");
+
 			App.WaitForElement(testSelector);
 			App.Tap(testSelector);
 
@@ -49,6 +51,12 @@ namespace Sample.UITests
 
 			App.WaitForDependencyPropertyValue(topValue, "Text", "50");
 			App.WaitForDependencyPropertyValue(leftValue, "Text", "50");
+
+			var movedCountText = App.Query(q => movedCountValue(q).GetDependencyPropertyValue("Text").Value<string>()).First();
+
+			var movedCount = int.Parse(movedCountText);
+
+			Assert.Greater(movedCount, 1);
 		}
 	}
 }

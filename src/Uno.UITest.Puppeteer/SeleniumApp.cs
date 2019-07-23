@@ -10,6 +10,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Remote;
+using static System.Math;
 
 namespace Uno.UITest.Selenium
 {
@@ -120,9 +121,54 @@ namespace Uno.UITest.Selenium
 				.MoveToElement(_driver.FindElementByTagName("body"), 0, 0)
 				.MoveByOffset((int)fromX, (int)fromY)
 				.ClickAndHold()
-				.MoveByOffset((int)(toX - fromX), (int)(toY - fromY))
+			);
+
+			MoveByOffsetIncremental((int)(toX - fromX), (int)(toY - fromY));
+
+			PerformActions(a => a
 				.Release()
 			);
+		}
+
+		/// <summary>
+		/// Move mouse in increments, this is closer to user behaviour and ensures eg that PointerMoved is raised.
+		/// </summary>
+		private void MoveByOffsetIncremental(int offsetX, int offsetY)
+		{
+			const int consumptionIncr = 10; // Corresponds to moderate mouse speed
+			var incrX = offsetX > 0 ? consumptionIncr : -consumptionIncr;
+			var incrY = offsetY > 0 ? consumptionIncr : -consumptionIncr;
+
+			var unconsumedX = offsetX;
+			var unconsumedY = offsetY;
+			do
+			{
+				int currentOffsetX, currentOffsetY;
+
+				if (Abs(unconsumedX) > consumptionIncr)
+				{
+					currentOffsetX = incrX;
+				}
+				else
+				{
+					currentOffsetX = unconsumedX;
+				}
+
+				if (Abs(unconsumedY) > consumptionIncr)
+				{
+					currentOffsetY = incrY;
+				}
+				else
+				{
+					currentOffsetY = unconsumedY;
+				}
+
+				PerformActions(a => a.MoveByOffset(currentOffsetX, currentOffsetY));
+
+				unconsumedX -= currentOffsetX;
+				unconsumedY -= currentOffsetY;
+			}
+			while (unconsumedX != 0 || unconsumedY != 0);
 		}
 
 		void IApp.EnterText(string marked, string text)
