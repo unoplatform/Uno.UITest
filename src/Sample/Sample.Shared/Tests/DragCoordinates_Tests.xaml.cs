@@ -20,6 +20,8 @@ namespace Sample.Shared.Tests
 {
 	public sealed partial class DragCoordinates_Tests : UserControl
 	{
+		private int _movedCount;
+
 		public DragCoordinates_Tests()
 		{
 			this.InitializeComponent();
@@ -39,6 +41,8 @@ namespace Sample.Shared.Tests
 				{
 					Canvas.SetTop(myBorder, e.GetCurrentPoint(rootCanvas).Position.Y - startPos.Y);
 					Canvas.SetLeft(myBorder, e.GetCurrentPoint(rootCanvas).Position.X - startPos.X);
+					_movedCount++;
+					movedCount.Text = _movedCount.ToString();
 				}
 			};
 
