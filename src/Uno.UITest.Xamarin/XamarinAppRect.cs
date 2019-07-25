@@ -16,5 +16,9 @@ namespace Uno.UITest.Xamarin
 		public float Y => _source.Y;
 		public float CenterX => _source.CenterX;
 		public float CenterY => _source.CenterY;
+
+		float IAppRect.Right => _source.X + _source.Width;
+
+		float IAppRect.Bottom => _source.Y + _source.Height;
 	}
 }
