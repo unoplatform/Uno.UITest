@@ -14,7 +14,9 @@ namespace Uno.UITest.Selenium
 		float IAppRect.Height => _source.Size.Height;
 		float IAppRect.X => _source.Location.X;
 		float IAppRect.Y => _source.Location.Y;
-		float IAppRect.CenterX => _source.Location.X + _source.Size.Width / 2;
-		float IAppRect.CenterY => _source.Location.Y + _source.Size.Height / 2;
+		float IAppRect.CenterX => _source.Location.X + (_source.Size.Width / 2);
+		float IAppRect.CenterY => _source.Location.Y + (_source.Size.Height / 2);
+		float IAppRect.Right => _source.Location.X + _source.Size.Width;
+		float IAppRect.Bottom => _source.Location.Y + _source.Size.Height;
 	}
 }

@@ -13,5 +13,9 @@
 		float CenterX { get; }
 
 		float CenterY { get; }
+
+		float Right { get; }
+
+		float Bottom { get; }
 	}
 }
