@@ -51,6 +51,7 @@ namespace Uno.UITest.Selenium
 					//
 					// When InternalDetectDockerEnvironment is set, tell the daemon to listen on
 					// all available interfaces
+					Console.WriteLine($"Detected docker environment, adding whitelisted-ips");
 					options.AddArguments("--whitelisted-ips");
 				}
 			}
