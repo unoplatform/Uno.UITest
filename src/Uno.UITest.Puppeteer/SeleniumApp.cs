@@ -23,6 +23,7 @@ namespace Uno.UITest.Selenium
 
 		public SeleniumApp(ChromeAppConfigurator config)
 		{
+			// --whitelisted-ips
 			var targetUri = GetEnvironmentVariable("UNO_UITEST_TARGETURI", config.SiteUri.OriginalString);
 			var driverPath = GetEnvironmentVariable("UNO_UITEST_DRIVERPATH_CHROME", config.ChromeDriverPath);
 			var screenShotPath = GetEnvironmentVariable("UNO_UITEST_SCREENSHOT_PATH", config.InternalScreenShotsPath);
@@ -37,6 +38,27 @@ namespace Uno.UITest.Selenium
 			}
 
 			options.AddArgument($"window-size={config.InternalWindowWidth}x{config.InternalWindowHeight}");
+
+			if(config.InternalDetectDockerEnvironment)
+			{
+				if(File.Exists("/.dockerenv"))
+				{
+					// When running under docker, ports bindings may not work properly
+					// as the current local host may not be detected properly by the web driver
+					// causing errors like this one:
+					//
+					// [SEVERE]: bind() returned an error, errno=99: Cannot assign requested address (99)
+					//
+					// When InternalDetectDockerEnvironment is set, tell the daemon to listen on
+					// all available interfaces
+					options.AddArguments("--whitelisted-ips");
+				}
+			}
+
+			foreach(var arg in config.InternalSeleniumArgument)
+			{
+				options.AddArguments(arg);
+			}
 
 			if(!string.IsNullOrEmpty(chromeBinPath))
 			{

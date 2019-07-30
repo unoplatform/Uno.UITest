@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Uno.UITest.Selenium
 {
@@ -11,6 +12,8 @@ namespace Uno.UITest.Selenium
 		internal int InternalWindowWidth { get; private set; } = 1024;
 		internal int InternalWindowHeight { get; private set; } = 768;
 		internal string InternalBrowserBinaryPath { get; private set; }
+		internal List<string> InternalSeleniumArgument = new List<string>();
+		internal bool InternalDetectDockerEnvironment = true;
 
 		public ChromeAppConfigurator()
 		{
@@ -23,6 +26,17 @@ namespace Uno.UITest.Selenium
 		public ChromeAppConfigurator ScreenShotsPath(string path) { InternalScreenShotsPath = path; return this; }
 
 		public ChromeAppConfigurator BrowserBinaryPath(string path) { InternalBrowserBinaryPath = path; return this; }
+
+		/// <summary>
+		/// This parameters allows to provide a set of additional parameters to be provided to the WebDriver.
+		/// </summary>
+		public ChromeAppConfigurator SeleniumArgument(string argument) { InternalSeleniumArgument.Add(argument); return this; }
+
+
+		/// <summary>
+		/// Enables the detection of the docker environment to configure the WebDriver accordingly. Enabled by default.
+		/// </summary>
+		public ChromeAppConfigurator DetectDockerEnvironment(bool enabled) { InternalDetectDockerEnvironment = enabled; return this; }
 
 		/// <summary>
 		/// Runs the browser as headless. Defaults to true.
