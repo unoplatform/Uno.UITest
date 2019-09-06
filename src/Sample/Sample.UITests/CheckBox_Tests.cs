@@ -29,15 +29,27 @@ namespace Sample.UITests
 			var value2 = App.Query(q => cb2(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First();
 			Assert.IsFalse(value2);
 
+			App.WaitForNoElement("rect1");
+			App.WaitForNoElement("rect2");
+
 			App.Tap(cb1);
 
 			var value3 = App.Query(q => cb1(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First();
 			Assert.IsTrue(value3);
 
+			App.WaitForElement("rect1");
+
 			App.Tap(cb2);
 
 			var value4 = App.Query(q => cb1(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First();
 			Assert.IsTrue(value4);
+
+			App.WaitForElement("rect2");
+
+			App.Tap(cb1);
+			App.Tap(cb2);
+			App.WaitForNoElement("rect1");
+			App.WaitForNoElement("rect2");
 		}
 	}
 }
