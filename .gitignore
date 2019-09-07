@@ -235,3 +235,4 @@ Resource.Designer.cs
 /build/*.nupkg
 
 src/nuget_override.props
+.DS_Store

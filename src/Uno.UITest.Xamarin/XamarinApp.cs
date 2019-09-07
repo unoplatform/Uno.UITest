@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -164,7 +165,9 @@ namespace Uno.UITest.Xamarin
 		public T[] Query<T>(Func<IAppQuery, IAppTypedSelector<T>> query)
 			=> _source.Query(
 					q => query(q.AsGenericAppQuery()).ToXamarinAppTypedSelector()
-				);
+				)
+				.Select(o => (T)Convert.ChangeType(o, typeof(T), CultureInfo.InvariantCulture))
+				.ToArray();
 
 		public void Repl()
 			=> _source.Repl();

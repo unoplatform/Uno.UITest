@@ -15,7 +15,7 @@ namespace Sample.UITests
 		[Test]
 		public void TextBox01()
 		{
-			Query testSelector = q => q.Text("TextBox 01");
+			Query testSelector = q => q.Marked("TextBox01");
 			Query tb01 = q => q.Marked("tb01");
 			StringQuery textSelector = q =>
 				tb01(q).GetDependencyPropertyValue("Text").Value<string>();

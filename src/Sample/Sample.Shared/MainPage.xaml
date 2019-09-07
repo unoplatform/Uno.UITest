@@ -13,12 +13,12 @@
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 		<ScrollViewer Grid.Column="0">
-			<ItemsControl ItemsSource="{x:Bind TestControls}">
-				<ItemsControl.ItemTemplate>
-					<DataTemplate>
-						<HyperlinkButton Content="{Binding Name}" Click="HyperlinkButton_Click" />
-					</DataTemplate>
-				</ItemsControl.ItemTemplate>
+			<ItemsControl>
+				<HyperlinkButton x:Uid="ComboBox01" Content="ComboBox 1" Click="HyperlinkButton_Click" Tag="Sample.Shared.Tests.ComboBox_Tests" />
+				<HyperlinkButton x:Uid="CheckBox01" Content="CheckBox 1" Click="HyperlinkButton_Click" Tag="Sample.Shared.Tests.CheckBox_Tests" />
+				<HyperlinkButton x:Uid="RadioButton01" Content="RadioButton 01" Click="HyperlinkButton_Click" Tag="Sample.Shared.Tests.RadioButton_Tests_01" />
+				<HyperlinkButton x:Uid="TextBox01" Content="TextBox 01" Click="HyperlinkButton_Click" Tag="Sample.Shared.Tests.TextBox_Tests_01" />
+				<HyperlinkButton x:Uid="DragCoordinates01" Content="DragCoordinates 01" Click="HyperlinkButton_Click" Tag="Sample.Shared.Tests.DragCoordinates_Tests" />
 			</ItemsControl>
 		</ScrollViewer>
 		<Border Grid.Column="1" Margin="12">

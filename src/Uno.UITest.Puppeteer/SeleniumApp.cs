@@ -24,7 +24,6 @@ namespace Uno.UITest.Selenium
 
 		public SeleniumApp(ChromeAppConfigurator config)
 		{
-			// --whitelisted-ips
 			var targetUri = GetEnvironmentVariable("UNO_UITEST_TARGETURI", config.SiteUri.OriginalString);
 			var driverPath = GetEnvironmentVariable("UNO_UITEST_DRIVERPATH_CHROME", config.ChromeDriverPath);
 			var screenShotPath = GetEnvironmentVariable("UNO_UITEST_SCREENSHOT_PATH", config.InternalScreenShotsPath);
@@ -52,7 +51,7 @@ namespace Uno.UITest.Selenium
 					//
 					// When InternalDetectDockerEnvironment is set, tell the daemon to listen on
 					// all available interfaces
-					Console.WriteLine($"Detected docker environment, adding whitelisted-ips");
+					Console.WriteLine($"Container mode enabled, adding whitelisted-ips");
 					options.AddArguments("--whitelisted-ips");
 				}
 			}
@@ -84,6 +83,20 @@ namespace Uno.UITest.Selenium
 			}
 
 			return hasValue ? value : defaultValue;
+		}
+
+		private bool GetEnvironmentVariable(string variableName, bool defaultValue)
+		{
+			var value = Environment.GetEnvironmentVariable(variableName);
+
+			var hasValue = bool.TryParse(value, out var varValue);
+
+			if(hasValue)
+			{
+				Console.WriteLine($"Overriding value with {variableName} = {value}");
+			}
+
+			return hasValue ? varValue : defaultValue;
 		}
 
 		void PerformActions(Action<Actions> action)
