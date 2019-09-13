@@ -19,6 +19,7 @@ namespace Uno.UITest.Selenium
 		private readonly RemoteWebDriver _driver;
 		private string _screenShotPath;
 		private readonly TimeSpan DefaultRetry = TimeSpan.FromMilliseconds(500);
+		private readonly TimeSpan DefaultTimeout = TimeSpan.FromMinutes(1);
 
 
 		public SeleniumApp(ChromeAppConfigurator config)
@@ -327,7 +328,7 @@ namespace Uno.UITest.Selenium
 		void IApp.WaitFor(Func<bool> predicate, string timeoutMessage, TimeSpan? timeout, TimeSpan? retryFrequency, TimeSpan? postTimeout)
 		{
 			var sw = Stopwatch.StartNew();
-			timeout = timeout ?? TimeSpan.MaxValue;
+			timeout = timeout ?? DefaultTimeout;
 			retryFrequency = retryFrequency ?? TimeSpan.FromMilliseconds(500);
 			timeoutMessage = timeoutMessage ?? "Timed out waiting for element...";
 
@@ -361,7 +362,7 @@ namespace Uno.UITest.Selenium
 			TimeSpan? postTimeout)
 		{
 			var sw = Stopwatch.StartNew();
-			timeout = timeout ?? TimeSpan.MaxValue;
+			timeout = timeout ?? DefaultTimeout;
 			retryFrequency = retryFrequency ?? DefaultRetry;
 			timeoutMessage = timeoutMessage ?? "Timed out waiting for element...";
 
