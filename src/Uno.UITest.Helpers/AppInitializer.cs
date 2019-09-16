@@ -5,32 +5,78 @@ using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
-using Sample.UITests;
 using Uno.UITest;
 using Uno.UITest.Helpers.Queries;
 using Uno.UITest.Xamarin.Extensions;
 
-namespace SamplesApp.UITests
+namespace Uno.UITests.Helpers
 {
+	/// <summary>
+	/// A Uno.UITest initializer
+	/// </summary>
 	public class AppInitializer
 	{
-		public const string UITestPlatform = "UNO_UITEST_PLATFORM";
+		/// <summary>
+		/// Name of the environment variable containing the running UI Test platform.
+		/// </summary>
+		public const string UNO_UITEST_PLATFORM = "UNO_UITEST_PLATFORM";
+
+		/// <summary>
+		/// Name of the environment variable containing the iOS App Bundle path
+		/// </summary>
 		public const string UITEST_IOSBUNDLE_PATH = "UNO_UITEST_IOSBUNDLE_PATH";
+
+		/// <summary>
+		/// Name of the environment variable containing the iOS Device ID or name to use to run the UI Tests.
+		/// </summary>
 		public const string UITEST_IOSDEVICE_ID = "UITEST_IOSDEVICE_ID";
+
+		/// <summary>
+		/// Name of the environment variable containing the path of the APK to use when running android tests.
+		/// </summary>
 		public const string UITEST_ANDROIDAPK_PATH = "UNO_UITEST_ANDROIDAPK_PATH";
+
+		/// <summary>
+		/// Name of the environment variable containing the path to use when creating screenshots.
+		/// </summary>
 		public const string UITEST_SCREENSHOT_PATH = "UNO_UITEST_SCREENSHOT_PATH";
 
-		private const string DriverPath = @"..\..\..\..\..\..\build\node_modules\chromedriver\lib\chromedriver";
+		public static AppInitializerEnvironment TestEnvironment { get; } = new AppInitializerEnvironment();
+
 		private static IApp _currentApp;
 
+		/// <summary>
+		/// Cold starts the registered app.
+		/// </summary>
+		/// <remarks>This method is generally called from the type constructor of a test assembly.</remarks>
+		/// <returns>An <see cref="IApp"/> instance representing the running application.</returns>
 		public static IApp ColdStartApp()
 			=> Xamarin.UITest.TestEnvironment.Platform == Xamarin.UITest.TestPlatform.Local
 				? StartApp(alreadyRunningApp: false)
 				: null;
 
+		/// <summary>
+		/// Attach to an already running application.
+		/// </summary>
+		/// <returns>An <see cref="IApp"/> instance representing the running application.</returns>
 		public static IApp AttachToApp()
 			// If the retry count is set, the test already failed. Retry the test with restarting the app.
 			=> StartApp(alreadyRunningApp: TestContext.CurrentContext.CurrentRepeatCount == 0);
+
+		/// <summary>
+		/// Provides the currently tested platform
+		/// </summary>
+		/// <returns></returns>
+		public static Platform GetLocalPlatform()
+		{
+			var uitestPlatform = Environment.GetEnvironmentVariable(UNO_UITEST_PLATFORM);
+			if(!Enum.TryParse(uitestPlatform, out Platform retVal))
+			{
+				retVal = TestEnvironment.CurrentPlatform;
+			}
+
+			return retVal;
+		}
 
 		private static IApp StartApp(bool alreadyRunningApp)
 		{
@@ -93,19 +139,26 @@ namespace SamplesApp.UITests
 
 			try
 			{
-				var app = _currentApp = Uno.UITest.Selenium.ConfigureApp
+				var configurator = Uno.UITest.Selenium.ConfigureApp
 					.WebAssembly
-					.Uri(new Uri(Constants.DefaultUri))
-					.ChromeDriverLocation(Path.Combine(TestContext.CurrentContext.TestDirectory,
-						DriverPath.Replace('\\', Path.DirectorySeparatorChar)))
-					.ScreenShotsPath(TestContext.CurrentContext.TestDirectory)
+					.Uri(new Uri(TestEnvironment.WebAssemblyDefaultUri));
+
+
+				if(!string.IsNullOrEmpty(TestEnvironment.ChromeDriverPath))
+				{
+					configurator = configurator.ChromeDriverLocation(
+						Path.Combine(TestContext.CurrentContext.TestDirectory,
+						TestEnvironment.ChromeDriverPath.Replace('\\', Path.DirectorySeparatorChar)));
+				}
+
+				_currentApp = configurator.ScreenShotsPath(TestContext.CurrentContext.TestDirectory)
 #if DEBUG
 					.Headless(false)
 					.SeleniumArgument("--remote-debugging-port=9222")
 #endif
 					.StartApp();
 
-				return app;
+				return _currentApp;
 			}
 			catch(Exception ex)
 			{
@@ -135,7 +188,7 @@ namespace SamplesApp.UITests
 			}
 			else
 			{
-				androidConfig = androidConfig.InstalledApp(Constants.AndroidAppName);
+				androidConfig = androidConfig.InstalledApp(TestEnvironment.AndroidAppName);
 			}
 
 			var app = alreadyRunningApp
@@ -161,8 +214,8 @@ namespace SamplesApp.UITests
 			}
 			else
 			{
-				Console.WriteLine($"Using Installed App: {Constants.iOSAppName}");
-				iOSConfig = iOSConfig.InstalledApp(Constants.iOSAppName);
+				Console.WriteLine($"Using Installed App: {TestEnvironment.iOSAppName}");
+				iOSConfig = iOSConfig.InstalledApp(TestEnvironment.iOSAppName);
 			}
 
 			var app = alreadyRunningApp
@@ -177,7 +230,7 @@ namespace SamplesApp.UITests
 
 			if(!Guid.TryParse(environmentDeviceId, out var deviceId))
 			{
-				var deviceName = !string.IsNullOrEmpty(environmentDeviceId) ? environmentDeviceId : Constants.iOSDeviceNameOrId;
+				var deviceName = !string.IsNullOrEmpty(environmentDeviceId) ? environmentDeviceId : TestEnvironment.iOSDeviceNameOrId;
 
 				Process process = new Process();
 				process.StartInfo.FileName = "xcrun";
@@ -222,17 +275,6 @@ namespace SamplesApp.UITests
 		{
 			var value = Environment.GetEnvironmentVariable(UITEST_IOSBUNDLE_PATH);
 			return string.IsNullOrWhiteSpace(value) ? null : value;
-		}
-
-		public static Platform GetLocalPlatform()
-		{
-			var uitestPlatform = Environment.GetEnvironmentVariable(UITestPlatform);
-			if (!Enum.TryParse(uitestPlatform, out Platform retVal))
-			{
-				retVal = Constants.CurrentPlatform;
-			}
-
-			return retVal;
 		}
 	}
 }

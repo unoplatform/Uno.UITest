@@ -18,6 +18,12 @@
 		</Description>
 		<Copyright>Copyright (C) 2015-2019 nventive inc. - all rights reserved</Copyright>
 	</PropertyGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.1.1" />
+		<PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+		<PackageReference Include="NUnit" Version="3.12.0" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Uno.UITest.Puppeteer\Uno.UITest.Selenium.csproj" />
