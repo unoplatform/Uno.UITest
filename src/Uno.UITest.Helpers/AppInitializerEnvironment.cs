@@ -43,6 +43,11 @@ namespace Uno.UITests.Helpers
 		/// If not defined, the test engine will select the version based on
 		/// the currently installed Chrome version.
 		/// </remarks>
-		public string ChromeDriverPath { get; internal set; }
+		public string ChromeDriverPath { get; set; }
+
+		/// <summary>
+		/// Defines if the browser tests are running in chrome without a window.
+		/// </summary>
+		public bool WebAssemblyHeadless { get; set; } = true;
 	}
 }

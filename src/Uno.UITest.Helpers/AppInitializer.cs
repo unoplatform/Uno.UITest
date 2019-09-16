@@ -51,17 +51,28 @@ namespace Uno.UITests.Helpers
 		/// <remarks>This method is generally called from the type constructor of a test assembly.</remarks>
 		/// <returns>An <see cref="IApp"/> instance representing the running application.</returns>
 		public static IApp ColdStartApp()
-			=> Xamarin.UITest.TestEnvironment.Platform == Xamarin.UITest.TestPlatform.Local
-				? StartApp(alreadyRunningApp: false)
-				: null;
+		{
+			var app = Xamarin.UITest.TestEnvironment.Platform == Xamarin.UITest.TestPlatform.Local
+						   ? StartApp(alreadyRunningApp: false)
+						   : null;
+
+			Uno.UITest.Helpers.Queries.Helpers.App = app;
+
+			return app;
+		}
 
 		/// <summary>
 		/// Attach to an already running application.
 		/// </summary>
 		/// <returns>An <see cref="IApp"/> instance representing the running application.</returns>
 		public static IApp AttachToApp()
-			// If the retry count is set, the test already failed. Retry the test with restarting the app.
-			=> StartApp(alreadyRunningApp: TestContext.CurrentContext.CurrentRepeatCount == 0);
+		{
+			var app = StartApp(alreadyRunningApp: TestContext.CurrentContext.CurrentRepeatCount == 0);
+
+			Uno.UITest.Helpers.Queries.Helpers.App = app;
+
+			return app;
+		}
 
 		/// <summary>
 		/// Provides the currently tested platform
@@ -151,11 +162,19 @@ namespace Uno.UITests.Helpers
 						TestEnvironment.ChromeDriverPath.Replace('\\', Path.DirectorySeparatorChar)));
 				}
 
+				if(!TestEnvironment.WebAssemblyHeadless)
+				{
+					configurator = configurator
+						.Headless(false)
+						.SeleniumArgument("--remote-debugging-port=9222");
+				}
+				else
+				{
+					configurator = configurator
+						.Headless(true);
+				}
+
 				_currentApp = configurator.ScreenShotsPath(TestContext.CurrentContext.TestDirectory)
-#if DEBUG
-					.Headless(false)
-					.SeleniumArgument("--remote-debugging-port=9222")
-#endif
 					.StartApp();
 
 				return _currentApp;
@@ -224,6 +243,7 @@ namespace Uno.UITests.Helpers
 
 			return app.ToUnoApp();
 		}
+
 		private static string GetiOSDeviceId()
 		{
 			var environmentDeviceId = Environment.GetEnvironmentVariable(UITEST_IOSDEVICE_ID) ?? "";
