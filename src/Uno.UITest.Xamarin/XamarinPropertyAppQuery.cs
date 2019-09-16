@@ -21,6 +21,6 @@ namespace Uno.UITest.Xamarin
 
 		IAppQuery IPropertyAppQuery.StartsWith(string text) => _source.StartsWith(text).AsGenericAppQuery();
 
-		IAppTypedSelector<T> IPropertyAppQuery.Value<T>() => _source.Value<T>().AsGenericAppTypedSelector();
+		IAppTypedSelector<T> IPropertyAppQuery.Value<T>() => _source.Value<object>().AsGenericAppTypedSelector<T>();
 	}
 }

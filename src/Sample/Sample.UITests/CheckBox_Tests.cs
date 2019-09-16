@@ -14,7 +14,7 @@ namespace Sample.UITests
 		[Test]
 		public void CheckBox01()
 		{
-			Query checkBoxSelector = q => q.Text("CheckBox 1");
+			Query checkBoxSelector = q => q.Marked("CheckBox01");
 			App.WaitForElement(checkBoxSelector);
 			App.Tap(checkBoxSelector);
 

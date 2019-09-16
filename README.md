@@ -1,53 +1,127 @@
-# Uno.UITest
+# Uno.UITest for Uno Platform
 
-Welcome to the Uno.UITest repository, a framework that enables the UI Testing of Uno Platform apps.
+Welcome to the **Uno.UITest** repository, a framework which enables **unified UI Testing** of [Uno Platform apps](https://github.com/unoplatform/uno), using [NUnit 3.x](https://github.com/nunit/nunit)
+
+This library provides a set of APIs to interact with an app, and assess its behavior using device simulators and browsers. The API set is based on [Xamarin.UITest](https://docs.microsoft.com/en-us/appcenter/test-cloud/uitest/), which makes the migration and patterns very familiar.
 
 The testing is available through :
-- Selenium for WebAssembly apps
-- Xamarin.UITest and AppCenter for Xamarin.iOS and Xamarin.Android apps.
+- Selenium for WebAssembly apps, using Chrome
+- [Xamarin.UITest](https://docs.microsoft.com/en-us/appcenter/test-cloud/uitest/) and [AppCenter](https://appcenter.ms/apps) for iOS and Android apps.
 
-## Test Sample
+## Build status
 
-For the following XAML file:
+| Target | Branch | Status | Recommended Nuget packages version |
+| ------ | ------ | ------ | ------ |
+| development | master |[![Build Status](https://dev.azure.com/uno-platform/Uno%20Platform/_apis/build/status/Uno%20Platform/Uno.UITest?branchName=master)](https://dev.azure.com/uno-platform/Uno%20Platform/_build/latest?definitionId=58&branchName=master) | [![NuGet](https://img.shields.io/nuget/v/Uno.UITest.svg)](https://www.nuget.org/packages/Uno.UITest/) |
 
-```XAML
-<StackPanel>
-	<CheckBox x:Name="cb1" Content="Test 1"/>
-	<CheckBox x:Name="cb2" Content="Test 2"/>
-</StackPanel>
+## How to use Uno.UITest with a WebAssembly app
+
+- Make sure [Chrome is installed](https://www.google.com/chrome)
+- In Visual Studio for Windows, create an application using the Uno Platform templates
+- Create a .NET Standard 2.0 library, and replace its content with the following:
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net47</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Uno.UITest" Version="1.0.0-dev.72" />
+    <PackageReference Include="NUnit" Version="3.12.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.15.1" />
+  </ItemGroup>
+
+</Project>
 ```
-
-The following test can be written:
-
+- Add the following file that will be used as a base test: 
 ```csharp
-[Test]
-public void CheckBox01()
+public class TestBase
 {
-	Query checkBoxSelector = q => q.Text("CheckBox 1");
-	App.WaitForElement(checkBoxSelector);
-	App.Tap(checkBoxSelector);
+	private IApp _app;
 
-	Query cb1 = q => q.Marked("cb1");
-	Query cb2 = q => q.Marked("cb2");
-	App.WaitForElement(cb1);
-	App.WaitForElement(cb2);
+	static TestBase()
+	{
+		// Change this to your android app name
+		AppInitializer.TestEnvironment.AndroidAppName = "com.example.myapp"; 
 
-	var value = App.Query(q => cb1(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First();
-	Assert.IsFalse(value);
+		// Change this to the URL of your WebAssembly app, found in launchsettings.json
+		AppInitializer.TestEnvironment.WebAssemblyDefaultUri = "http://localhost:55851";
 
-	var value2 = App.Query(q => cb2(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First();
-	Assert.IsFalse(value2);
+		// Change this to the bundle ID of your app
+		AppInitializer.TestEnvironment.iOSAppName = "com.example.myapp";
 
-	App.Tap(cb1);
+		// Change this to the iOS device you want to test on
+		AppInitializer.TestEnvironment.iOSDeviceNameOrId = "iPad Pro (12.9-inch) (3rd generation)";
 
-	var value3 = App.Query(q => cb1(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First();
-	Assert.IsTrue(value3);
+		// The current platform to test.
+		AppInitializer.TestEnvironment.CurrentPlatform = Uno.UITest.Helpers.Queries.Platform.Browser;
 
-	App.Tap(cb2);
+		// Start the app only once, so the tests runs don't restart it
+		// and gain some time for the tests.
+		AppInitializer.ColdStartApp();
+	}
 
-	var value4 = App.Query(q => cb1(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First();
-	Assert.IsTrue(value4);
+	protected IApp App { get; set; }
+
+	[SetUp]
+	public void StartApp()
+	{
+		// Attach to the running application, for better performance
+		App = AppInitializer.AttachToApp();
+	}
 }
 ```
 
-This sample is provided through the `Sample.UITests` project in this repository.
+- In your application, add the following XAML:
+
+```XAML
+<StackPanel>
+	<CheckBox x:Uid="cb1" Content="Test 1"/>
+</StackPanel>
+```
+
+- Then following test can be written:
+
+```csharp
+// Alias to simplify the creation of element queries
+using Query = System.Func<Uno.UITest.IAppQuery, Uno.UITest.IAppQuery>;
+
+public class CheckBox_Tests : TestBase
+{
+	[Test]
+	public void CheckBox01()
+	{
+		Query checkBoxSelector = q => q.Marked("cb1");
+		App.WaitForElement(checkBoxSelector);
+		App.Tap(checkBoxSelector);
+
+		Query cb1 = q => q.Marked("cb1");
+		App.WaitForElement(cb1);
+
+		var value1 = App.Query(q => cb1(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First();
+		Assert.IsFalse(value1);
+
+		App.Tap(cb1);
+
+		var value2 = App.Query(q => cb1(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First();
+		Assert.IsTrue(value2);
+	}
+}
+```
+- To test in Chrome, first deploy the WebAssemly app using `Ctrl+F5`
+- [Launch a test](https://docs.microsoft.com/en-us/visualstudio/test/getting-started-with-unit-testing?view=vs-2019) by right clicking on the test in the Test Explorer, or in the test code itself.
+- A Chrome browser window will open in automated mode, and the test will execute.
+
+Note that testing for iOS is only available through Visual Studio for Mac, where the simulators can run.
+
+This sample is provided through the [`Sample.UITests` project](https://github.com/unoplatform/Uno.UITest/tree/master/src/Sample/Sample.UITests) in this repository.
+
+## UI Testing in a CI environment
+
+One of the design goal of the `Uno.UITest` library is to enable UI Testing in Pull Request builds, so that the UI testing is not an afterthought, and is part of the development flow.
+
+You can find some scripts examples to enable such testing, using [Azure Devops hosted agents](https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted?view=azure-devops):
+- [Android UI Testing in a Simulator](https://github.com/unoplatform/Uno.UITest/blob/master/build/android-uitest-run.sh) using Linux
+- [WebAssembly UI Testing](https://github.com/unoplatform/Uno.UITest/blob/master/build/wasm-uitest-run.sh) using Linux
+- [iOS UI Testing in an simulator](https://github.com/unoplatform/Uno.UITest/blob/master/build/ios-uitest-run.sh) using macOS

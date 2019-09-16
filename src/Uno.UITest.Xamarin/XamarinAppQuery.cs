@@ -47,22 +47,22 @@ namespace Uno.UITest.Xamarin.Extensions
 			=> SourceQuery.Index(index).AsGenericAppQuery();
 
 		IAppTypedSelector<object> IAppQuery.Invoke(string methodName)
-			=> SourceQuery.Invoke(methodName).AsGenericAppTypedSelector();
+			=> SourceQuery.Invoke(methodName).AsGenericAppTypedSelector<object>();
 
 		IAppTypedSelector<object> IAppQuery.Invoke(string methodName, object arg1)
-			=> SourceQuery.Invoke(methodName, arg1).AsGenericAppTypedSelector();
+			=> SourceQuery.Invoke(methodName, arg1).AsGenericAppTypedSelector<object>();
 
 		IAppTypedSelector<object> IAppQuery.Invoke(string methodName, object arg1, object arg2)
-			=> SourceQuery.Invoke(methodName, arg1, arg2).AsGenericAppTypedSelector();
+			=> SourceQuery.Invoke(methodName, arg1, arg2).AsGenericAppTypedSelector<object>();
 
 		IAppTypedSelector<object> IAppQuery.Invoke(string methodName, object arg1, object arg2, object arg3)
-			=> SourceQuery.Invoke(methodName, arg1, arg2, arg3).AsGenericAppTypedSelector();
+			=> SourceQuery.Invoke(methodName, arg1, arg2, arg3).AsGenericAppTypedSelector<object>();
 
 		IAppTypedSelector<object> IAppQuery.Invoke(string methodName, object arg1, object arg2, object arg3, object arg4)
-			=> SourceQuery.Invoke(methodName, arg1, arg2, arg3, arg4).AsGenericAppTypedSelector();
+			=> SourceQuery.Invoke(methodName, arg1, arg2, arg3, arg4).AsGenericAppTypedSelector<object>();
 
 		IAppTypedSelector<object> IAppQuery.Invoke(string methodName, object arg1, object arg2, object arg3, object arg4, object arg5)
-			=> SourceQuery.Invoke(methodName, arg1, arg2, arg3, arg4, arg5).AsGenericAppTypedSelector();
+			=> SourceQuery.Invoke(methodName, arg1, arg2, arg3, arg4, arg5).AsGenericAppTypedSelector<object>();
 
 		IInvokeJSAppQuery IAppQuery.InvokeJS(string javascript)
 			=> SourceQuery.InvokeJS(javascript).AsGenericInvokeJSAppQuery();

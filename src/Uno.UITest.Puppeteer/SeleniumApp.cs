@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
@@ -16,6 +18,9 @@ namespace Uno.UITest.Selenium
 {
 	public partial class SeleniumApp : IApp
 	{
+		private const string UNO_UITEST_DRIVERPATH_CHROME = "UNO_UITEST_DRIVERPATH_CHROME";
+
+
 		private readonly RemoteWebDriver _driver;
 		private string _screenShotPath;
 		private readonly TimeSpan DefaultRetry = TimeSpan.FromMilliseconds(500);
@@ -24,9 +29,8 @@ namespace Uno.UITest.Selenium
 
 		public SeleniumApp(ChromeAppConfigurator config)
 		{
-			// --whitelisted-ips
 			var targetUri = GetEnvironmentVariable("UNO_UITEST_TARGETURI", config.SiteUri.OriginalString);
-			var driverPath = GetEnvironmentVariable("UNO_UITEST_DRIVERPATH_CHROME", config.ChromeDriverPath);
+			var driverPath = GetEnvironmentVariable(UNO_UITEST_DRIVERPATH_CHROME, config.ChromeDriverPath);
 			var screenShotPath = GetEnvironmentVariable("UNO_UITEST_SCREENSHOT_PATH", config.InternalScreenShotsPath);
 			var chromeBinPath = GetEnvironmentVariable("UNO_UITEST_CHROME_BINARY_PATH", config.InternalBrowserBinaryPath);
 
@@ -52,7 +56,7 @@ namespace Uno.UITest.Selenium
 					//
 					// When InternalDetectDockerEnvironment is set, tell the daemon to listen on
 					// all available interfaces
-					Console.WriteLine($"Detected docker environment, adding whitelisted-ips");
+					Console.WriteLine($"Container mode enabled, adding whitelisted-ips");
 					options.AddArguments("--whitelisted-ips");
 				}
 			}
@@ -67,9 +71,84 @@ namespace Uno.UITest.Selenium
 				options.BinaryLocation = chromeBinPath;
 			}
 
+			if(string.IsNullOrEmpty(driverPath))
+			{
+				driverPath = TryDownloadChromeDriver();
+			}
+
 			_driver = new ChromeDriver(driverPath, options);
 			_driver.Url = targetUri;
 			_screenShotPath = screenShotPath;
+		}
+
+		private string TryDownloadChromeDriver()
+		{
+			if(Environment.OSVersion.Platform == PlatformID.Win32NT)
+			{
+				var chromePath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86)}\Google\Chrome\Application\chrome.exe";
+				chromePath = chromePath.Replace("\\", "\\\\");
+
+				var process = new Process();
+				process.StartInfo.FileName = "wmic.exe";
+				process.StartInfo.Arguments = $@"datafile where name=""{chromePath}"" get Version /value";
+				process.StartInfo.UseShellExecute = false;
+				process.StartInfo.RedirectStandardOutput = true;
+				process.StartInfo.RedirectStandardError = true;
+				process.Start();
+
+				var wincOutput = process.StandardOutput.ReadToEnd();
+				var chromeRawVersion = wincOutput.Split('=').LastOrDefault()?.Trim();
+
+				if(Version.TryParse(chromeRawVersion, out var chromeVersion))
+				{
+					var driverLocalPath = Path.Combine(Path.GetTempPath(), "Uno.UITests", "ChromeDriver", chromeVersion.ToString());
+					Directory.CreateDirectory(driverLocalPath);
+
+					var driverPath = Path.Combine(driverLocalPath, "chromedriver.exe");
+
+					if(!File.Exists(driverPath))
+					{
+						// Chrome driver selection: http://chromedriver.chromium.org/downloads/version-selection
+
+						var chromeDriverLatestVersionUri = $"https://chromedriver.storage.googleapis.com/LATEST_RELEASE_{chromeVersion.Major}";
+
+						Console.WriteLine($"Fetching Chrome driver version for Chrome [{chromeRawVersion}]");
+						var driverVersion = new WebClient().DownloadString(chromeDriverLatestVersionUri);
+
+						var chromeDriverVersionUri = $"https://chromedriver.storage.googleapis.com/{driverVersion}/chromedriver_win32.zip";
+
+						var tempZipFileName = Path.GetTempFileName();
+
+						try
+						{
+							Console.WriteLine($"Downloading Chrome driver from [{chromeDriverVersionUri}]");
+							new WebClient().DownloadFile(chromeDriverVersionUri, tempZipFileName);
+
+							using(var zipFile = ZipFile.OpenRead(tempZipFileName))
+							{
+								zipFile.GetEntry("chromedriver.exe").ExtractToFile(driverPath, true);
+							}
+						}
+						finally
+						{
+							if(File.Exists(tempZipFileName))
+							{
+								File.Delete(tempZipFileName);
+							}
+						}
+					}
+
+					return Path.GetDirectoryName(driverPath);
+				}
+				else
+				{
+					throw new NotSupportedException($"Unable to determine the chrome driver version. The used path was [{chromePath}], found [{chromeVersion}].");
+				}
+			}
+			else
+			{
+				throw new NotSupportedException($"Unable to determine the chrome driver location. Use the {UNO_UITEST_DRIVERPATH_CHROME} environment variable.");
+			}
 		}
 
 		private string GetEnvironmentVariable(string variableName, string defaultValue)
@@ -84,6 +163,20 @@ namespace Uno.UITest.Selenium
 			}
 
 			return hasValue ? value : defaultValue;
+		}
+
+		private bool GetEnvironmentVariable(string variableName, bool defaultValue)
+		{
+			var value = Environment.GetEnvironmentVariable(variableName);
+
+			var hasValue = bool.TryParse(value, out var varValue);
+
+			if(hasValue)
+			{
+				Console.WriteLine($"Overriding value with {variableName} = {value}");
+			}
+
+			return hasValue ? varValue : defaultValue;
 		}
 
 		void PerformActions(Action<Actions> action)

@@ -20,7 +20,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Xamarin.UITest" Version="3.0.0" />
+		<PackageReference Include="Xamarin.UITest" Version="3.0.4-dev1" />
 	</ItemGroup>
 
 	<ItemGroup>

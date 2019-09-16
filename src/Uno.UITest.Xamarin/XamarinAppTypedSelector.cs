@@ -4,13 +4,13 @@ namespace Uno.UITest.Xamarin
 {
 	internal class XamarinAppTypedSelector<T> : IAppTypedSelector<T>
 	{
-		private AppTypedSelector<T> _source;
+		private AppTypedSelector<object> _source;
 
-		public XamarinAppTypedSelector(AppTypedSelector<T> selector)
+		public XamarinAppTypedSelector(AppTypedSelector<object> selector)
 			=> _source = selector;
 
-		public AppTypedSelector<T> Source => _source;
-
+		public AppTypedSelector<object> Source => _source;
+			
 		IAppTypedSelector<object> IAppTypedSelector<T>.Invoke(string methodName)
 			=> new XamarinAppTypedSelector<object>(_source.Invoke(methodName));
 
@@ -30,6 +30,6 @@ namespace Uno.UITest.Xamarin
 			=> new XamarinAppTypedSelector<object>(_source.Invoke(methodName, arg1, arg2, arg3, arg4, arg5));
 
 		IAppTypedSelector<TResult> IAppTypedSelector<T>.Value<TResult>()
-			=> new XamarinAppTypedSelector<TResult>(_source.Value<TResult>());
+			=> new XamarinAppTypedSelector<TResult>(_source.Value<object>());
 	}
 }

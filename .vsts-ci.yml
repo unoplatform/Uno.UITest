@@ -76,8 +76,8 @@ jobs:
     clean: true
 
   - bash: |
-      chmod +x build/build-linux.sh
-      build/build-linux.sh
+      chmod +x build/wasm-uitest-run.sh
+      build/wasm-uitest-run.sh
 
     env:
       GIT_TARGETBRANCH: "$(System.PullRequest.TargetBranch)"
@@ -129,6 +129,45 @@ jobs:
     condition: always()
     inputs:
       testRunTitle: 'Android Test Run'
+      testResultsFormat: 'NUnit'
+      testResultsFiles: '$(build.sourcesdirectory)/build/TestResult.xml'
+
+  - task: PublishBuildArtifacts@1
+    condition: always()
+    inputs:
+      PathtoPublish: $(build.artifactstagingdirectory)
+      ArtifactName: uno-uitest-tests
+      ArtifactType: Container
+
+- job: iOS_Tests
+  variables:
+    CI_Build: true
+    SourceLinkEnabled: false
+
+  pool:
+    vmImage: 'macOS-10.14'
+
+  steps:
+  - checkout: self
+    clean: true
+
+  - bash: /bin/bash -c "sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh 5_18_1"
+    displayName: Select Xamarin Version
+
+  - bash: |
+      chmod +x $(build.sourcesdirectory)/build/ios-uitest-run.sh
+      $(build.sourcesdirectory)/build/ios-uitest-run.sh
+
+    displayName: Build and Test
+
+    env:
+      BUILD_SOURCESDIRECTORY: "$(build.sourcesdirectory)"
+      BUILD_ARTIFACTSTAGINGDIRECTORY: "$(build.artifactstagingdirectory)"
+
+  - task: PublishTestResults@2
+    condition: always()
+    inputs:
+      testRunTitle: 'iOS Test Run'
       testResultsFormat: 'NUnit'
       testResultsFiles: '$(build.sourcesdirectory)/build/TestResult.xml'
 
