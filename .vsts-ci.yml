@@ -76,8 +76,8 @@ jobs:
     clean: true
 
   - bash: |
-      chmod +x build/build-linux.sh
-      build/build-linux.sh
+      chmod +x build/wasm-uitest-run.sh
+      build/wasm-uitest-run.sh
 
     env:
       GIT_TARGETBRANCH: "$(System.PullRequest.TargetBranch)"
@@ -155,8 +155,8 @@ jobs:
     displayName: Select Xamarin Version
 
   - bash: |
-      chmod +x $(build.sourcesdirectory)/build/build-ios.sh
-      $(build.sourcesdirectory)/build/build-ios.sh
+      chmod +x $(build.sourcesdirectory)/build/ios-uitest-run.sh
+      $(build.sourcesdirectory)/build/ios-uitest-run.sh
 
     displayName: Build and Test
 
