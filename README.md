@@ -1,6 +1,6 @@
 # Uno.UITest for Uno Platform
 
-Welcome to the **Uno.UITest** repository, a framework which enables **unified UI Testing** of [Uno Platform apps](https://github.com/unoplatform/uno), using [NUnit 3.x](https://github.com/nunit/nunit)
+Welcome to the **Uno.UITest** repository, a framework which enables **unified UI Testing** of [Uno Platform apps](https://github.com/unoplatform/uno), using [NUnit 3.x](https://github.com/nunit/nunit).
 
 This library provides a set of APIs to interact with an app, and assess its behavior using device simulators and browsers. The API set is based on [Xamarin.UITest](https://docs.microsoft.com/en-us/appcenter/test-cloud/uitest/), which makes the migration and patterns very familiar.
 
@@ -17,7 +17,7 @@ The testing is available through :
 ## How to use Uno.UITest with a WebAssembly app
 
 - Make sure [Chrome is installed](https://www.google.com/chrome)
-- In Visual Studio for Windows, create an application using the Uno Platform templates
+- In Visual Studio for Windows, [create an application](https://platform.uno/docs/articles/getting-started-tutorial-1.html) using the Uno Platform templates
 - Create a .NET Standard 2.0 library, and replace its content with the following:
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
@@ -28,6 +28,7 @@ The testing is available through :
 
   <ItemGroup>
     <PackageReference Include="Uno.UITest" Version="1.0.0-dev.72" />
+    <PackageReference Include="Uno.UITest.Helpers" Version="1.0.0-dev.72" />
     <PackageReference Include="NUnit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.15.1" />
   </ItemGroup>
@@ -36,6 +37,10 @@ The testing is available through :
 ```
 - Add the following file that will be used as a base test: 
 ```csharp
+using NUnit.Framework;
+using Uno.UITest;
+using Uno.UITests.Helpers;
+
 public class TestBase
 {
 	private IApp _app;
@@ -46,7 +51,7 @@ public class TestBase
 		AppInitializer.TestEnvironment.AndroidAppName = "com.example.myapp"; 
 
 		// Change this to the URL of your WebAssembly app, found in launchsettings.json
-		AppInitializer.TestEnvironment.WebAssemblyDefaultUri = "http://localhost:55851";
+		AppInitializer.TestEnvironment.WebAssemblyDefaultUri = "http://localhost:CHANGEME";
 
 		// Change this to the bundle ID of your app
 		AppInitializer.TestEnvironment.iOSAppName = "com.example.myapp";
@@ -56,6 +61,11 @@ public class TestBase
 
 		// The current platform to test.
 		AppInitializer.TestEnvironment.CurrentPlatform = Uno.UITest.Helpers.Queries.Platform.Browser;
+
+#if DEBUG
+		// Show the running tests in a browser window
+		AppInitializer.TestEnvironment.WebAssemblyHeadless = false;
+#endif
 
 		// Start the app only once, so the tests runs don't restart it
 		// and gain some time for the tests.
@@ -84,6 +94,9 @@ public class TestBase
 - Then following test can be written:
 
 ```csharp
+using NUnit.Framework;
+using Uno.UITest.Helpers.Queries;
+using System.Linq;
 // Alias to simplify the creation of element queries
 using Query = System.Func<Uno.UITest.IAppQuery, Uno.UITest.IAppQuery>;
 
@@ -94,7 +107,6 @@ public class CheckBox_Tests : TestBase
 	{
 		Query checkBoxSelector = q => q.Marked("cb1");
 		App.WaitForElement(checkBoxSelector);
-		App.Tap(checkBoxSelector);
 
 		Query cb1 = q => q.Marked("cb1");
 		App.WaitForElement(cb1);
