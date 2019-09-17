@@ -18,6 +18,14 @@ The testing is available through :
 
 - Make sure [Chrome is installed](https://www.google.com/chrome)
 - In Visual Studio for Windows, [create an application](https://platform.uno/docs/articles/getting-started-tutorial-1.html) using the Uno Platform templates
+- In the Wasm `Program.cs`, add the following line at the top of the `Main` function to enable automation support:
+```
+Uno.UI.FeatureConfiguration.UIElement.AssignDOMXamlName = true;
+```
+Note that if running on iOS or Android, setting a property is required:
+```xml
+<IsUiAutomationMappingEnabled>true</IsUiAutomationMappingEnabled>
+```
 - Create a .NET Standard 2.0 library, and replace its content with the following:
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
@@ -35,7 +43,7 @@ The testing is available through :
 
 </Project>
 ```
-- Add the following file that will be used as a base test: 
+- Add a file named `TestBase.cs` that will be used as a base test: 
 ```csharp
 using NUnit.Framework;
 using Uno.UITest;
@@ -121,7 +129,8 @@ public class CheckBox_Tests : TestBase
 	}
 }
 ```
-- To test in Chrome, first deploy the WebAssemly app using `Ctrl+F5`
+- To test in Chrome, first deploy the WebAssemly app using `Ctrl+F5`, take note of the Url of the app
+- Update the `AppInitializer.TestEnvironment.WebAssemblyDefaultUri` property in `TestBase.cs`
 - [Launch a test](https://docs.microsoft.com/en-us/visualstudio/test/getting-started-with-unit-testing?view=vs-2019) by right clicking on the test in the Test Explorer, or in the test code itself.
 - A Chrome browser window will open in automated mode, and the test will execute.
 
