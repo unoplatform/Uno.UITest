@@ -27,13 +27,13 @@ If you have an idea for a new feature or enhancement let us know by filing an [i
 
 ### Ask questions
 
-If you have a question be sure to first checkout our [documentation](https://github.com/nventive/Uno.Core/blob/master/doc). But if you are still stuck, you'll have a better chance of getting help on [StackOverflow](https://stackoverflow.com/questions/tagged/uno-platform) and we'll do our best to answer it. Questions asked there should be tagged with `uno-platform`.
+If you have a question be sure to first check out our [documentation](https://github.com/nventive/Uno.Core/blob/master/doc). But if you are still stuck, you'll have a better chance of getting help on [StackOverflow](https://stackoverflow.com/questions/tagged/uno-platform) and we'll do our best to answer it. Questions asked there should be tagged with `uno-platform`.
 
 For a more direct conversation, [our gitter is also a good place to visit](https://gitter.im/uno-platform/Lobby).
 
 ## Contributing code and content
 
-The Uno Platform is an open source project and we welcome code and content contributions from the community.
+The Uno Platform is an open-source project and we welcome code and content contributions from the community.
 
 **Identifying the scale**
 
@@ -43,11 +43,11 @@ If you are submitting a feature or substantial code contribution, please discuss
 
 **Obtaining the source code**
 
-If you are an outside contributer, please fork the Uno Core repository you would like to contribute to your account. See the GitHub documentation for [forking a repo](https://help.github.com/articles/fork-a-repo/) if you have any questions about this. 
+If you are an outside contributor, please fork the Uno Core repository you would like to contribute to your account. See the GitHub documentation for [forking a repo](https://help.github.com/articles/fork-a-repo/) if you have any questions about this. 
 
 **Submitting a pull request**
 
-If you don't know what a pull request is read this article: https://help.github.com/articles/using-pull-requests. Make sure the respository can build and all tests pass, as well as follow the current coding guidelines.
+If you don't know what a pull request is read this article: https://help.github.com/articles/using-pull-requests. Make sure the repository can build and all tests pass, as well as follow the current coding guidelines.
 
 Pull requests should all be done to the **master** branch. 
 
