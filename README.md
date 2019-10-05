@@ -2,7 +2,7 @@
 
 Welcome to the **Uno.UITest** repository, a framework which enables **unified UI Testing** of [Uno Platform apps](https://github.com/unoplatform/uno), using [NUnit 3.x](https://github.com/nunit/nunit).
 
-This library provides a set of APIs to interact with an app, and assess its behavior using device simulators and browsers. The API set is based on [Xamarin.UITest](https://docs.microsoft.com/en-us/appcenter/test-cloud/uitest/), which makes the migration and patterns very familiar.
+This library provides a set of APIs to interact with an app, and assess its behaviour using device simulators and browsers. The API set is based on [Xamarin.UITest](https://docs.microsoft.com/en-us/appcenter/test-cloud/uitest/), which makes the migration and patterns very familiar.
 
 The testing is available through :
 - Selenium for WebAssembly apps, using Chrome
@@ -142,7 +142,7 @@ This sample is provided through the [`Sample.UITests` project](https://github.co
 
 One of the design goal of the `Uno.UITest` library is to enable UI Testing in Pull Request builds, so that the UI testing is not an afterthought, and is part of the development flow.
 
-You can find some scripts examples to enable such testing, using [Azure Devops hosted agents](https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted?view=azure-devops):
+You can find some scripts examples to enable such testing, using [Azure DevOps hosted agents](https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted?view=azure-devops):
 - [Android UI Testing in a Simulator](https://github.com/unoplatform/Uno.UITest/blob/master/build/android-uitest-run.sh) using Linux
 - [WebAssembly UI Testing](https://github.com/unoplatform/Uno.UITest/blob/master/build/wasm-uitest-run.sh) using Linux
-- [iOS UI Testing in an simulator](https://github.com/unoplatform/Uno.UITest/blob/master/build/ios-uitest-run.sh) using macOS
+- [iOS UI Testing in a simulator](https://github.com/unoplatform/Uno.UITest/blob/master/build/ios-uitest-run.sh) using macOS
