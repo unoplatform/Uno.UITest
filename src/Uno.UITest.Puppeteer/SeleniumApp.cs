@@ -407,15 +407,15 @@ namespace Uno.UITest.Selenium
 			}
 		}
 
-        void IApp.TapCoordinates(float x, float y)
-        {
-            PerformActions(a => a
+		void IApp.TapCoordinates(float x, float y)
+		{
+			PerformActions(a => a
 				.MoveToElement(_driver.FindElementByTagName("body"), 0, 0)
 				.MoveByOffset((int)x, (int)y)
 				.Click());
-        }
+		}
 
-        void IApp.TouchAndHold(Func<IAppQuery, IAppQuery> query) => throw new NotSupportedException();
+		void IApp.TouchAndHold(Func<IAppQuery, IAppQuery> query) => throw new NotSupportedException();
 		void IApp.TouchAndHold(string marked) => throw new NotSupportedException();
 		void IApp.TouchAndHoldCoordinates(float x, float y) => throw new NotSupportedException();
 		void IApp.WaitFor(Func<bool> predicate, string timeoutMessage, TimeSpan? timeout, TimeSpan? retryFrequency, TimeSpan? postTimeout)
@@ -463,7 +463,7 @@ namespace Uno.UITest.Selenium
 			{
 				var results = (this as IApp).Query(query);
 
-				if(results.Count() != 0)
+				if(results.Any())
 				{
 					return results;
 				}
@@ -475,10 +475,35 @@ namespace Uno.UITest.Selenium
 		}
 
 		void IApp.WaitForNoElement(Func<IAppQuery, IAppQuery> query, string timeoutMessage, TimeSpan? timeout, TimeSpan? retryFrequency, TimeSpan? postTimeout)
-			=> throw new NotSupportedException();
+		{
+			var sw = Stopwatch.StartNew();
+			timeout = timeout ?? TimeSpan.MaxValue;
+			retryFrequency = retryFrequency ?? DefaultRetry;
+			timeoutMessage = timeoutMessage ?? "Timed out waiting for element...";
 
-		void IApp.WaitForNoElement(string marked, string timeoutMessage, TimeSpan? timeout, TimeSpan? retryFrequency, TimeSpan? postTimeout)
-			=> throw new NotSupportedException();
+			while(sw.Elapsed < timeout)
+			{
+				var results = (this as IApp).Query(query);
+
+				if(!results.Any())
+				{
+					return;
+				}
+
+				Thread.Sleep(retryFrequency.Value);
+			}
+
+			throw new TimeoutException(timeoutMessage);
+		}
+
+		void IApp.WaitForNoElement(string marked, string timeoutMessage, TimeSpan? timeout, TimeSpan? retryFrequency,
+			TimeSpan? postTimeout)
+			=> (this as IApp).WaitForNoElement(
+				query: q => q.Marked(marked),
+				timeoutMessage: timeoutMessage,
+				timeout: timeout,
+				retryFrequency: retryFrequency,
+				postTimeout: postTimeout);
 
 		void IApp.WaitForNoElement(
 			Func<IAppQuery, IAppWebQuery> query,
