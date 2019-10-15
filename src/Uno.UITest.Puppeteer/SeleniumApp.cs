@@ -477,7 +477,7 @@ namespace Uno.UITest.Selenium
 		void IApp.WaitForNoElement(Func<IAppQuery, IAppQuery> query, string timeoutMessage, TimeSpan? timeout, TimeSpan? retryFrequency, TimeSpan? postTimeout)
 		{
 			var sw = Stopwatch.StartNew();
-			timeout = timeout ?? TimeSpan.MaxValue;
+			timeout = timeout ?? DefaultTimeout;
 			retryFrequency = retryFrequency ?? DefaultRetry;
 			timeoutMessage = timeoutMessage ?? "Timed out waiting for element...";
 
