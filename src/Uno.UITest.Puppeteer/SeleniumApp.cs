@@ -217,7 +217,7 @@ namespace Uno.UITest.Selenium
 
 		void IApp.ClearText(Func<IAppQuery, IAppWebQuery> query) => throw new NotSupportedException();
 
-		void IApp.DismissKeyboard() => throw new NotSupportedException();
+		void IApp.DismissKeyboard() => Console.WriteLine("DismissKeybord has no effect on this platform");
 
 		void IApp.DoubleTap(Func<IAppQuery, IAppQuery> query)
 		{
@@ -367,8 +367,8 @@ namespace Uno.UITest.Selenium
 			return new FileInfo(fileName);
 		}
 
-		void IApp.SetOrientationLandscape() => throw new NotSupportedException();
-		void IApp.SetOrientationPortrait() => throw new NotSupportedException();
+		void IApp.SetOrientationLandscape() => Console.WriteLine($"SetOrientationLandscape is not supported by this platform");
+		void IApp.SetOrientationPortrait() => Console.WriteLine($"SetOrientationPortrait is not supported by this platform");
 		void IApp.SetSliderValue(string marked, double value) => throw new NotSupportedException();
 		void IApp.SetSliderValue(Func<IAppQuery, IAppQuery> query, double value) => throw new NotSupportedException();
 		void IApp.SwipeLeftToRight(Func<IAppQuery, IAppWebQuery> query, double swipePercentage, int swipeSpeed, bool withInertia) => throw new NotSupportedException();
@@ -379,7 +379,7 @@ namespace Uno.UITest.Selenium
 		void IApp.SwipeRightToLeft(Func<IAppQuery, IAppWebQuery> query, double swipePercentage, int swipeSpeed, bool withInertia) => throw new NotSupportedException();
 		void IApp.SwipeRightToLeft(Func<IAppQuery, IAppQuery> query, double swipePercentage, int swipeSpeed, bool withInertia) => throw new NotSupportedException();
 		void IApp.SwipeRightToLeft(string marked, double swipePercentage, int swipeSpeed, bool withInertia) => throw new NotSupportedException();
-		void IApp.Tap(string marked) => throw new NotSupportedException();
+		void IApp.Tap(string marked) => ((IApp)this).Tap(q => q.Marked(marked));
 		void IApp.Tap(Func<IAppQuery, IAppWebQuery> query) => throw new NotSupportedException();
 
 		void IApp.Tap(Func<IAppQuery, IAppQuery> query)
