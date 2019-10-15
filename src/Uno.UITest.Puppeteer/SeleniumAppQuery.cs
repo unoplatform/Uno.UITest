@@ -110,7 +110,7 @@ namespace Uno.UITest.Selenium
 		IInvokeJSAppQuery IAppQuery.InvokeJS(string javascript) => throw new System.NotImplementedException();
 
 		IAppQuery IAppQuery.Marked(string text)
-			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[@xamlname='{text}' or @xuid='{text}']")));
+			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[@xamlname='{text}' or @xuid='{text}' or @xamlautomationid='{text}']")));
 
 		IAppQuery IAppQuery.Parent(string className)
 			=> Apply(() => _queryItems.Add(new SearchQueryItem($"./ancestor::*[ends-with(@xamltype, {className})]")));
