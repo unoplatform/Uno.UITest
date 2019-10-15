@@ -19,6 +19,10 @@ namespace Sample.UITests
 			AppInitializer.TestEnvironment.iOSDeviceNameOrId = Constants.iOSDeviceNameOrId;
 			AppInitializer.TestEnvironment.CurrentPlatform = Constants.CurrentPlatform;
 
+#if DEBUG
+			AppInitializer.TestEnvironment.WebAssemblyHeadless = false;
+#endif
+
 			// Start the app only once, so the tests runs don't restart it
 			// and gain some time for the tests.
 			AppInitializer.ColdStartApp();
