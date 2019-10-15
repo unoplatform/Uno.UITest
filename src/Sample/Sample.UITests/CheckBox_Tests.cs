@@ -48,8 +48,26 @@ namespace Sample.UITests
 
 			App.Tap(cb1);
 			App.Tap(cb2);
+
 			App.WaitForNoElement("rect1");
 			App.WaitForNoElement("rect2");
+		}
+
+		[Test]
+		public void CheckBox01_RawQuery()
+		{
+			Query checkBoxSelector = q => q.Raw("* marked:'CheckBox01'");
+			App.WaitForElement(checkBoxSelector);
+
+			App.Tap(checkBoxSelector);
+
+			Query cb1 = q => q.Raw("* marked:'cb1'");
+			App.WaitForElement(cb1);
+
+			App.Tap(cb1);
+
+			var value3 = App.Query(q => cb1(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First();
+			Assert.IsTrue(value3);
 		}
 	}
 }
