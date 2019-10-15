@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace Uno.UITest.Selenium
 {
@@ -108,7 +110,7 @@ namespace Uno.UITest.Selenium
 		IInvokeJSAppQuery IAppQuery.InvokeJS(string javascript) => throw new System.NotImplementedException();
 
 		IAppQuery IAppQuery.Marked(string text)
-			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[@xamlname='{text}' or @xuid='{text}']")));
+			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[@xamlname='{text}' or @xuid='{text}' or @xamlautomationid='{text}']")));
 
 		IAppQuery IAppQuery.Parent(string className)
 			=> Apply(() => _queryItems.Add(new SearchQueryItem($"./ancestor::*[ends-with(@xamltype, {className})]")));
@@ -136,7 +138,28 @@ namespace Uno.UITest.Selenium
 		IAppTypedSelector<string> IAppQuery.Raw(string calabashQuery, object arg1, object arg2, object arg3, object arg4, object arg5, object arg6) => throw new System.NotImplementedException();
 		IAppTypedSelector<string> IAppQuery.Raw(string calabashQuery, object arg1, object arg2, object arg3) => throw new System.NotImplementedException();
 		IAppTypedSelector<string> IAppQuery.Raw(string calabashQuery, object arg1, object arg2) => throw new System.NotImplementedException();
-		IAppQuery IAppQuery.Raw(string calabashQuery) => throw new System.NotImplementedException();
+		IAppQuery IAppQuery.Raw(string calabashQuery)
+		{
+			var match = Regex.Match(calabashQuery, @"(.*)\s(marked|text):'((.|\n)*)'");
+
+			var controlType = match.Groups[1].Captures[0].Value;
+			var type = match.Groups[2].Captures[0].Value;
+			var value = match.Groups[3].Captures[0].Value;
+
+			if(controlType == "*")
+			{
+				switch(type)
+				{
+					case "marked":
+						return ((IAppQuery)this).Marked(value);
+					case "text":
+						return ((IAppQuery)this).Text(value);
+				}
+			}
+
+			throw new NotSupportedException($"Raw Query is not supported [{calabashQuery}]");
+		}
+
 		IAppTypedSelector<string> IAppQuery.Raw(string calabashQuery, object arg1, object arg2, object arg3, object arg4) => throw new System.NotImplementedException();
 		IAppTypedSelector<string> IAppQuery.Raw(string calabashQuery, object arg1) => throw new System.NotImplementedException();
 	}
