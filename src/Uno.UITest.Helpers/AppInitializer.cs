@@ -152,7 +152,7 @@ namespace Uno.UITests.Helpers
 						Console.WriteLine($"App start failed, retrying in 2 seconds with complete app restart ({e.Message})");
 
 #if DEBUG
-						Console.WriteLine($"{e.Message}");
+						Console.WriteLine($"Exception: {e.Message}");
 #endif
 					}
 				}
@@ -216,6 +216,8 @@ namespace Uno.UITests.Helpers
 		{
 			if(string.IsNullOrEmpty(Environment.GetEnvironmentVariable("ANDROID_HOME")))
 			{
+				Console.WriteLine("Providing default ANDROID_HOME and JAVA_HOME variables, because ANDROID_HOME could not be found.");
+
 				// To set in case of Xamarin.UITest errors
 				//
 				Environment.SetEnvironmentVariable("ANDROID_HOME", @"C:\Program Files (x86)\Android\android-sdk");
@@ -225,6 +227,7 @@ namespace Uno.UITests.Helpers
 			var androidConfig = Xamarin.UITest.ConfigureApp
 				.Android
 				.Debug()
+				.LogDirectory(Environment.GetEnvironmentVariable(UITEST_SCREENSHOT_PATH))
 				.EnableLocalScreenshots();
 
 			if(GetAndroidApkPath() is string bundlePath)

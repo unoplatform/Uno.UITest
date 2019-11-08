@@ -119,7 +119,7 @@ jobs:
       chmod +x $(build.sourcesdirectory)/build/android-uitest-run.sh
       $(build.sourcesdirectory)/build/android-uitest-run.sh
 
-    displayName: Setup Android simulator
+    displayName: Build and Run Android Tests
 
     env:
       BUILD_SOURCESDIRECTORY: "$(build.sourcesdirectory)"
@@ -162,7 +162,7 @@ jobs:
       chmod +x $(build.sourcesdirectory)/build/ios-uitest-run.sh
       $(build.sourcesdirectory)/build/ios-uitest-run.sh
 
-    displayName: Build and Test
+    displayName: Build and Run iOS Test
 
     env:
       BUILD_SOURCESDIRECTORY: "$(build.sourcesdirectory)"
