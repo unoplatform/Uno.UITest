@@ -1,7 +1,7 @@
 resources:
   containers:
   - container: nv-bionic-wasm
-    image: nventive/wasm-build:1.1-bionic
+    image: nventive/wasm-build:1.5
 
 jobs:
 - job: Windows
@@ -119,7 +119,7 @@ jobs:
       chmod +x $(build.sourcesdirectory)/build/android-uitest-run.sh
       $(build.sourcesdirectory)/build/android-uitest-run.sh
 
-    displayName: Setup Android simulator
+    displayName: Build and Run Android Tests
 
     env:
       BUILD_SOURCESDIRECTORY: "$(build.sourcesdirectory)"
@@ -143,6 +143,7 @@ jobs:
   variables:
     CI_Build: true
     SourceLinkEnabled: false
+    XCODE_ROOT: /Applications/Xcode_10.3.app
 
   pool:
     vmImage: 'macOS-10.14'
@@ -153,12 +154,15 @@ jobs:
 
   - bash: /bin/bash -c "sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh 5_18_1"
     displayName: Select Xamarin Version
-
+    
+  - bash: /bin/bash -c "echo '##vso[task.setvariable variable=MD_APPLE_SDK_ROOT;]'${XCODE_ROOT};sudo xcode-select --switch ${XCODE_ROOT}/Contents/Developer"
+    displayName: Select Xcode
+    
   - bash: |
       chmod +x $(build.sourcesdirectory)/build/ios-uitest-run.sh
       $(build.sourcesdirectory)/build/ios-uitest-run.sh
 
-    displayName: Build and Test
+    displayName: Build and Run iOS Test
 
     env:
       BUILD_SOURCESDIRECTORY: "$(build.sourcesdirectory)"

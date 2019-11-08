@@ -34,4 +34,6 @@ mono nuget.exe install NUnit.ConsoleRunner -Version 3.10.0
 
 mkdir -p $UNO_UITEST_SCREENSHOT_PATH
 
-mono $BUILD_SOURCESDIRECTORY/build/NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe $BUILD_SOURCESDIRECTORY/src/Sample/Sample.UITests/bin/Release/net47/Sample.UITests.dll
+mono $BUILD_SOURCESDIRECTORY/build/NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe \
+	$BUILD_SOURCESDIRECTORY/src/Sample/Sample.UITests/bin/Release/net47/Sample.UITests.dll \
+	> $BUILD_ARTIFACTSTAGINGDIRECTORY/screenshots/android/nunit-log.txt 2>&1 
