@@ -91,47 +91,73 @@ namespace Uno.UITests.Helpers
 
 		private static IApp StartApp(bool alreadyRunningApp)
 		{
-			Console.WriteLine($"Starting app ({alreadyRunningApp})");
+			var retries = 3;
 
-			switch (Xamarin.UITest.TestEnvironment.Platform)
+			do
 			{
-				case Xamarin.UITest.TestPlatform.TestCloudiOS:
-					return Xamarin.UITest.ConfigureApp
-						.iOS
-						.StartApp(Xamarin.UITest.Configuration.AppDataMode.Clear)
-						.ToUnoApp();
+				try
+				{
+					Console.WriteLine($"Starting app (alreadyRunningApp: {alreadyRunningApp}, tries left: {retries})");
 
-				case Xamarin.UITest.TestPlatform.TestCloudAndroid:
-					return Xamarin.UITest.ConfigureApp
-						.Android
-						.StartApp(Xamarin.UITest.Configuration.AppDataMode.Clear)
-						.ToUnoApp();
-
-				default:
-					var localPlatform = GetLocalPlatform();
-					switch (GetLocalPlatform())
+					switch(Xamarin.UITest.TestEnvironment.Platform)
 					{
-						case Platform.Android:
-							return CreateAndroidApp(alreadyRunningApp);
+						case Xamarin.UITest.TestPlatform.TestCloudiOS:
+							return Xamarin.UITest.ConfigureApp
+								.iOS
+								.StartApp(Xamarin.UITest.Configuration.AppDataMode.Clear)
+								.ToUnoApp();
 
-						case Platform.iOS:
-							return CreateiOSApp(alreadyRunningApp);
-
-						case Platform.Browser:
-							if(alreadyRunningApp)
-							{
-								return CreateBrowserApp(alreadyRunningApp);
-							}
-							else
-							{
-								// Skip cold app start, there's no notion of reuse active browser yet.
-								return null;
-							}
+						case Xamarin.UITest.TestPlatform.TestCloudAndroid:
+							return Xamarin.UITest.ConfigureApp
+								.Android
+								.StartApp(Xamarin.UITest.Configuration.AppDataMode.Clear)
+								.ToUnoApp();
 
 						default:
-							throw new Exception($"Platform {localPlatform} is not enabled.");
+							var localPlatform = GetLocalPlatform();
+							switch(GetLocalPlatform())
+							{
+								case Platform.Android:
+									return CreateAndroidApp(alreadyRunningApp);
+
+								case Platform.iOS:
+									return CreateiOSApp(alreadyRunningApp);
+
+								case Platform.Browser:
+									if(alreadyRunningApp)
+									{
+										return CreateBrowserApp(alreadyRunningApp);
+									}
+									else
+									{
+										// Skip cold app start, there's no notion of reuse active browser yet.
+										return null;
+									}
+
+								default:
+									throw new Exception($"Platform {localPlatform} is not enabled.");
+							}
 					}
+				}
+				catch(Exception e)
+				{
+					if(--retries == 0)
+					{
+						throw;
+					}
+					else
+					{
+						alreadyRunningApp = false;
+
+						Console.WriteLine($"App start failed, retrying in 2 seconds with complete app restart ({e.Message})");
+
+#if DEBUG
+						Console.WriteLine($"{e.Message}");
+#endif
+					}
+				}
 			}
+			while(true);
 		}
 
 		private static IApp CreateBrowserApp(bool alreadyRunningApp)
