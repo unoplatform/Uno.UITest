@@ -19,6 +19,7 @@
 				<HyperlinkButton x:Uid="RadioButton01" Content="RadioButton 01" Click="HyperlinkButton_Click" Tag="Sample.Shared.Tests.RadioButton_Tests_01" />
 				<HyperlinkButton x:Uid="TextBox01" Content="TextBox 01" Click="HyperlinkButton_Click" Tag="Sample.Shared.Tests.TextBox_Tests_01" />
 				<HyperlinkButton x:Uid="DragCoordinates01" Content="DragCoordinates 01" Click="HyperlinkButton_Click" Tag="Sample.Shared.Tests.DragCoordinates_Tests" />
+				<HyperlinkButton x:Uid="ScrollViewer01" Content="ScrollViewer 01" Click="HyperlinkButton_Click" Tag="Sample.Shared.Tests.ScrollViewer_Tests_01" />
 			</ItemsControl>
 		</ScrollViewer>
 		<Border Grid.Column="1" Margin="12">
