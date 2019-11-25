@@ -260,42 +260,138 @@ namespace Uno.UITest.Xamarin
 					, postTimeout
 				);
 
-		public void ScrollDown(string withinMarked, ScrollStrategy strategy = ScrollStrategy.Auto, double swipePercentage = 0.67, int swipeSpeed = 500, bool withInertia = true) =>
-			throw new NotImplementedException();
+		public void ScrollDown(string withinMarked, ScrollStrategy strategy = ScrollStrategy.Auto, double swipePercentage = 0.67, int swipeSpeed = 500, bool withInertia = true)
+			=> _source.ScrollDown(
+				withinMarked,
+				strategy.ToXamarinScrollStrategy(),
+				swipePercentage,
+				swipeSpeed,
+				withInertia
+			);
 
-		public void ScrollDown(Func<IAppQuery, IAppQuery> withinQuery = null, ScrollStrategy strategy = ScrollStrategy.Auto, double swipePercentage = 0.67, int swipeSpeed = 500, bool withInertia = true) =>
-			throw new NotImplementedException();
+		public void ScrollDown(Func<IAppQuery, IAppQuery> withinQuery = null, ScrollStrategy strategy = ScrollStrategy.Auto, double swipePercentage = 0.67, int swipeSpeed = 500, bool withInertia = true)
+			=> _source.ScrollDown(
+				q => withinQuery?.Invoke(q.AsGenericAppQuery()).ToXamarinQuery(),
+				strategy.ToXamarinScrollStrategy(),
+				swipePercentage,
+				swipeSpeed,
+				withInertia
+			);
 
-		public void ScrollDownTo(Func<IAppQuery, IAppWebQuery> toQuery, Func<IAppQuery, IAppQuery> withinQuery = null, ScrollStrategy strategy = ScrollStrategy.Auto, double swipePercentage = 0.67, int swipeSpeed = 500, bool withInertia = true, TimeSpan? timeout = null) =>
-			throw new NotImplementedException();
+		public void ScrollDownTo(Func<IAppQuery, IAppWebQuery> toQuery, Func<IAppQuery, IAppQuery> withinQuery = null, ScrollStrategy strategy = ScrollStrategy.Auto, double swipePercentage = 0.67, int swipeSpeed = 500, bool withInertia = true, TimeSpan? timeout = null)
+			=> _source.ScrollDownTo(
+				q => toQuery(q.AsGenericAppQuery()).ToXamarinQuery(),
+				q => withinQuery?.Invoke(q.AsGenericAppQuery()).ToXamarinQuery(),
+				strategy.ToXamarinScrollStrategy(),
+				swipePercentage,
+				swipeSpeed,
+				withInertia,
+				timeout
+			);
 
-		public void ScrollDownTo(Func<IAppQuery, IAppQuery> toQuery, Func<IAppQuery, IAppQuery> withinQuery = null, ScrollStrategy strategy = ScrollStrategy.Auto, double swipePercentage = 0.67, int swipeSpeed = 500, bool withInertia = true, TimeSpan? timeout = null) =>
-			throw new NotImplementedException();
-		public void ScrollDownTo(Func<IAppQuery, IAppWebQuery> toQuery, string withinMarked, ScrollStrategy strategy = ScrollStrategy.Auto, double swipePercentage = 0.67, int swipeSpeed = 500, bool withInertia = true, TimeSpan? timeout = null) =>
-			throw new NotImplementedException();
+		public void ScrollDownTo(Func<IAppQuery, IAppQuery> toQuery, Func<IAppQuery, IAppQuery> withinQuery = null, ScrollStrategy strategy = ScrollStrategy.Auto, double swipePercentage = 0.67, int swipeSpeed = 500, bool withInertia = true, TimeSpan? timeout = null)
+			=> _source.ScrollDownTo(
+				q => toQuery(q.AsGenericAppQuery()).ToXamarinQuery(),
+				q => withinQuery?.Invoke(q.AsGenericAppQuery()).ToXamarinQuery(),
+				strategy.ToXamarinScrollStrategy(),
+				swipePercentage,
+				swipeSpeed,
+				withInertia,
+				timeout
+			);
+		public void ScrollDownTo(Func<IAppQuery, IAppWebQuery> toQuery, string withinMarked, ScrollStrategy strategy = ScrollStrategy.Auto, double swipePercentage = 0.67, int swipeSpeed = 500, bool withInertia = true, TimeSpan? timeout = null)
+			=> _source.ScrollDownTo(
+				q => toQuery(q.AsGenericAppQuery()).ToXamarinQuery(),
+				withinMarked,
+				strategy.ToXamarinScrollStrategy(),
+				swipePercentage,
+				swipeSpeed,
+				withInertia,
+				timeout
+			);
 
-		public void ScrollDownTo(string toMarked, string withinMarked = null, ScrollStrategy strategy = ScrollStrategy.Auto, double swipePercentage = 0.67, int swipeSpeed = 500, bool withInertia = true, TimeSpan? timeout = null) =>
-			throw new NotImplementedException();
+		public void ScrollDownTo(string toMarked, string withinMarked = null, ScrollStrategy strategy = ScrollStrategy.Auto, double swipePercentage = 0.67, int swipeSpeed = 500, bool withInertia = true, TimeSpan? timeout = null)
+			=> _source.ScrollDownTo(
+				toMarked,
+				withinMarked,
+				strategy.ToXamarinScrollStrategy(),
+				swipePercentage,
+				swipeSpeed,
+				withInertia,
+				timeout
+			);
 
-		public void ScrollTo(string toMarked, string withinMarked = null, ScrollStrategy strategy = ScrollStrategy.Auto, double swipePercentage = 0.67, int swipeSpeed = 500, bool withInertia = true, TimeSpan? timeout = null) =>
-			throw new NotImplementedException();
+		public void ScrollTo(string toMarked, string withinMarked = null, ScrollStrategy strategy = ScrollStrategy.Auto, double swipePercentage = 0.67, int swipeSpeed = 500, bool withInertia = true, TimeSpan? timeout = null)
+			=> _source.ScrollTo(
+				toMarked,
+				withinMarked,
+				strategy.ToXamarinScrollStrategy(),
+				swipePercentage,
+				swipeSpeed,
+				withInertia,
+				timeout
+			);
 
-		public void ScrollUp(Func<IAppQuery, IAppQuery> query = null, ScrollStrategy strategy = ScrollStrategy.Auto, double swipePercentage = 0.67, int swipeSpeed = 500, bool withInertia = true) =>
-			throw new NotImplementedException();
+		public void ScrollUp(Func<IAppQuery, IAppQuery> query = null, ScrollStrategy strategy = ScrollStrategy.Auto, double swipePercentage = 0.67, int swipeSpeed = 500, bool withInertia = true)
+			=> _source.ScrollUp(
+				q => query?.Invoke(q.AsGenericAppQuery()).ToXamarinQuery(),
+				strategy.ToXamarinScrollStrategy(),
+				swipePercentage,
+				swipeSpeed,
+				withInertia
+			);
 
-		public void ScrollUp(string withinMarked, ScrollStrategy strategy = ScrollStrategy.Auto, double swipePercentage = 0.67, int swipeSpeed = 500, bool withInertia = true) =>
-			throw new NotImplementedException();
-		public void ScrollUpTo(Func<IAppQuery, IAppQuery> toQuery, Func<IAppQuery, IAppQuery> withinQuery = null, ScrollStrategy strategy = ScrollStrategy.Auto, double swipePercentage = 0.67, int swipeSpeed = 500, bool withInertia = true, TimeSpan? timeout = null) =>
-			throw new NotImplementedException();
+		public void ScrollUp(string withinMarked, ScrollStrategy strategy = ScrollStrategy.Auto, double swipePercentage = 0.67, int swipeSpeed = 500, bool withInertia = true)
+			=> _source.ScrollUp(
+				withinMarked,
+				strategy.ToXamarinScrollStrategy(),
+				swipePercentage,
+				swipeSpeed,
+				withInertia
+			);
+		public void ScrollUpTo(Func<IAppQuery, IAppQuery> toQuery, Func<IAppQuery, IAppQuery> withinQuery = null, ScrollStrategy strategy = ScrollStrategy.Auto, double swipePercentage = 0.67, int swipeSpeed = 500, bool withInertia = true, TimeSpan? timeout = null)
+			=> _source.ScrollUpTo(
+				q => toQuery(q.AsGenericAppQuery()).ToXamarinQuery(),
+				q => withinQuery?.Invoke(q.AsGenericAppQuery()).ToXamarinQuery(),
+				strategy.ToXamarinScrollStrategy(),
+				swipePercentage,
+				swipeSpeed,
+				withInertia,
+				timeout
+			);
 
-		public void ScrollUpTo(Func<IAppQuery, IAppWebQuery> toQuery, Func<IAppQuery, IAppQuery> withinQuery = null, ScrollStrategy strategy = ScrollStrategy.Auto, double swipePercentage = 0.67, int swipeSpeed = 500, bool withInertia = true, TimeSpan? timeout = null) =>
-			throw new NotImplementedException();
+		public void ScrollUpTo(Func<IAppQuery, IAppWebQuery> toQuery, Func<IAppQuery, IAppQuery> withinQuery = null, ScrollStrategy strategy = ScrollStrategy.Auto, double swipePercentage = 0.67, int swipeSpeed = 500, bool withInertia = true, TimeSpan? timeout = null)
+			=> _source.ScrollUpTo(
+				q => toQuery(q.AsGenericAppQuery()).ToXamarinQuery(),
+				q => withinQuery?.Invoke(q.AsGenericAppQuery()).ToXamarinQuery(),
+				strategy.ToXamarinScrollStrategy(),
+				swipePercentage,
+				swipeSpeed,
+				withInertia,
+				timeout
+			);
 
-		public void ScrollUpTo(Func<IAppQuery, IAppWebQuery> toQuery, string withinMarked, ScrollStrategy strategy = ScrollStrategy.Auto, double swipePercentage = 0.67, int swipeSpeed = 500, bool withInertia = true, TimeSpan? timeout = null) =>
-			throw new NotImplementedException();
+		public void ScrollUpTo(Func<IAppQuery, IAppWebQuery> toQuery, string withinMarked, ScrollStrategy strategy = ScrollStrategy.Auto, double swipePercentage = 0.67, int swipeSpeed = 500, bool withInertia = true, TimeSpan? timeout = null)
+			=> _source.ScrollUpTo(
+				q => toQuery(q.AsGenericAppQuery()).ToXamarinQuery(),
+				withinMarked,
+				strategy.ToXamarinScrollStrategy(),
+				swipePercentage,
+				swipeSpeed,
+				withInertia,
+				timeout
+			);
 
-		public void ScrollUpTo(string toMarked, string withinMarked = null, ScrollStrategy strategy = ScrollStrategy.Auto, double swipePercentage = 0.67, int swipeSpeed = 500, bool withInertia = true, TimeSpan? timeout = null) =>
-			throw new NotImplementedException();
+		public void ScrollUpTo(string toMarked, string withinMarked = null, ScrollStrategy strategy = ScrollStrategy.Auto, double swipePercentage = 0.67, int swipeSpeed = 500, bool withInertia = true, TimeSpan? timeout = null)
+			=> _source.ScrollUpTo(
+				toMarked,
+				withinMarked,
+				strategy.ToXamarinScrollStrategy(),
+				swipePercentage,
+				swipeSpeed,
+				withInertia,
+				timeout
+			);
 
 		public void SwipeLeftToRight(Func<IAppQuery, IAppWebQuery> query, double swipePercentage = 0.67, int swipeSpeed = 500, bool withInertia = true) =>
 			throw new NotImplementedException();
