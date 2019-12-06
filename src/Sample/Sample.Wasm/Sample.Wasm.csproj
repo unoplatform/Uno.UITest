@@ -7,7 +7,10 @@
     <DefineConstants>$(DefineConstants);__WASM__</DefineConstants>
     <NoWarn>NU1701</NoWarn>
   </PropertyGroup>
-  <ItemGroup>
+	<PropertyGroup>
+		<IsUiAutomationMappingEnabled>true</IsUiAutomationMappingEnabled>
+	</PropertyGroup>
+	<ItemGroup>
     <Content Include="..\Sample.UWP\Assets\*.png" Link="Assets\%(FileName)%(Extension)" />
     <Content Include="Fonts\winjs-symbols.woff2" />
   </ItemGroup>
@@ -30,8 +33,8 @@
     <Content Include="LinkerConfig.xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Uno.UI" Version="2.0.512-dev.3360" />
-    <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.0.0-dev.302" />
+    <PackageReference Include="Uno.UI" Version="2.1.0-dev.90" />
+    <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.0.8" />
     <DotNetCliToolReference Include="Uno.Wasm.Bootstrap.Cli" Version="1.0.0-dev.137" />
   </ItemGroup>
   <Import Project="..\Sample.Shared\Sample.Shared.projitems" Label="Shared" Condition="Exists('..\Sample.Shared\Sample.Shared.projitems')" />

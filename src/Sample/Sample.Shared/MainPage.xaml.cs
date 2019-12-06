@@ -26,13 +26,22 @@ namespace Sample
 		public MainPage()
 		{
 			this.InitializeComponent();
+
+			TestControls.Add(new TestControl("ComboBox 1", "Sample.Shared.Tests.ComboBox_Tests"));
+			TestControls.Add(new TestControl("CheckBox 1", "Sample.Shared.Tests.CheckBox_Tests"));
+			TestControls.Add(new TestControl("RadioButton 01", "Sample.Shared.Tests.RadioButton_Tests_01"));
+			TestControls.Add(new TestControl("TextBox 01", "Sample.Shared.Tests.TextBox_Tests_01"));
+			TestControls.Add(new TestControl("DragCoordinates 01", "Sample.Shared.Tests.DragCoordinates_Tests"));
+			TestControls.Add(new TestControl("SetPropertyValue 01", "Sample.Shared.Tests.SetPropertyValue_Tests"));
 		}
+		public ObservableCollection<TestControl> TestControls { get; } = new ObservableCollection<TestControl>();
+
 
 		private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
 		{
-			if(sender is HyperlinkButton button && button.Tag is string typeName)
+			if(sender is HyperlinkButton button && button.DataContext is TestControl tc)
 			{
-				var type = Type.GetType(typeName);
+				var type = Type.GetType(tc.Type);
 
 				var instance = Activator.CreateInstance(type) as FrameworkElement;
 
@@ -42,5 +51,18 @@ namespace Sample
 				}
 			}
 		}
+	}
+
+	[Bindable]
+	public class TestControl
+	{
+		public TestControl(string name, string type)
+		{
+			Name = name;
+			Type = type;
+		}
+
+		public string Name { get; }
+		public string Type { get; }
 	}
 }
