@@ -45,7 +45,8 @@ namespace Uno.UITest.Helpers.Queries
 				.Invoke(FormatBackdoorMethodName(
 					"browser:Uno.UI.WindowManager.current|SetDependencyPropertyValue"),
 					dependencyPropertyName,
-					value);
+					value,
+					null);
 
 		static string GetMd5Hash(string input)
 		{

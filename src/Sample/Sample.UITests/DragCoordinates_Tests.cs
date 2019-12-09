@@ -16,7 +16,7 @@ namespace Sample.UITests
 		[Test]
 		public void DragBorder01()
 		{
-			Query testSelector = q => q.Marked("DragCoordinates01");
+			Query testSelector = q => q.Marked("DragCoordinates 01");
 
 			Query rootCanvas = q => q.Marked("rootCanvas");
 			Query myBorder = q => q.Marked("myBorder");

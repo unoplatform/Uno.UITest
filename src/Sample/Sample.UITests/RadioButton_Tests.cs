@@ -14,7 +14,7 @@ namespace Sample.UITests
 		[Test]
 		public void RadioButton01()
 		{
-			Query testSelector = q => q.Marked("RadioButton01");
+			Query testSelector = q => q.Marked("RadioButton 01");
 			App.WaitForElement(testSelector);
 			App.Tap(testSelector);
 
