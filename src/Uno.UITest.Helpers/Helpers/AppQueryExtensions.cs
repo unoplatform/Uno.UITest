@@ -44,9 +44,7 @@ namespace Uno.UITest.Helpers.Queries
 		public static IAppTypedSelector<object> SetDependencyPropertyValue(this IAppQuery query, string dependencyPropertyName, string value) => query
 				.Invoke(FormatBackdoorMethodName(
 					"browser:Uno.UI.WindowManager.current|SetDependencyPropertyValue"),
-					dependencyPropertyName,
-					value,
-					null);
+					dependencyPropertyName + "|" + value);
 
 		static string GetMd5Hash(string input)
 		{
