@@ -25,6 +25,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Tests\ComboBox_Tests.xaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tests\DragCoordinates_Tests.xaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tests\RadioButton_Tests_01.xaml.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tests\SetPropertyValue_Tests.xaml.cs">
+      <DependentUpon>SetPropertyValue_Tests.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Tests\TextBox_Tests_01.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -45,6 +48,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Tests\RadioButton_Tests_01.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Tests\SetPropertyValue_Tests.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -14,7 +14,7 @@ namespace Sample.UITests
 		[Test]
 		public void CheckBox01()
 		{
-			Query checkBoxSelector = q => q.Marked("CheckBox01");
+			Query checkBoxSelector = q => q.Marked("CheckBox 1");
 			App.WaitForElement(checkBoxSelector);
 			App.Tap(checkBoxSelector);
 
@@ -56,7 +56,7 @@ namespace Sample.UITests
 		[Test]
 		public void CheckBox01_RawQuery()
 		{
-			Query checkBoxSelector = q => q.Raw("* marked:'CheckBox01'");
+			Query checkBoxSelector = q => q.Raw("* marked:'CheckBox 1'");
 			App.WaitForElement(checkBoxSelector);
 
 			App.Tap(checkBoxSelector);
