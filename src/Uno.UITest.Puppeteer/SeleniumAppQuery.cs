@@ -53,7 +53,11 @@ namespace Uno.UITest.Selenium
 			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[@xamltype='{className}']")));
 
 		IAppQuery IAppQuery.Descendant(int index) => throw new System.NotImplementedException();
-		IAppQuery IAppQuery.Descendant(string className) => throw new System.NotImplementedException();
+		IAppQuery IAppQuery.Descendant(string className)
+			=> string.IsNullOrEmpty(className)
+				? Apply(() => { })
+				: Apply(() => _queryItems.Add(new SearchQueryItem($"//*[ends-with(@xamltype, '{className}')]")));
+
 		IAppQuery IAppQuery.Frame(string cssSelector) => throw new System.NotImplementedException();
 
 		IAppQuery IAppQuery.Id(string id)

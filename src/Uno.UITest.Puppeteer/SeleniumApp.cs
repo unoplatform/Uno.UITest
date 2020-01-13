@@ -326,7 +326,9 @@ namespace Uno.UITest.Selenium
 		void IApp.PinchToZoomOut(string marked, TimeSpan? duration) => throw new NotSupportedException();
 		void IApp.PinchToZoomOut(Func<IAppQuery, IAppQuery> query, TimeSpan? duration) => throw new NotSupportedException();
 		void IApp.PinchToZoomOutCoordinates(float x, float y, TimeSpan? duration) => throw new NotSupportedException();
-		void IApp.PressEnter() => throw new NotSupportedException();
+		void IApp.PressEnter()
+			=> PerformActions(a => a.SendKeys(Keys.Return));
+
 		void IApp.PressVolumeDown() => throw new NotSupportedException();
 		void IApp.PressVolumeUp() => throw new NotSupportedException();
 		IAppResult[] IApp.Query(Func<IAppQuery, IAppQuery> query)
@@ -532,14 +534,9 @@ namespace Uno.UITest.Selenium
 						}
 						else if(currentItem is IEnumerable<IWebElement> items)
 						{
-							if(items.Count() == 1)
-							{
-								currentItem = items.First().FindElements(By.XPath(query.Query));
-							}
-							else
-							{
-								throw new InvalidOperationException($"Unable to execute a search on multiple items");
-							}
+							var result = items.SelectMany(i => i.FindElements(By.XPath("." + query.Query))).ToArray();
+
+							currentItem = result;
 						}
 						else
 						{
