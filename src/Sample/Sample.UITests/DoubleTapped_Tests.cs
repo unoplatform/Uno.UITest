@@ -20,8 +20,10 @@ namespace Sample.UITests
 			App.WaitForElement("TouchTarget");
 			App.DoubleTap("TouchTarget");
 
-			var result = App.Query(q => q.Marked("Result").GetDependencyPropertyValue("Text").Value<string>()).Single();
+			App.WaitForDependencyPropertyValue(q => q.Marked("Result"), "Text",  "Double tapped!");
 
+			// Sanity in case of timeout without exception!
+			var result = App.Query(q => q.Marked("Result").GetDependencyPropertyValue("Text").Value<string>()).Single();
 			Assert.AreEqual("Double tapped!", result);
 		}
 	}
