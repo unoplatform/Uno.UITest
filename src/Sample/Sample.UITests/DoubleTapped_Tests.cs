@@ -12,6 +12,7 @@ namespace Sample.UITests
 	public class DoubleTapped_Tests : TestBase
 	{
 		[Test]
+		[Ignore("DoubleTapped is currently broken in Uno ...")]
 		public void DoubleTap()
 		{
 			App.WaitForElement("DoubleTapped 01");
