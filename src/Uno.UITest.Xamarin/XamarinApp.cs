@@ -55,7 +55,8 @@ namespace Uno.UITest.Xamarin
 			=> _source.DoubleTap(marked);
 
 		public void DoubleTapCoordinates(float x, float y)
-			=> throw new NotImplementedException();
+			=> _source.DoubleTapCoordinates(x, y);
+
 		public void DragAndDrop(Func<IAppQuery, IAppQuery> from, Func<IAppQuery, IAppQuery> to)
 			=> _source.DragAndDrop(
 				q => from(q.AsGenericAppQuery()).ToXamarinQuery(),

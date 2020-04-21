@@ -222,11 +222,37 @@ namespace Uno.UITest.Selenium
 		void IApp.DoubleTap(Func<IAppQuery, IAppQuery> query)
 		{
 			var q = query(new SeleniumAppQuery(this));
+			var result = Evaluate(q as SeleniumAppQuery);
+
+			if(result is IEnumerable<IWebElement> elements)
+			{
+				var count = elements.Count();
+
+				if(count == 0)
+				{
+					throw new InvalidOperationException("The query returned no results");
+				}
+				else if(count > 1)
+				{
+					var itemsString = string.Join(", ", elements.Select(e => e.GetAttribute("id")));
+					throw new InvalidOperationException($"The query returned too many results ({itemsString})");
+				}
+				else
+				{
+					PerformActions(a => a.DoubleClick(elements.First()));
+				}
+			}
 		}
 
-		void IApp.DoubleTap(string marked) => throw new NotSupportedException();
+		void IApp.DoubleTap(string marked) => ((IApp)this).Tap(q => q.Marked(marked));
 
-		void IApp.DoubleTapCoordinates(float x, float y) => throw new NotSupportedException();
+		void IApp.DoubleTapCoordinates(float x, float y)
+		{
+			PerformActions(a => a
+				.MoveToElement(_driver.FindElementByTagName("body"), 0, 0)
+				.MoveByOffset((int)x, (int)y)
+				.DoubleClick());
+		}
 
 		void IApp.DragAndDrop(Func<IAppQuery, IAppQuery> from, Func<IAppQuery, IAppQuery> to) => throw new NotSupportedException();
 
