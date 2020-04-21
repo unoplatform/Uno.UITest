@@ -1,0 +1,15 @@
+﻿<Page
+    x:Class="Sample.Shared.Tests.DoubleTap_Tests_01"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Sample.Shared.Tests"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <StackPanel>
+		<TextBlock Text="Not double tapped" x:Name="Result" />
+		<Border Background="DeepPink" Width="100" Height="100" x:Name="TouchTarget" DoubleTapped="OnTouchTargetDoubleTapped" />
+	</StackPanel>
+</Page>
