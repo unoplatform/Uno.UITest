@@ -16,6 +16,8 @@ namespace Sample.UITests
 		[Test]
 		public void DragBorder01()
 		{
+			App.Screenshot("home screen");
+
 			Query testSelector = q => q.Marked("DragCoordinates 01");
 
 			Query rootCanvas = q => q.Marked("rootCanvas");
