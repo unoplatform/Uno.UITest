@@ -14,6 +14,6 @@
 			of Selenuim, Xamarin.iOS and Xamarin.Android applications through Xamarin.UITest
 			and Microsoft AppCenter.
 		</Description>
-		<Copyright>Copyright (C) 2015-2019 nventive inc. - all rights reserved</Copyright>
+		<Copyright>Copyright (C) 2015-$([System.DateTime]::UtcNow.ToString(yyyy)) nventive inc. - all rights reserved</Copyright>
 	</PropertyGroup>
 </Project>
