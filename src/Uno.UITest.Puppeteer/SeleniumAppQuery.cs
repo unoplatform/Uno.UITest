@@ -35,7 +35,9 @@ namespace Uno.UITest.Selenium
 			=> this.seleniumApp = seleniumApp;
 
 		IAppQuery IAppQuery.All(string className)
-			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[ends-with(@xamltype, '{className}')]")));
+			=> string.IsNullOrEmpty(className)
+				? Apply(() => { })
+				: Apply(() => _queryItems.Add(new SearchQueryItem($"//*[ends-with(@xamltype, '{className}')]")));
 
 		IAppQuery IAppQuery.Button(string marked)
 			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[@xamltype='Windows.UI.Xaml.Controls.Button' and (xamlname='{marked}') or @xuid='{marked}')]")));

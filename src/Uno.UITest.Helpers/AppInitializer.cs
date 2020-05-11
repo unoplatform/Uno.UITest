@@ -178,29 +178,38 @@ namespace Uno.UITests.Helpers
 			{
 				var configurator = Uno.UITest.Selenium.ConfigureApp
 					.WebAssembly
-					.Uri(new Uri(TestEnvironment.WebAssemblyDefaultUri));
-
+					.Uri(new Uri(TestEnvironment.WebAssemblyDefaultUri))
+					.UsingBrowser(TestEnvironment.WebAssemblyBrowser.ToString());
 
 				if(!string.IsNullOrEmpty(TestEnvironment.ChromeDriverPath))
 				{
-					configurator = configurator.ChromeDriverLocation(
-						Path.Combine(TestContext.CurrentContext.TestDirectory,
-						TestEnvironment.ChromeDriverPath.Replace('\\', Path.DirectorySeparatorChar)));
+					var driverPath = Path.Combine(
+						TestContext.CurrentContext.TestDirectory,
+						TestEnvironment.ChromeDriverPath.Replace('\\', Path.DirectorySeparatorChar));
+					configurator = configurator.DriverPath(driverPath);
+				}
+				else if(!string.IsNullOrEmpty(TestEnvironment.SeleniumDriverPath))
+				{
+					var driverPath = Path.Combine(
+						TestContext.CurrentContext.TestDirectory,
+						TestEnvironment.SeleniumDriverPath.Replace('\\', Path.DirectorySeparatorChar));
+					configurator = configurator.DriverPath(driverPath);
 				}
 
-				if(!TestEnvironment.WebAssemblyHeadless)
+				if(TestEnvironment.WebAssemblyHeadless)
+				{
+					configurator = configurator
+						.Headless(true);
+				}
+				else
 				{
 					configurator = configurator
 						.Headless(false)
 						.SeleniumArgument("--remote-debugging-port=9222");
 				}
-				else
-				{
-					configurator = configurator
-						.Headless(true);
-				}
 
-				_currentApp = configurator.ScreenShotsPath(TestContext.CurrentContext.TestDirectory)
+				_currentApp = configurator
+					.ScreenShotsPath(TestContext.CurrentContext.TestDirectory)
 					.StartApp();
 
 				return _currentApp;

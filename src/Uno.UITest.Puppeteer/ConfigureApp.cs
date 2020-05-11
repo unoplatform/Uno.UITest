@@ -6,7 +6,6 @@ namespace Uno.UITest.Selenium
 {
 	public static class ConfigureApp
 	{
-		public static ChromeAppConfigurator WebAssembly =>
-			new ChromeAppConfigurator();
+		public static SeleniumAppConfigurator WebAssembly => new SeleniumAppConfigurator();
 	}
 }

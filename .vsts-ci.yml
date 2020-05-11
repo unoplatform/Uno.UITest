@@ -125,13 +125,13 @@ jobs:
     SourceLinkEnabled: false
 
   pool:
-    vmImage: 'macOS-10.14'
+    vmImage: 'macOS-10.15'
 
   steps:
   - checkout: self
     clean: true
 
-  - bash: /bin/bash -c "sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh 5_18_1"
+  - bash: /bin/bash -c "sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh 6_6_0"
     displayName: Select Xamarin Version
 
   - bash: |
@@ -162,16 +162,16 @@ jobs:
   variables:
     CI_Build: true
     SourceLinkEnabled: false
-    XCODE_ROOT: /Applications/Xcode_10.3.app
+    XCODE_ROOT: /Applications/Xcode_11.4.app
 
   pool:
-    vmImage: 'macOS-10.14'
+    vmImage: 'macOS-10.15'
 
   steps:
   - checkout: self
     clean: true
 
-  - bash: /bin/bash -c "sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh 5_18_1"
+  - bash: /bin/bash -c "sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh 6_6_0"
     displayName: Select Xamarin Version
     
   - bash: /bin/bash -c "echo '##vso[task.setvariable variable=MD_APPLE_SDK_ROOT;]'${XCODE_ROOT};sudo xcode-select --switch ${XCODE_ROOT}/Contents/Developer"

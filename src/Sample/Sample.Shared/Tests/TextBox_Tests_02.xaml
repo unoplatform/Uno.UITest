@@ -13,7 +13,7 @@
 		<TextBox x:Uid="tb01"
 				 x:Name="tb01" />
 		<TextBlock x:Uid="tbBound01"
-				   Text="{x:Bind sys:String.Format('Value 1: {0}', tb01.Text), Mode=TwoWay}" />
+				   Text="{x:Bind sys:String.Format('Value 1: {0}', tb01.Text), Mode=OneWay}" />
 		<TextBlock x:Name="tb01Events" />
 	</StackPanel>
 </UserControl>

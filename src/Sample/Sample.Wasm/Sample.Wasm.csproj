@@ -5,10 +5,14 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <WasmHead>true</WasmHead>
     <DefineConstants>$(DefineConstants);__WASM__</DefineConstants>
-    <NoWarn>NU1701</NoWarn>
-  </PropertyGroup>
-	<PropertyGroup>
+    <NoWarn>NU1701,CS1998</NoWarn>
 		<IsUiAutomationMappingEnabled>true</IsUiAutomationMappingEnabled>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
+		<MonoRuntimeDebuggerEnabled>true</MonoRuntimeDebuggerEnabled>
+		<DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
+		<DebugType>portable</DebugType>
+		<DebugSymbols>true</DebugSymbols>
 	</PropertyGroup>
 	<ItemGroup>
     <Content Include="..\Sample.UWP\Assets\*.png" Link="Assets\%(FileName)%(Extension)" />
@@ -33,9 +37,9 @@
     <Content Include="LinkerConfig.xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Uno.UI" Version="2.1.0-dev.672" />
-    <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.0.10" />
-    <DotNetCliToolReference Include="Uno.Wasm.Bootstrap.Cli" Version="1.0.0-dev.137" />
+    <PackageReference Include="Uno.UI" Version="2.3.0-dev.2" />
+    <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.2.0-dev.24" />
+		<PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="1.2.0-dev.24" />
   </ItemGroup>
   <Import Project="..\Sample.Shared\Sample.Shared.projitems" Label="Shared" Condition="Exists('..\Sample.Shared\Sample.Shared.projitems')" />
 </Project>

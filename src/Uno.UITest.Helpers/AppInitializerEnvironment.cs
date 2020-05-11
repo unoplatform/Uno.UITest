@@ -46,8 +46,25 @@ namespace Uno.UITests.Helpers
 		public string ChromeDriverPath { get; set; }
 
 		/// <summary>
+		/// Defines the location of selenium driver.
+		/// </summary>
+		/// <remarks>
+		/// If not defined, the test engine will select the version based on
+		/// the currently installed browsers version.
+		/// </remarks>
+		public string SeleniumDriverPath { get; set; }
+
+		/// <summary>
 		/// Defines if the browser tests are running in chrome without a window.
 		/// </summary>
 		public bool WebAssemblyHeadless { get; set; } = true;
+
+		/// <summary>
+		/// Defines the browser to use for the Web platform. Cf. remarks about compatibility
+		/// </summary>
+		/// <remarks>
+		/// Note that all browser does not supports all options defined here. For instance Edge does support only the <see cref="SeleniumDriverPath"/>.
+		/// </remarks>
+		public Browser WebAssemblyBrowser { get; set; } = Browser.Chrome;
 	}
 }
