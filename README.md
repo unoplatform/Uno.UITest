@@ -35,8 +35,8 @@ Note that if running on iOS or Android, setting a property is required:
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Uno.UITest" Version="1.0.0-dev.72" />
-    <PackageReference Include="Uno.UITest.Helpers" Version="1.0.0-dev.72" />
+    <PackageReference Include="Uno.UITest" Version="1.0.0" />
+    <PackageReference Include="Uno.UITest.Helpers" Version="1.0.0" />
     <PackageReference Include="NUnit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.15.1" />
   </ItemGroup>
