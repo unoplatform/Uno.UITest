@@ -10,7 +10,7 @@ The testing is available through :
 
 ## Build status
 
-| Target | Branch | Status | Recommended Nuget packages version |
+| Target | Branch | Status | Recommended NuGet packages version |
 | ------ | ------ | ------ | ------ |
 | development | master |[![Build Status](https://dev.azure.com/uno-platform/Uno%20Platform/_apis/build/status/Uno%20Platform/Uno.UITest?branchName=master)](https://dev.azure.com/uno-platform/Uno%20Platform/_build/latest?definitionId=58&branchName=master) | [![NuGet](https://img.shields.io/nuget/v/Uno.UITest.svg)](https://www.nuget.org/packages/Uno.UITest/) |
 
