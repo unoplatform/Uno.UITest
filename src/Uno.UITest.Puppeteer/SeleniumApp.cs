@@ -39,6 +39,7 @@ namespace Uno.UITest.Selenium
 			if(config.InternalHeadless)
 			{
 				options.AddArguments("--no-sandbox");
+				options.AddArguments("--disable-dev-shm-usage");
 				options.AddArgument("headless");
 			}
 

@@ -30,6 +30,7 @@ Global
 		Sample\Sample.Shared\Sample.Shared.projitems*{336cc69a-c9d1-48d3-8029-d80d8989403e}*SharedItemsImports = 4
 		Sample\Sample.Shared\Sample.Shared.projitems*{34403e87-8f3e-40c3-8ece-7f3873bcd693}*SharedItemsImports = 4
 		Sample\Sample.Shared\Sample.Shared.projitems*{6279c845-92f8-4333-ab99-3d213163593c}*SharedItemsImports = 13
+		Sample\Sample.Shared\Sample.Shared.projitems*{74eebcc9-f40e-422b-8c39-ca6e674301ae}*SharedItemsImports = 5
 		Sample\Sample.Shared\Sample.Shared.projitems*{dbce58a5-d2d6-4912-abd4-aa7e12519361}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

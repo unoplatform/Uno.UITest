@@ -19,7 +19,7 @@ pr:
 resources:
   containers:
   - container: nv-bionic-wasm
-    image: nventive/wasm-build:1.5
+    image: unoplatform/wasm-build:2.2
 
 jobs:
 - job: Windows
