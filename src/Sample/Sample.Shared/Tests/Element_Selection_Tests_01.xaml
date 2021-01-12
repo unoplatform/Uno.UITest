@@ -23,5 +23,8 @@
 		<ContentControl x:Name="outer02"
 						Content="Text 2"
 						ContentTemplate="{StaticResource myTemplate}" />
+
+		<DatePicker />
+		<TextBlock x:Name="MyTextBlock">MyTextBlock</TextBlock>
 	</StackPanel>
 </UserControl>
