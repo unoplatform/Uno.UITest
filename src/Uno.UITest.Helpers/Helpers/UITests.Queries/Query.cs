@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using Uno.UITest.Helpers.Queries;
 using Uno.UITest.Xamarin.Extensions;
@@ -122,10 +123,16 @@ namespace Uno.UITest.Helpers.Queries
 
 		public QueryEx WithClass(string @class)
 		{
-			return this.Compose((IAppQuery x) => x.Class(
-				x is XamarinAppQuery
-					? @class.Replace(".", "_")
-					: @class));
+			var fullName = @class.Replace(".", "_");
+			if(Helpers.Platform == Platform.iOS)
+			{
+				// For iOS, we specify the fullname of the class
+				return this.Compose((IAppQuery x) => x.Class(fullName));
+			}
+
+			// Android & Wasm will required non-qualified class name
+			var name = fullName.Split('_').Last();
+			return this.Compose((IAppQuery x) => x.Class(name));
 		}
 
 		public QueryEx Marked(string mark)
