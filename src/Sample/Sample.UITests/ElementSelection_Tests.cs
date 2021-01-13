@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,6 +37,7 @@ namespace Sample.UITests
 		[Test]
 		public void ElementSelection_WithClass()
 		{
+			//App.Repl();
 			Query testSelector = q => q.Marked("Element Selection 01");
 
 			App.WaitForElement(testSelector);
@@ -50,11 +52,14 @@ namespace Sample.UITests
 			App.WaitForElement(App.CreateQuery(
 				q => q.WithClass("Windows.UI.Xaml.Controls.DatePicker")));
 
-			App.WaitForElement(App.CreateQuery(
-				q => q.WithText("MyTextBlock")));
+			if(Helpers.Platform != Platform.iOS)
+			{
+				App.WaitForElement(App.CreateQuery(
+					q => q.WithText("MyTextBlock")));
 
-			App.WaitForElement(App.CreateQuery(
-				q => q.WithClass("Windows.UI.Xaml.Controls.TextBlock").WithText("MyTextBlock")));
+				App.WaitForElement(App.CreateQuery(
+					q => q.WithClass("Windows.UI.Xaml.Controls.TextBlock").WithText("MyTextBlock")));
+			}
 		}
 	}
 }
