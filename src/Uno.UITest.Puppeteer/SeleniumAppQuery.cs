@@ -35,19 +35,21 @@ namespace Uno.UITest.Selenium
 			=> this.seleniumApp = seleniumApp;
 
 		IAppQuery IAppQuery.All(string className)
-			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[ends-with(@xamltype, '{className}')]")));
+			=> string.IsNullOrEmpty(className)
+				? Apply(() => { })
+				: Apply(() => _queryItems.Add(new SearchQueryItem($"//*[contains(@xamltype, '{className}')]")));
 
 		IAppQuery IAppQuery.Button(string marked)
 			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[@xamltype='Windows.UI.Xaml.Controls.Button' and (xamlname='{marked}') or @xuid='{marked}')]")));
 
 		IAppQuery IAppQuery.Child(string className)
-			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[ends-with(@xamltype, '{className}')]")));
+			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[contains(@xamltype, '{className}')]")));
 
 		IAppQuery IAppQuery.Child(int index)
 			=> Apply(() => _queryItems.Add(new SearchQueryItem($"/[{index}]")));
 
 		IAppQuery IAppQuery.Class(string className)
-			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[ends-with(@xamltype, '{className}')]")));
+			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[contains(@xamltype, '{className}')]")));
 
 		IAppQuery IAppQuery.ClassFull(string className)
 			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[@xamltype='{className}']")));
@@ -56,7 +58,7 @@ namespace Uno.UITest.Selenium
 		IAppQuery IAppQuery.Descendant(string className)
 			=> string.IsNullOrEmpty(className)
 				? Apply(() => { })
-				: Apply(() => _queryItems.Add(new SearchQueryItem($"//*[ends-with(@xamltype, '{className}')]")));
+				: Apply(() => _queryItems.Add(new SearchQueryItem($"//*[contains(@xamltype, '{className}')]")));
 
 		IAppQuery IAppQuery.Frame(string cssSelector) => throw new System.NotImplementedException();
 
@@ -117,7 +119,7 @@ namespace Uno.UITest.Selenium
 			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[@xamlname='{text}' or @xuid='{text}' or @xamlautomationid='{text}']")));
 
 		IAppQuery IAppQuery.Parent(string className)
-			=> Apply(() => _queryItems.Add(new SearchQueryItem($"./ancestor::*[ends-with(@xamltype, {className})]")));
+			=> Apply(() => _queryItems.Add(new SearchQueryItem($"./ancestor::*[contains(@xamltype, {className})]")));
 
 		IAppQuery IAppQuery.Parent(int index)
 			=> Apply(() => _queryItems.Add(new SearchQueryItem($"./ancestor::*[position()={index}]")));
@@ -144,17 +146,23 @@ namespace Uno.UITest.Selenium
 		IAppTypedSelector<string> IAppQuery.Raw(string calabashQuery, object arg1, object arg2) => throw new System.NotImplementedException();
 		IAppQuery IAppQuery.Raw(string calabashQuery)
 		{
-			var match = Regex.Match(calabashQuery, @"(.*)\s(marked|text):'((.|\n)*)'");
+			var match = Regex.Match(calabashQuery, @"(\*|[\w\.]+)\s\{?(marked|text)\s*(:|\scontains)\s*'((.|\n)+)'\}?");
+
+			if(!match.Success)
+			{
+				throw new ArgumentException($"query {calabashQuery} is invalid.", nameof(calabashQuery));
+			}
 
 			var controlType = match.Groups[1].Captures[0].Value;
 			var type = match.Groups[2].Captures[0].Value;
-			var value = match.Groups[3].Captures[0].Value;
+			var operation = match.Groups[3].Captures[0].Value;
+			var value = match.Groups[4].Captures[0].Value;
 
 			if(controlType == "*")
 			{
 				switch(type)
 				{
-					case "marked":
+					case "marked" when operation == ":":
 						return ((IAppQuery)this).Marked(value);
 					case "text":
 						return ((IAppQuery)this).Text(value);

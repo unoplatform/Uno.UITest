@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using Uno.UITest.Helpers.Queries;
+using Uno.UITest.Xamarin.Extensions;
 
 namespace Uno.UITest.Helpers.Queries
 {
@@ -121,7 +123,16 @@ namespace Uno.UITest.Helpers.Queries
 
 		public QueryEx WithClass(string @class)
 		{
-			return this.Compose((IAppQuery x) => x.Class(@class));
+			var fullName = @class.Replace(".", "_");
+			if(Helpers.Platform == Platform.iOS)
+			{
+				// For iOS, we specify the fullname of the class
+				return this.Compose((IAppQuery x) => x.Class(fullName));
+			}
+
+			// Android & Wasm will required non-qualified class name
+			var name = fullName.Split('_').Last();
+			return this.Compose((IAppQuery x) => x.Class(name));
 		}
 
 		public QueryEx Marked(string mark)
@@ -156,7 +167,8 @@ namespace Uno.UITest.Helpers.Queries
 
 		public QueryEx WithPlaceholder(string placeholder)
 		{
-			return Helpers.On<QueryEx>(this.Raw(string.Format("* {{placeholder LIKE '{0}'}}", placeholder)), this.Raw(string.Format("* {{hint LIKE '{0}'}}", placeholder)));
+			return Helpers.On<QueryEx>(this.Raw($"* {{placeholder LIKE '{placeholder}'}}"), this.Raw(
+				$"* {{hint LIKE '{placeholder}'}}"));
 		}
 
 		public QueryEx WithExactText(string text)
@@ -167,7 +179,7 @@ namespace Uno.UITest.Helpers.Queries
 		public QueryEx WithText(string text)
 		{
 			string arg = text.Replace("'", "\\'");
-			return this.Descendant().Raw(string.Format("* {{text contains '{0}'}}", arg));
+			return this.Descendant().Raw($"* {{text contains '{arg}'}}");
 		}
 
 		public QueryEx AtIndex(int i)

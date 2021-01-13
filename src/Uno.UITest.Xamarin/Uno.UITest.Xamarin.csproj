@@ -5,7 +5,7 @@
 		<IsTestProject>false</IsTestProject>
 		<GeneratePackageOnBuild Condition="'$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
 	</PropertyGroup>
-	
+
 	<PropertyGroup>
 		<PackageProjectUrl>https://github.com/nventive/Uno.UITest</PackageProjectUrl>
 		<PackageIconUrl>https://nv-assets.azurewebsites.net/logos/uno.png</PackageIconUrl>
@@ -20,7 +20,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Xamarin.UITest" Version="3.0.5" />
+		<PackageReference Include="Xamarin.UITest" Version="3.0.12" />
 
 		<!-- Workaround for missing cecil binary in Xamarin.UITest -->
 		<PackageReference Include="mono.cecil" Version="0.9.6" />
