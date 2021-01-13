@@ -33,11 +33,6 @@ jobs:
   steps:
   - checkout: self
     clean: true
-
-  - task: NuGetToolInstaller@0
-    inputs:
-      versionSpec: 4.9.1
-      checkLatest: false
     
   - task: GitVersion@5
     inputs:
