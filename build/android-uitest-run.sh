@@ -1,39 +1,17 @@
 #!/usr/bin/env bash
 
-# Install AVD files
-echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install 'system-images;android-28;google_apis_playstore;x86'
-
-# Create emulator
-echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd -n xamarin_android_emulator -k 'system-images;android-28;google_apis_playstore;x86' --force
-
-echo $ANDROID_HOME/emulator/emulator -list-avds
-
-echo "Starting emulator"
-
-# Start emulator in background
-nohup $ANDROID_HOME/emulator/emulator -avd xamarin_android_emulator -no-snapshot > /dev/null 2>&1 &
-
-# build the sample, while the emulator is starting
-msbuild /r /p:Configuration=Release $BUILD_SOURCESDIRECTORY/src/Sample/Sample.UITests/Sample.UITests.csproj
-msbuild /r /p:Configuration=Release $BUILD_SOURCESDIRECTORY/src/Sample/Sample.Droid/Sample.Droid.csproj
-
-# Wait for the emulator to finish booting
-$ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
-
-$ANDROID_HOME/platform-tools/adb devices
-
-echo "Emulator started"
-
+## Adjust those variables for your project
 export UNO_UITEST_SCREENSHOT_PATH=$BUILD_ARTIFACTSTAGINGDIRECTORY/screenshots/android
-export UNO_UITEST_PLATFORM=Android
 export UNO_UITEST_ANDROIDAPK_PATH=$BUILD_SOURCESDIRECTORY/src/Sample/Sample.Droid/bin/Release/uno.platform.uitestsample.apk
+export UNO_UITEST_PROJECT=$BUILD_SOURCESDIRECTORY/src/Sample/Sample.UITests/Sample.UITests.csproj
+export UNO_UITEST_ANDROID_PROJECT=$BUILD_SOURCESDIRECTORY/src/Sample/Sample.Droid/Sample.Droid.csproj
+export UNO_UITEST_BINARY=$BUILD_SOURCESDIRECTORY/src/Sample/Sample.UITests/bin/Release/net47/Sample.UITests.dll
+export UNO_UITEST_ANDROID_API_LEVEL=28
+
+## Less commonly modified variables
+export UNO_UITEST_PLATFORM=Android
+export UNO_UITEST_NUNIT_VERSION=3.10.0
+export UNO_UITEST_NUGET_URL=https://dist.nuget.org/win-x86-commandline/v5.7.0/nuget.exe
 
 cd $BUILD_SOURCESDIRECTORY/build
-
-mono nuget.exe install NUnit.ConsoleRunner -Version 3.10.0
-
-mkdir -p $UNO_UITEST_SCREENSHOT_PATH
-
-mono $BUILD_SOURCESDIRECTORY/build/NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe \
-	$BUILD_SOURCESDIRECTORY/src/Sample/Sample.UITests/bin/Release/net47/Sample.UITests.dll \
-	> $BUILD_ARTIFACTSTAGINGDIRECTORY/screenshots/android/nunit-log.txt 2>&1 
+scripts/android-uitest.sh

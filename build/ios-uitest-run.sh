@@ -1,23 +1,18 @@
-﻿#!/bin/bash
+﻿#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
 
-echo "Lising iOS simulators"
-xcrun simctl list devices --json
-
-/Applications/Xcode.app/Contents/Developer/Applications/Simulator.app/Contents/MacOS/Simulator &
-
-cd $BUILD_SOURCESDIRECTORY
-
-msbuild /r /p:Configuration=Release $BUILD_SOURCESDIRECTORY/src/Sample/Sample.UITests/Sample.UITests.csproj
-msbuild /r /p:Configuration=Release "/p:Platform=iPhoneSimulator" $BUILD_SOURCESDIRECTORY/src/Sample/Sample.iOS/Sample.iOS.csproj
-
-cd $BUILD_SOURCESDIRECTORY/build
-
-mono nuget.exe install NUnit.ConsoleRunner -Version 3.10.0
-
-export UNO_UITEST_PLATFORM=iOS
+## Adjust those variables for your project
 export UNO_UITEST_IOSBUNDLE_PATH=$BUILD_SOURCESDIRECTORY/src/Sample/Sample.iOS/bin/iPhoneSimulator/Release/Sample.app
 export UNO_UITEST_SCREENSHOT_PATH=$BUILD_ARTIFACTSTAGINGDIRECTORY/screenshots/ios
+export UNO_UITEST_PROJECT=$BUILD_SOURCESDIRECTORY/src/Sample/Sample.UITests/Sample.UITests.csproj
+export UNO_UITEST_BINARY=$BUILD_SOURCESDIRECTORY/src/Sample/Sample.UITests/bin/Release/net47/Sample.UITests.dll
+export UNO_UITEST_IOS_PROJECT=$BUILD_SOURCESDIRECTORY/src/Sample/Sample.iOS/Sample.iOS.csproj
 
-mkdir -p $UNO_UITEST_SCREENSHOT_PATH
+## Less commonly modified variables
+export UNO_UITEST_PLATFORM=iOS
+export UNO_UITEST_NUNIT_VERSION=3.10.0
+export UNO_UITEST_NUGET_URL=https://dist.nuget.org/win-x86-commandline/v5.7.0/nuget.exe
 
-mono $BUILD_SOURCESDIRECTORY/build/NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe --inprocess --agents=1 --workers=1 $BUILD_SOURCESDIRECTORY/src/Sample/Sample.UITests/bin/Release/net47/Sample.UITests.dll > $BUILD_ARTIFACTSTAGINGDIRECTORY/screenshots/ios/nunit-log.txt 2>&1 
+cd $BUILD_SOURCESDIRECTORY/build
+scripts/ios-uitest.sh
