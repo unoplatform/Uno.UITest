@@ -33,7 +33,7 @@ For bug reports please provide a *MINIMAL REPRO PROJECT* and the *STEPS TO REPRO
 Package Version(s): 
 
 Visual Studio
-- [ ] 2017 (version: )
-- [ ] 2017 Preview (version: )
+- [ ] 2019 (version: )
+- [ ] 2019 Preview (version: )
 - [ ] for Mac (version: )
 ```
