@@ -87,6 +87,14 @@ namespace Uno.UITest.Selenium
 			if(Environment.OSVersion.Platform == PlatformID.Win32NT)
 			{
 				var chromePath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86)}\Google\Chrome\Application\chrome.exe";
+				// Chrome might be installed in C:\Program Files\Google...
+				// If file doesn't exist, check there.
+				if(!File.Exists(chromePath))
+				{
+					// Using environment variable here since EnvironMent.SpecialFolder.ProgramFiles resolves to the X86
+					// variant depending on the executable architecture. The path variable always evaluates to the correct path though.
+					chromePath = $@"{Environment.GetEnvironmentVariable("ProgramW6432")}\Google\Chrome\Application\chrome.exe";
+				}
 				chromePath = chromePath.Replace("\\", "\\\\");
 
 				var process = new Process();
