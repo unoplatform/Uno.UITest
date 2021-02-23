@@ -39,6 +39,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Tests\RadioButton_Tests_01.xaml.cs">
       <DependentUpon>RadioButton_Tests_01.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Tests\Scroll_Tests.xaml.cs">
+      <DependentUpon>Scroll_Tests.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Tests\SetPropertyValue_Tests.xaml.cs">
       <DependentUpon>SetPropertyValue_Tests.xaml</DependentUpon>
     </Compile>
@@ -75,6 +78,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Tests\RadioButton_Tests_01.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Tests\Scroll_Tests.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

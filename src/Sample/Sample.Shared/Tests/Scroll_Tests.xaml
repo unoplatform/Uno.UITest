@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="Sample.Shared.Tests.Scroll_Tests"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="using:Sample.Tests"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="300"
+             d:DesignWidth="400"
+             mc:Ignorable="d">
+
+	<Grid>
+		<ScrollViewer AutomationProperties.AutomationId="MyScrollViewer">
+			<ItemsControl 
+			              ItemsSource="{x:Bind GetData()}">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<Border Width="100"
+						        Height="100"
+						        BorderBrush="Red"
+						        BorderThickness="1">
+							<TextBlock HorizontalAlignment="Center"
+							           VerticalAlignment="Center"
+							           AutomationProperties.AutomationId="{Binding Name}"
+							           Text="{Binding Name}" />
+						</Border>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</ScrollViewer>
+	</Grid>
+</UserControl>

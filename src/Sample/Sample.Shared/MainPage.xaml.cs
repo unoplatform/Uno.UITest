@@ -36,6 +36,7 @@ namespace Sample
 			TestControls.Add(new TestControl("DoubleTapped 01", "Sample.Shared.Tests.DoubleTap_Tests_01"));
 			TestControls.Add(new TestControl("SetPropertyValue 01", "Sample.Shared.Tests.SetPropertyValue_Tests"));
 			TestControls.Add(new TestControl("Element Selection 01", "Sample.Shared.Tests.Element_Selection_Tests_01"));
+			TestControls.Add(new TestControl("Scroll 1", "Sample.Shared.Tests.Scroll_Tests"));
 		}
 		public ObservableCollection<TestControl> TestControls { get; } = new ObservableCollection<TestControl>();
 
