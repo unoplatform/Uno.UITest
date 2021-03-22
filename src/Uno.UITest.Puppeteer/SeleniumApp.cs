@@ -6,6 +6,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
+using System.Security.Policy;
 using System.Threading;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
@@ -77,10 +78,18 @@ namespace Uno.UITest.Selenium
 				driverPath = TryDownloadChromeDriver();
 			}
 
+			options.SetLoggingPreference(LogType.Browser, LogLevel.All);
+
 			_driver = new ChromeDriver(driverPath, options);
 			_driver.Url = targetUri;
 			_screenShotPath = screenShotPath;
 		}
+
+		IQueryable<ILogEntry> IApp.GetSystemLogs(DateTime? afterDate)
+			=> _driver.Manage().Logs.GetLog(LogType.Browser)
+				.AsQueryable()
+				.Where(entry => afterDate == null || entry.Timestamp > afterDate)
+				.Select(entry => new SeleniumLogEntry(entry));
 
 		private string TryDownloadChromeDriver()
 		{

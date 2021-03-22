@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -325,5 +326,10 @@ namespace Uno.UITest.Xamarin
 			=> _source.SwipeRightToLeft(marked, swipePercentage, swipeSpeed, withInertia);
 
 		public void Dispose() { }
+
+		public IQueryable<ILogEntry> GetSystemLogs(DateTime? afterDate = null)
+		{
+			return Enumerable.Empty<ILogEntry>().AsQueryable();
+		}
 	}
 }

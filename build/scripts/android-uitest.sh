@@ -6,14 +6,17 @@ IFS=$'\n\t'
 echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install "system-images;android-$UNO_UITEST_ANDROID_API_LEVEL;google_apis_playstore;x86"
 
 # Create emulator
-echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd -n xamarin_android_emulator -k "system-images;android-$UNO_UITEST_ANDROID_API_LEVEL;google_apis_playstore;x86" --force
+echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd -n xamarin_android_emulator --abi "x86" -k "system-images;android-$UNO_UITEST_ANDROID_API_LEVEL;google_apis_playstore;x86" --force
 
 echo $ANDROID_HOME/emulator/emulator -list-avds
 
 echo "Starting emulator"
 
+# Kickstart the ADB server
+$ANDROID_HOME/platform-tools/adb devices
+
 # Start emulator in background
-nohup $ANDROID_HOME/emulator/emulator -avd xamarin_android_emulator -no-snapshot > /dev/null 2>&1 &
+nohup $ANDROID_HOME/emulator/emulator -avd xamarin_android_emulator -no-snapshot -no-window -qemu > /dev/null 2>&1 &
 
 # build the sample, while the emulator is starting
 msbuild /r /p:Configuration=Release $UNO_UITEST_PROJECT

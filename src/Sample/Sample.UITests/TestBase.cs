@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using NUnit.Framework;
 using Uno.UITest;
 using Uno.UITest.Selenium;
@@ -9,6 +11,7 @@ namespace Sample.UITests
 	public class TestBase
 	{
 		private IApp _app;
+		private DateTime? _logsLastDate;
 
 		static TestBase()
 		{
@@ -42,11 +45,24 @@ namespace Sample.UITests
 		public void StartApp()
 		{
 			App = AppInitializer.AttachToApp();
+
+			_logsLastDate = App?.GetSystemLogs().LastOrDefault()?.Timestamp;
 		}
 
 		[TearDown]
 		public void CloseApp()
 		{
+			AttachSystemLog();
+		}
+
+		private void AttachSystemLog()
+		{
+			Console.WriteLine($"=== Browser Logs ===");
+
+			foreach(var log in App.GetSystemLogs(_logsLastDate))
+			{
+				Console.WriteLine($"[{log.Timestamp}][{log.Level}] {log.Message}");
+			}
 		}
 	}
 }
