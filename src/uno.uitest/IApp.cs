@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -84,5 +85,12 @@ namespace Uno.UITest
 		void WaitForNoElement(Func<IAppQuery, IAppQuery> query, string timeoutMessage = "Timed out waiting for no element...", TimeSpan? timeout = null, TimeSpan? retryFrequency = null, TimeSpan? postTimeout = null);
 		void WaitForNoElement(string marked, string timeoutMessage = "Timed out waiting for no element...", TimeSpan? timeout = null, TimeSpan? retryFrequency = null, TimeSpan? postTimeout = null);
 		void WaitForNoElement(Func<IAppQuery, IAppWebQuery> query, string timeoutMessage = "Timed out waiting for no element...", TimeSpan? timeout = null, TimeSpan? retryFrequency = null, TimeSpan? postTimeout = null);
+
+		/// <summary>
+		/// Read the system logs for the running device
+		/// </summary>
+		/// <param name="afterDate">Only returns logs after the specified date</param>
+		/// <returns>A query for the log entries</returns>
+		IQueryable<ILogEntry> GetSystemLogs(DateTime? afterDate = null);
 	}
 }
