@@ -29,10 +29,6 @@ The following target platforms are not yet supported:
 		<IsUiAutomationMappingEnabled>True</IsUiAutomationMappingEnabled>
 		<DefineConstants>$(DefineConstants);USE_UITESTS</DefineConstants>
 	</PropertyGroup>
-	<ItemGroup>
-		<!-- remove this block after Uno.UI 3.5 is released -->
-		<UnoSourceGeneratorAdditionalProperty Include="IsUiAutomationMappingEnabled" />
-	</ItemGroup>
 	```
 - In the iOS project, add a reference to the `Xamarin.TestCloud.Agent` nuget package (0.21.8 or later)
 - In the `OnLaunched` method of `App.xaml.cs`, add the following at the beginning:
@@ -46,11 +42,6 @@ The following target platforms are not yet supported:
 
 	```sh
 	dotnet new -i Uno.ProjectTemplates.Dotnet
-	```
-
-	You may need to use this line if Uno 3.5 has not yet been released:
-	```
-	dotnet new -i Uno.ProjectTemplates.Dotnet::3.5-dev*
 	```
 - Navigate to your `.sln` folder using a command line:
     - Create a folder named `YourAppName\YourAppName.UITests`
