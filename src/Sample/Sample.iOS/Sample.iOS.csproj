@@ -118,7 +118,7 @@
     <BundleResource Include="Resources\Fonts\winjs-symbols.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Uno.UI" Version="3.5.0-dev.223" />
+    <PackageReference Include="Uno.UI" Version="3.7.6" />
     <PackageReference Include="Xamarin.TestCloud.Agent">
       <Version>0.22.1</Version>
     </PackageReference>
