@@ -8,6 +8,7 @@ using NUnit.Framework;
 using Uno.UITest;
 using Uno.UITest.Helpers.Queries;
 using Uno.UITest.Xamarin.Extensions;
+using Xamarin.UITest.Configuration;
 
 namespace Uno.UITests.Helpers
 {
@@ -50,10 +51,10 @@ namespace Uno.UITests.Helpers
 		/// </summary>
 		/// <remarks>This method is generally called from the type constructor of a test assembly.</remarks>
 		/// <returns>An <see cref="IApp"/> instance representing the running application.</returns>
-		public static IApp ColdStartApp()
+		public static IApp ColdStartApp(AppDataMode mode = AppDataMode.DoNotClear)
 		{
 			var app = Xamarin.UITest.TestEnvironment.Platform == Xamarin.UITest.TestPlatform.Local
-						   ? StartApp(alreadyRunningApp: false)
+						   ? StartApp(alreadyRunningApp: false, mode)
 						   : null;
 
 			Uno.UITest.Helpers.Queries.Helpers.App = app;
@@ -65,9 +66,9 @@ namespace Uno.UITests.Helpers
 		/// Attach to an already running application.
 		/// </summary>
 		/// <returns>An <see cref="IApp"/> instance representing the running application.</returns>
-		public static IApp AttachToApp()
+		public static IApp AttachToApp(AppDataMode mode = AppDataMode.DoNotClear)
 		{
-			var app = StartApp(alreadyRunningApp: TestContext.CurrentContext.CurrentRepeatCount == 0);
+			var app = StartApp(alreadyRunningApp: TestContext.CurrentContext.CurrentRepeatCount == 0, mode);
 
 			Uno.UITest.Helpers.Queries.Helpers.App = app;
 
@@ -89,7 +90,7 @@ namespace Uno.UITests.Helpers
 			return retVal;
 		}
 
-		private static IApp StartApp(bool alreadyRunningApp)
+		private static IApp StartApp(bool alreadyRunningApp, AppDataMode mode)
 		{
 			var retries = 3;
 
@@ -104,13 +105,13 @@ namespace Uno.UITests.Helpers
 						case Xamarin.UITest.TestPlatform.TestCloudiOS:
 							return Xamarin.UITest.ConfigureApp
 								.iOS
-								.StartApp(Xamarin.UITest.Configuration.AppDataMode.Clear)
+								.StartApp(mode)
 								.ToUnoApp();
 
 						case Xamarin.UITest.TestPlatform.TestCloudAndroid:
 							return Xamarin.UITest.ConfigureApp
 								.Android
-								.StartApp(Xamarin.UITest.Configuration.AppDataMode.Clear)
+								.StartApp(mode)
 								.ToUnoApp();
 
 						default:
@@ -118,10 +119,10 @@ namespace Uno.UITests.Helpers
 							switch(GetLocalPlatform())
 							{
 								case Platform.Android:
-									return CreateAndroidApp(alreadyRunningApp);
+									return CreateAndroidApp(alreadyRunningApp, mode);
 
 								case Platform.iOS:
-									return CreateiOSApp(alreadyRunningApp);
+									return CreateiOSApp(alreadyRunningApp, mode);
 
 								case Platform.Browser:
 									if(alreadyRunningApp)
@@ -212,7 +213,7 @@ namespace Uno.UITests.Helpers
 			}
 		}
 
-		private static IApp CreateAndroidApp(bool alreadyRunningApp)
+		private static IApp CreateAndroidApp(bool alreadyRunningApp, AppDataMode mode)
 		{
 			if(string.IsNullOrEmpty(Environment.GetEnvironmentVariable("ANDROID_HOME")))
 			{
@@ -241,12 +242,12 @@ namespace Uno.UITests.Helpers
 
 			var app = alreadyRunningApp
 				? androidConfig.ConnectToApp()
-				: androidConfig.StartApp();
+				: androidConfig.StartApp(mode);
 
 			return app.ToUnoApp();
 		}
 
-		private static IApp CreateiOSApp(bool alreadyRunningApp)
+		private static IApp CreateiOSApp(bool alreadyRunningApp, AppDataMode mode)
 		{
 			var iOSConfig = Xamarin.UITest.ConfigureApp
 				.iOS
@@ -268,7 +269,7 @@ namespace Uno.UITests.Helpers
 
 			var app = alreadyRunningApp
 				? iOSConfig.ConnectToApp()
-				: iOSConfig.StartApp(Xamarin.UITest.Configuration.AppDataMode.DoNotClear);
+				: iOSConfig.StartApp(mode);
 
 			return app.ToUnoApp();
 		}
