@@ -608,8 +608,14 @@ namespace Uno.UITest.Selenium
 
 				if(elements.FirstOrDefault() is IWebElement element)
 				{
-
-					var xamlHandle = element is IWebElement we ? we.GetAttribute("xamlhandle") : "";
+					var xamlHandle = element.GetAttribute("xamlhandle");
+					// Uno changed the id from IntPtr to a string prefixed with "uno-"
+					// See https://github.com/unoplatform/uno/pull/6828
+					// We support both scenarios here.
+					if (!string.IsNullOrEmpty(xamlHandle) && element.GetAttributes("id") is string id && id.StartsWith("uno-"))
+					{
+						xamlHandle = $"\"uno-{xamlHandle}\"";
+					}
 
 					var args = string.Join(", ", invocation.Args.Select(a => $"\'{a}\'"));
 
