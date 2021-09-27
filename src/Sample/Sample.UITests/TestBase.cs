@@ -15,16 +15,7 @@ namespace Sample.UITests
 
 		static TestBase()
 		{
-			AppInitializer.TestEnvironment.AndroidAppName = Constants.AndroidAppName;
-			AppInitializer.TestEnvironment.WebAssemblyDefaultUri = Constants.WebAssemblyDefaultUri;
-			AppInitializer.TestEnvironment.iOSAppName = Constants.iOSAppName;
-			AppInitializer.TestEnvironment.AndroidAppName = Constants.AndroidAppName;
-			AppInitializer.TestEnvironment.iOSDeviceNameOrId = Constants.iOSDeviceNameOrId;
-			AppInitializer.TestEnvironment.CurrentPlatform = Constants.CurrentPlatform;
-
-#if DEBUG
-			AppInitializer.TestEnvironment.WebAssemblyHeadless = false;
-#endif
+			InitializeTestEnvrionment();
 
 			// Start the app only once, so the tests runs don't restart it
 			// and gain some time for the tests.
@@ -39,6 +30,20 @@ namespace Sample.UITests
 				_app = value;
 				Uno.UITest.Helpers.Queries.Helpers.App = value;
 			}
+		}
+
+		public static void InitializeTestEnvrionment()
+		{
+			AppInitializer.TestEnvironment.AndroidAppName = Constants.AndroidAppName;
+			AppInitializer.TestEnvironment.WebAssemblyDefaultUri = Constants.WebAssemblyDefaultUri;
+			AppInitializer.TestEnvironment.iOSAppName = Constants.iOSAppName;
+			AppInitializer.TestEnvironment.AndroidAppName = Constants.AndroidAppName;
+			AppInitializer.TestEnvironment.iOSDeviceNameOrId = Constants.iOSDeviceNameOrId;
+			AppInitializer.TestEnvironment.CurrentPlatform = Constants.CurrentPlatform;
+
+#if DEBUG
+			AppInitializer.TestEnvironment.WebAssemblyHeadless = false;
+#endif
 		}
 
 		[SetUp]
