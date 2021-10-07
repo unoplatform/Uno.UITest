@@ -50,7 +50,7 @@ The following target platforms are not yet supported:
     cd YourAppName.UITests
 	dotnet new unoapp-uitest
 	```
-    The new project will be added automatically to your solution.
+    The new project will be added automatically to your solution. If you get "No templates found matching: 'unoapp-uitest'." error, please see [dotnet new templates for Uno Platform](https://platform.uno/docs/articles/get-started-dotnet-new.html) article.
 - In the new UI Tests project, edit the `Constants.cs` file with values that match your project 
 - In your application, add the following XAML:
 
