@@ -56,9 +56,10 @@ The following target platforms are not yet supported:
 
 	```XAML
 	<StackPanel>
-		<CheckBox AutomationProperties.AutomationId="cb1" Content="Test 1"/>
+		<CheckBox AutomationProperties.AutomationId="cb1" AutomationProperties.AccessibilityView="Raw" Content="Test 1"/>
 	</StackPanel>
 	```
+   > Note that `AutomationProperties.AccessibilityView="Raw"` is only required for `ContentControl` based controls to allow for `cb1` to be selectable instead of the text `Test 1`. 
 
 - Then following test can be written:
 
