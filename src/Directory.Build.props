@@ -16,6 +16,9 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+
+    <!-- Force embedded roslyn generators -->
+    <UnoUIUseRoslynSourceGenerators>true</UnoUIUseRoslynSourceGenerators>
   </PropertyGroup>
 
   <Choose>
