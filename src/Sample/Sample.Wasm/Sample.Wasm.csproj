@@ -6,7 +6,7 @@
     <WasmHead>true</WasmHead>
     <DefineConstants>$(DefineConstants);__WASM__</DefineConstants>
     <NoWarn>NU1701</NoWarn>
-		<UnoUIUseRoslynSourceGenerators>false</UnoUIUseRoslynSourceGenerators>
+		<UnoUIUseRoslynSourceGenerators>true</UnoUIUseRoslynSourceGenerators>
 	</PropertyGroup>
 	<PropertyGroup>
 		<IsUiAutomationMappingEnabled>true</IsUiAutomationMappingEnabled>
