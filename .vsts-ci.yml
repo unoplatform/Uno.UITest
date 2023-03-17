@@ -46,11 +46,12 @@ jobs:
       configFilePath: gitversion.yml
     displayName: Use GitVersion
 
-  - task: gitversion/execute@0
+  - task: UseDotNet@2
+    displayName: 'Use .NET Core SDK 5.0.400'
+    retryCountOnTaskFailure: 3
     inputs:
-      useConfigFile: true
-      configFilePath: gitversion.yml
-    displayName: Use GitVersion
+      packageType: sdk
+      version: 5.0.400
 
   - task: MSBuild@1
     inputs:
