@@ -120,7 +120,7 @@
   <ItemGroup>
     <PackageReference Include="Uno.UI" Version="3.7.6" />
     <PackageReference Include="Xamarin.TestCloud.Agent">
-      <Version>0.22.1</Version>
+      <Version>0.23.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

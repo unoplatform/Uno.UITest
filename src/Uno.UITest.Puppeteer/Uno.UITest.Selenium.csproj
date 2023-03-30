@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net47</TargetFramework>
+		<TargetFrameworks>net47;net6.0</TargetFrameworks>
 		<IsTestProject>false</IsTestProject>
 		<GeneratePackageOnBuild Condition="'$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
 		<LangVersion>8.0</LangVersion>
 	</PropertyGroup>
-	
+
 	<PropertyGroup>
 		<PackageProjectUrl>https://github.com/nventive/Uno.UITest</PackageProjectUrl>
 		<PackageIconUrl>https://nv-assets.azurewebsites.net/logos/uno.png</PackageIconUrl>
@@ -21,7 +21,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Selenium.WebDriver" Version="4.0.0-beta2" />
+		<PackageReference Include="Selenium.WebDriver" Version="4.8.2" />
 	</ItemGroup>
 
 	<ItemGroup>

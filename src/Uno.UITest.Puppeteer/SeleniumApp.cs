@@ -6,6 +6,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Security.Policy;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,7 +23,7 @@ namespace Uno.UITest.Selenium
 		private const string UNO_UITEST_DRIVERPATH_CHROME = "UNO_UITEST_DRIVERPATH_CHROME";
 
 
-		private readonly RemoteWebDriver _driver;
+		private readonly ChromeDriver _driver;
 		private string _screenShotPath;
 		private readonly TimeSpan DefaultRetry = TimeSpan.FromMilliseconds(500);
 		private readonly TimeSpan DefaultTimeout = TimeSpan.FromMinutes(1);
@@ -131,7 +132,15 @@ namespace Uno.UITest.Selenium
 						var chromeDriverLatestVersionUri = $"https://chromedriver.storage.googleapis.com/LATEST_RELEASE_{chromeVersion.Major}";
 
 						Console.WriteLine($"Fetching Chrome driver version for Chrome [{chromeRawVersion}]");
+#if NET6_0_OR_GREATER
+						var driverVersion = Task.Run(() =>
+						{
+							using var client = new HttpClient();
+							return client.GetStringAsync(chromeDriverLatestVersionUri);
+						}).Result;
+#else
 						var driverVersion = new WebClient().DownloadString(chromeDriverLatestVersionUri);
+#endif
 
 						var chromeDriverVersionUri = $"https://chromedriver.storage.googleapis.com/{driverVersion}/chromedriver_win32.zip";
 
@@ -140,7 +149,33 @@ namespace Uno.UITest.Selenium
 						try
 						{
 							Console.WriteLine($"Downloading Chrome driver from [{chromeDriverVersionUri}]");
+#if NET6_0_OR_GREATER
+							Task.Run(async () =>
+							{
+								using var client = new HttpClient();
+								using var response = await client.GetAsync(chromeDriverVersionUri);
+								if(!response.IsSuccessStatusCode)
+								{
+									return;
+								}
+
+								var fileInfo = new FileInfo(tempZipFileName);
+								if(!fileInfo.Directory.Exists)
+								{
+									fileInfo.Directory.Create();
+								}
+								if(fileInfo.Exists)
+								{
+									fileInfo.Delete();
+								}
+
+								using var writer = fileInfo.OpenWrite();
+								using var responseStream = await response.Content.ReadAsStreamAsync();
+								await responseStream.CopyToAsync(writer);
+							}).Wait();
+#else
 							new WebClient().DownloadFile(chromeDriverVersionUri, tempZipFileName);
+#endif
 
 							using(var zipFile = ZipFile.OpenRead(tempZipFileName))
 							{
@@ -267,7 +302,7 @@ namespace Uno.UITest.Selenium
 		void IApp.DoubleTapCoordinates(float x, float y)
 		{
 			PerformActions(a => a
-				.MoveToElement(_driver.FindElementByTagName("body"), 0, 0)
+				.MoveToElement(_driver.FindElement(By.TagName("body")), 0, 0)
 				.MoveByOffset((int)x, (int)y)
 				.DoubleClick());
 		}
@@ -279,7 +314,7 @@ namespace Uno.UITest.Selenium
 		void IApp.DragCoordinates(float fromX, float fromY, float toX, float toY)
 		{
 			PerformActions(a => a
-				.MoveToElement(_driver.FindElementByTagName("body"), 0, 0)
+				.MoveToElement(_driver.FindElement(By.TagName("body")), 0, 0)
 				.MoveByOffset((int)fromX, (int)fromY)
 				.ClickAndHold()
 			);
@@ -455,8 +490,9 @@ namespace Uno.UITest.Selenium
 
 		void IApp.TapCoordinates(float x, float y)
 		{
+			
 			PerformActions(a => a
-				.MoveToElement(_driver.FindElementByTagName("body"), 0, 0)
+				.MoveToElement(_driver.FindElement(By.TagName("body")), 0, 0)
 				.MoveByOffset((int)x, (int)y)
 				.Click());
 		}
