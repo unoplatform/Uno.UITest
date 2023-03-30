@@ -7,7 +7,7 @@ export UNO_UITEST_SCREENSHOT_PATH=$BUILD_ARTIFACTSTAGINGDIRECTORY/screenshots/wa
 export UNO_UITEST_PROJECT=$BUILD_SOURCESDIRECTORY/src/Sample/Sample.UITests/Sample.UITests.csproj
 export UNO_UITEST_BINARY=$BUILD_SOURCESDIRECTORY/src/Sample/Sample.UITests/bin/Release/net47/Sample.UITests.dll
 export UNO_UITEST_WASM_PROJECT=$BUILD_SOURCESDIRECTORY/src/Sample/Sample.Wasm/Sample.Wasm.csproj
-export UNO_UITEST_WASM_OUTPUT_PATH=$BUILD_SOURCESDIRECTORY/src/Sample/Sample.Wasm/bin/Release/net5.0/dist/
+export UNO_UITEST_WASM_OUTPUT_PATH=$BUILD_SOURCESDIRECTORY/src/Sample/Sample.Wasm/bin/Release/net6.0/dist/
 
 ## Less commonly modified variables
 export UNO_UITEST_TARGETURI=http://localhost:5000
