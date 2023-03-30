@@ -6,12 +6,12 @@
     <WasmHead>true</WasmHead>
     <DefineConstants>$(DefineConstants);__WASM__</DefineConstants>
     <NoWarn>NU1701</NoWarn>
-		<UnoUIUseRoslynSourceGenerators>true</UnoUIUseRoslynSourceGenerators>
-	</PropertyGroup>
-	<PropertyGroup>
-		<IsUiAutomationMappingEnabled>true</IsUiAutomationMappingEnabled>
-	</PropertyGroup>
-	<ItemGroup>
+    <UnoUIUseRoslynSourceGenerators>true</UnoUIUseRoslynSourceGenerators>
+  </PropertyGroup>
+  <PropertyGroup>
+    <IsUiAutomationMappingEnabled>true</IsUiAutomationMappingEnabled>
+  </PropertyGroup>
+  <ItemGroup>
     <Content Include="..\Sample.UWP\Assets\*.png" Link="Assets\%(FileName)%(Extension)" />
     <Content Include="Fonts\winjs-symbols.woff2" />
   </ItemGroup>
@@ -23,10 +23,10 @@
     <LinkerDescriptor Include="LinkerConfig.xml" />
   </ItemGroup>
   <ItemGroup>
-    <!-- 
+    <!--
     This item group is required by the project templace because of the
     new SDK-Style project, otherwise some files are not aded automatically.
-    
+
     You can safely remove this ItemGroup completely.
     -->
     <Compile Remove="Program.cs" />
@@ -35,9 +35,9 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Uno.UI.WebAssembly" Version="3.7.6" />
-    <PackageReference Include="Uno.Wasm.Bootstrap" Version="2.1.0" />
-		<PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="2.1.0" />
-		<PackageReference Include="Microsoft.Windows.Compatibility" Version="5.0.1" />
-	</ItemGroup>
+    <PackageReference Include="Uno.Wasm.Bootstrap" Version="7.0.20" />
+    <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="7.0.20" />
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="5.0.1" />
+  </ItemGroup>
   <Import Project="..\Sample.Shared\Sample.Shared.projitems" Label="Shared" Condition="Exists('..\Sample.Shared\Sample.Shared.projitems')" />
 </Project>
