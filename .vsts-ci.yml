@@ -138,6 +138,7 @@ jobs:
       testRunTitle: 'WebAssembly Test Run'
       testResultsFormat: 'NUnit'
       testResultsFiles: '$(build.sourcesdirectory)/build/TestResult.xml'
+      failTaskOnFailedTests: true
       searchFolder: '$(System.DefaultWorkingDirectory)' # https://github.com/microsoft/azure-pipelines-tasks/issues/10072
 
   - task: PublishBuildArtifacts@1

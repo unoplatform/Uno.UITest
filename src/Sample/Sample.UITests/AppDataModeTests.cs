@@ -15,6 +15,11 @@ namespace Sample.UITests
 		{
 			TestBase.InitializeTestEnvrionment();
 
+			if(AppInitializer.GetLocalPlatform() == Platform.Browser)
+			{
+				Assert.Ignore("Not supported in browser");
+			}
+
 			var app = OpenSample(AppDataMode.Clear);
 			Assert.AreEqual("<INITIAL_VALUE>", app.Marked("LocalSettingValueTextBlock").GetDependencyPropertyValue<string>("Text"));
 			app.Marked("SetLocalSettingButton").Tap();

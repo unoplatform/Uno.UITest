@@ -133,10 +133,10 @@ namespace Uno.UITest.Selenium
 
 						Console.WriteLine($"Fetching Chrome driver version for Chrome [{chromeRawVersion}]");
 #if NET6_0_OR_GREATER
-						var driverVersion = Task.Run(() =>
+						var driverVersion = Task.Run(async () =>
 						{
 							using var client = new HttpClient();
-							return client.GetStringAsync(chromeDriverLatestVersionUri);
+							return await client.GetStringAsync(chromeDriverLatestVersionUri);
 						}).Result;
 #else
 						var driverVersion = new WebClient().DownloadString(chromeDriverLatestVersionUri);
