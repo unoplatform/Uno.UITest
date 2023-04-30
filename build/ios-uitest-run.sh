@@ -19,16 +19,16 @@ xcrun simctl boot "$UITEST_IOSDEVICE_ID" || true
 echo "Shutdown simulator: $UITEST_IOSDEVICE_ID ($UNO_UITEST_SIMULATOR_VERSION / $UNO_UITEST_SIMULATOR_NAME)"
 xcrun simctl shutdown "$UITEST_IOSDEVICE_ID" || true
 
-echo "searching for plist"
-find ~ -name com.apple.iphonesimulator.plist
-
 echo "Disable keyboard connection to the simulator"
 # Xamarin.UITest needs this for keyboard interactions
 
 #overwrite the existing value with false
 #OR if the plist doesn't have that value add it in
 /usr/libexec/PlistBuddy -c "Set :DevicePreferences:$UITEST_IOSDEVICE_ID:ConnectHardwareKeyboard 
-false" ~/Library/Preferences/com.apple.iphonesimulator.plist 
-|| 
+false" ~/Library/Preferences/com.apple.iphonesimulator.plist
+||
 /usr/libexec/PlistBuddy -c  "Add :DevicePreferences:$UITEST_IOSDEVICE_ID:ConnectHardwareKeyboard
 bool false" ~/Library/Preferences/com.apple.iphonesimulator.plist
+
+echo "searching for plist"
+find ~ -name com.apple.iphonesimulator.plist
