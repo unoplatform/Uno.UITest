@@ -20,7 +20,7 @@ echo "Shutdown simulator: $UITEST_IOSDEVICE_ID ($UNO_UITEST_SIMULATOR_VERSION / 
 xcrun simctl shutdown "$UITEST_IOSDEVICE_ID" || true
 
 echo "searching for plist"
-find / -name com.apple.iphonesimulator.plist
+find ~ -name com.apple.iphonesimulator.plist
 
 echo "Disable keyboard connection to the simulator"
 # Xamarin.UITest needs this for keyboard interactions
