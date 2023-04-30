@@ -27,7 +27,7 @@ jobs:
   variables:
     CI_Build: true
     SourceLinkEnabled: false
-    XCODE_ROOT: /Applications/Xcode_13.4.1.app
+    XCODE_ROOT: /Applications/Xcode_14.2.app
 
   pool:
     vmImage: 'macOS-12'
