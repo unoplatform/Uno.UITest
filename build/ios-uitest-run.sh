@@ -16,11 +16,11 @@ export UITEST_IOSDEVICE_ID=`xcrun simctl list -j | jq -r --arg sim "$UNO_UITEST_
 echo "Starting simulator: $UITEST_IOSDEVICE_ID ($UNO_UITEST_SIMULATOR_VERSION / $UNO_UITEST_SIMULATOR_NAME)"
 xcrun simctl boot "$UITEST_IOSDEVICE_ID" || true
 
-echo "Install app on simulator: $UITEST_IOSDEVICE_ID"
-xcrun simctl install "$UITEST_IOSDEVICE_ID" "$UNO_UITEST_IOSBUNDLE_PATH" || true
-
 echo "Shutdown simulator: $UITEST_IOSDEVICE_ID ($UNO_UITEST_SIMULATOR_VERSION / $UNO_UITEST_SIMULATOR_NAME)"
 xcrun simctl shutdown "$UITEST_IOSDEVICE_ID" || true
+
+echo "searching for plist"
+find / -name com.apple.iphonesimulator.plist
 
 echo "Disable keyboard connection to the simulator"
 # Xamarin.UITest needs this for keyboard interactions
