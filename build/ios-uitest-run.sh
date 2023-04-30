@@ -26,9 +26,6 @@ echo "Disable keyboard connection to the simulator"
 #OR if the plist doesn't have that value add it in
 /usr/libexec/PlistBuddy -c "Set :DevicePreferences:$UITEST_IOSDEVICE_ID:ConnectHardwareKeyboard 
 false" ~/Library/Preferences/com.apple.iphonesimulator.plist
-||
-/usr/libexec/PlistBuddy -c  "Add :DevicePreferences:$UITEST_IOSDEVICE_ID:ConnectHardwareKeyboard
-bool false" ~/Library/Preferences/com.apple.iphonesimulator.plist
 
 echo "searching for plist"
 find ~ -name com.apple.iphonesimulator.plist
