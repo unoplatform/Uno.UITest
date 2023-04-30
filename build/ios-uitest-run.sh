@@ -2,17 +2,27 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-## Adjust those variables for your project
-export UNO_UITEST_IOSBUNDLE_PATH=$BUILD_SOURCESDIRECTORY/src/Sample/Sample.iOS/bin/iPhoneSimulator/Release/Sample.app
-export UNO_UITEST_SCREENSHOT_PATH=$BUILD_ARTIFACTSTAGINGDIRECTORY/screenshots/ios
-export UNO_UITEST_PROJECT=$BUILD_SOURCESDIRECTORY/src/Sample/Sample.UITests/Sample.UITests.csproj
-export UNO_UITEST_BINARY=$BUILD_SOURCESDIRECTORY/src/Sample/Sample.UITests/bin/Release/net47/Sample.UITests.dll
-export UNO_UITEST_IOS_PROJECT=$BUILD_SOURCESDIRECTORY/src/Sample/Sample.iOS/Sample.iOS.csproj
+echo "Listing iOS simulators"
+xcrun simctl list devices --json
 
-## Less commonly modified variables
-export UNO_UITEST_PLATFORM=iOS
-export UNO_UITEST_NUNIT_VERSION=3.10.0
-export UNO_UITEST_NUGET_URL=https://dist.nuget.org/win-x86-commandline/v5.7.0/nuget.exe
+export UNO_UITEST_SIMULATOR_VERSION="com.apple.CoreSimulator.SimRuntime.iOS-16-2"
+export UNO_UITEST_SIMULATOR_NAME="iPad Pro (12.9-inch) (5th generation)"
 
-cd $BUILD_SOURCESDIRECTORY/build
-scripts/ios-uitest.sh
+##
+## Pre-install the application to avoid https://github.com/microsoft/appcenter/issues/2389
+##
+export UITEST_IOSDEVICE_ID=`xcrun simctl list -j | jq -r --arg sim "$UNO_UITEST_SIMULATOR_VERSION" --arg name "$UNO_UITEST_SIMULATOR_NAME" '.devices[$sim] | .[] | select(.name==$name) | .udid'`
+
+echo "Starting simulator: $UITEST_IOSDEVICE_ID ($UNO_UITEST_SIMULATOR_VERSION / $UNO_UITEST_SIMULATOR_NAME)"
+xcrun simctl boot "$UITEST_IOSDEVICE_ID" || true
+
+echo "Install app on simulator: $UITEST_IOSDEVICE_ID"
+xcrun simctl install "$UITEST_IOSDEVICE_ID" "$UNO_UITEST_IOSBUNDLE_PATH" || true
+
+echo "Shutdown simulator: $UITEST_IOSDEVICE_ID ($UNO_UITEST_SIMULATOR_VERSION / $UNO_UITEST_SIMULATOR_NAME)"
+xcrun simctl shutdown "$UITEST_IOSDEVICE_ID" || true
+
+echo "Disable keyboard connection to the simulator"
+# Xamarin.UITest needs this for keyboard interactions
+plutil -replace DevicePreferences.$UITEST_IOSDEVICE_ID.ConnectHardwareKeyboard -bool NO ~/Library/Preferences/com.apple.iphonesimulator.plist
+
