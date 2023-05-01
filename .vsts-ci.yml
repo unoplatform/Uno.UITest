@@ -158,10 +158,11 @@ jobs:
       MacOS_12_Xamarin_6_12_17:
          XamarinVersion: 6_12_17
          VM_Image: 'macOS-12'
-      
-      MacOS_13_Xamarin_6_12_17:
-         XamarinVersion: 6_12_17
-         VM_Image: 'macOS-13'
+
+      # Xamarin is not yet available on macos-13 agents
+      # MacOS_13_Xamarin_6_12_17:
+      #    XamarinVersion: 6_12_17
+      #    VM_Image: 'macOS-13'
 
   pool:
     vmImage: $(VM_Image)
@@ -208,11 +209,13 @@ jobs:
           XamarinVersion: 6_12_17
           XCODE_ROOT: /Applications/Xcode_13.4.1.app
           VM_Image: 'macOS-12'
+          UITEST_IOSDEVICE_ID: 'iPad Pro (12.9-inch) (5th generation)'
 
       MacOS_12_X_6_12_24_XC_14_2:
           XamarinVersion: 6_12_24
           XCODE_ROOT: /Applications/Xcode_14.2.app
           VM_Image: 'macOS-12'
+          UITEST_IOSDEVICE_ID: 'iPad Pro (12.9-inch) (6th generation)'
 
   pool:
     vmImage: $(VM_Image)
@@ -242,6 +245,7 @@ jobs:
     inputs:
       testRunTitle: 'iOS Test Run'
       testResultsFormat: 'NUnit'
+      failTaskOnFailedTests: true
       testResultsFiles: '$(build.sourcesdirectory)/build/TestResult.xml'
 
   - task: PublishBuildArtifacts@1
