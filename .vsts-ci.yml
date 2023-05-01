@@ -153,14 +153,23 @@ jobs:
     CI_Build: true
     SourceLinkEnabled: false
 
+  matrix:
+      MacOS_12_Xamarin_6_12_17:
+         XamarinVersion: 6_12_17
+         VM_Image: 'macOS-12'
+
+      MacOS_13_Xamarin_6_12_17:
+         XamarinVersion: 6_12_17
+         VM_Image: 'macOS-13'
+
   pool:
-    vmImage: 'macOS-12'
+    vmImage: $(VM_Image)
 
   steps:
   - checkout: self
     clean: true
 
-  - bash: /bin/bash -c "sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh 6_12_18"
+  - bash: /bin/bash -c "sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(XamarinVersion)"
     displayName: Select Xamarin Version
 
   - bash: |
@@ -191,16 +200,26 @@ jobs:
   variables:
     CI_Build: true
     SourceLinkEnabled: false
-    XCODE_ROOT: /Applications/Xcode_13.4.1.app
+
+  matrix:
+    MacOS_12_X6_12_17_XC_13_4_1:
+        XamarinVersion: 6_12_17
+        XCODE_ROOT: /Applications/Xcode_13.4.1.app
+        VM_Image: 'macOS-12'
+
+    MacOS_12_X_6_12_24_XC_14_2:
+        XamarinVersion: 6_12_24
+        XCODE_ROOT: /Applications/Xcode_14.2.app
+        VM_Image: 'macOS-12'
 
   pool:
-    vmImage: 'macOS-12'
+    vmImage: $(VM_Image)
 
   steps:
   - checkout: self
     clean: true
 
-  - bash: /bin/bash -c "sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh 6_12_18"
+  - bash: /bin/bash -c "sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(XamarinVersion)"
     displayName: Select Xamarin Version
 
   - bash: /bin/bash -c "echo '##vso[task.setvariable variable=MD_APPLE_SDK_ROOT;]'${XCODE_ROOT};sudo xcode-select --switch ${XCODE_ROOT}/Contents/Developer"
