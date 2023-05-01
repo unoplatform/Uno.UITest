@@ -153,11 +153,12 @@ jobs:
     CI_Build: true
     SourceLinkEnabled: false
 
-  matrix:
+  strategy:
+    matrix:
       MacOS_12_Xamarin_6_12_17:
          XamarinVersion: 6_12_17
          VM_Image: 'macOS-12'
-
+      
       MacOS_13_Xamarin_6_12_17:
          XamarinVersion: 6_12_17
          VM_Image: 'macOS-13'
@@ -201,16 +202,17 @@ jobs:
     CI_Build: true
     SourceLinkEnabled: false
 
-  matrix:
-    MacOS_12_X6_12_17_XC_13_4_1:
-        XamarinVersion: 6_12_17
-        XCODE_ROOT: /Applications/Xcode_13.4.1.app
-        VM_Image: 'macOS-12'
+  strategy:
+    matrix:
+      MacOS_12_X6_12_17_XC_13_4_1:
+          XamarinVersion: 6_12_17
+          XCODE_ROOT: /Applications/Xcode_13.4.1.app
+          VM_Image: 'macOS-12'
 
-    MacOS_12_X_6_12_24_XC_14_2:
-        XamarinVersion: 6_12_24
-        XCODE_ROOT: /Applications/Xcode_14.2.app
-        VM_Image: 'macOS-12'
+      MacOS_12_X_6_12_24_XC_14_2:
+          XamarinVersion: 6_12_24
+          XCODE_ROOT: /Applications/Xcode_14.2.app
+          VM_Image: 'macOS-12'
 
   pool:
     vmImage: $(VM_Image)
