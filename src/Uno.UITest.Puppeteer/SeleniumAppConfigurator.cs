@@ -112,7 +112,7 @@ namespace Uno.UITest.Selenium
 			var browserPath = GetEnvironmentVariable("UNO_UITEST_BROWSER_PATH", InternalBrowserPath);
 			var driverPath = GetEnvironmentVariable(UNO_UITEST_DRIVER_PATH, InternalDriverPath);
 
-			RemoteWebDriver driver;
+			ChromiumDriver driver;
 			switch(browser?.ToUpperInvariant())
 			{
 				case "EDGE":
@@ -139,7 +139,7 @@ namespace Uno.UITest.Selenium
 			return new SeleniumApp(driver, screenShotPath);
 		}
 		
-		protected RemoteWebDriver GetChromeDriver(string browserPath = null, string driverPath = null)
+		protected ChromiumDriver GetChromeDriver(string browserPath = null, string driverPath = null)
 		{
 			// For backward compatibility, we give priority to the "CHROME" specific env. variables
 			driverPath = GetEnvironmentVariable("UNO_UITEST_DRIVERPATH_CHROME", driverPath);
@@ -155,7 +155,7 @@ namespace Uno.UITest.Selenium
 			return driver;
 		}
 
-		protected RemoteWebDriver GetEdgeDriver(string browserPath = null, string driverPath = null)
+		protected ChromiumDriver GetEdgeDriver(string browserPath = null, string driverPath = null)
 		{
 			var options = new EdgeOptions();
 			ApplyOptions(options, browserPath);
