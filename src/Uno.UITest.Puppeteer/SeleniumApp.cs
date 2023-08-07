@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Chromium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Remote;
 using static System.Math;
@@ -16,16 +17,22 @@ namespace Uno.UITest.Selenium
 {
 	public partial class SeleniumApp : IApp
 	{
-		private readonly RemoteWebDriver _driver;
+		private readonly ChromiumDriver _driver;
 		private readonly string _screenShotPath;
 		private readonly TimeSpan DefaultRetry = TimeSpan.FromMilliseconds(500);
 		private readonly TimeSpan DefaultTimeout = TimeSpan.FromMinutes(1);
 
-		public SeleniumApp(RemoteWebDriver driver, string screenShotPath)
+		public SeleniumApp(ChromiumDriver driver, string screenShotPath)
 		{
 			_driver = driver;
 			_screenShotPath = screenShotPath;
 		}
+
+		IQueryable<ILogEntry> IApp.GetSystemLogs(DateTime? afterDate)
+			=> _driver.Manage().Logs.GetLog(LogType.Browser)
+				.AsQueryable()
+				.Where(entry => afterDate == null || entry.Timestamp > afterDate)
+				.Select(entry => new SeleniumLogEntry(entry));
 
 		public static SeleniumDriverManager SelectedBrowser { get; set; }
 
@@ -99,7 +106,7 @@ namespace Uno.UITest.Selenium
 		void IApp.DoubleTapCoordinates(float x, float y)
 		{
 			PerformActions(a => a
-				.MoveToElement(_driver.FindElementByTagName("body"), 0, 0)
+				.MoveToElement(_driver.FindElement(By.TagName("body")), 0, 0)
 				.MoveByOffset((int)x, (int)y)
 				.DoubleClick());
 		}
@@ -111,7 +118,7 @@ namespace Uno.UITest.Selenium
 		void IApp.DragCoordinates(float fromX, float fromY, float toX, float toY)
 		{
 			PerformActions(a => a
-				.MoveToElement(_driver.FindElementByTagName("body"), 0, 0)
+				.MoveToElement(_driver.FindElement(By.TagName("body")), 0, 0)
 				.MoveByOffset((int)fromX, (int)fromY)
 				.ClickAndHold()
 			);
@@ -288,7 +295,7 @@ namespace Uno.UITest.Selenium
 		void IApp.TapCoordinates(float x, float y)
 		{
 			PerformActions(a => a
-				.MoveToElement(_driver.FindElementByTagName("body"), 0, 0)
+				.MoveToElement(_driver.FindElement(By.TagName("body")), 0, 0)
 				.MoveByOffset((int)x, (int)y)
 				.Click());
 		}

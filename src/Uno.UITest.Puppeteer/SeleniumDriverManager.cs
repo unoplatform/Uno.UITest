@@ -39,12 +39,11 @@ namespace Uno.UITest.Selenium
 			{
 				edgePath = edgePath ?? $@"{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86)}\Microsoft\Edge Dev\Application\msedge.exe";
 				options.BinaryLocation = edgePath;
-				options.UseChromium = true;
 
 				var manager = new SeleniumDriverManager("msedgedriver");
 				var driverPath = manager.GetOrDownloadLatestDriverForBin(edgePath, null, /*GetDriverLatestVersion, */GetDriverUri);
 
-				var svc = EdgeDriverService.CreateDefaultServiceFromOptions(driverPath.FullName, "msedgedriver.exe", options);
+				var svc = EdgeDriverService.CreateDefaultService(edgePath);//.CreateDefaultServiceFromOptions(driverPath.FullName, "msedgedriver.exe", options);
 				svc.EnableVerboseLogging = true;
 
 				var driver = new EdgeDriver(svc, options);
