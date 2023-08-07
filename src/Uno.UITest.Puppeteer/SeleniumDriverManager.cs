@@ -4,6 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
+using System.Text.Json;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
 
@@ -18,16 +19,54 @@ namespace Uno.UITest.Selenium
 			public static ChromeDriver FromChromePath(string chromePath, ChromeOptions options)
 				=> new ChromeDriver(
 					new SeleniumDriverManager("chromedriver").GetOrDownloadLatestDriverForBin(
-						chromePath ?? $@"{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86)}\Google\Chrome\Application\chrome.exe",
+						ChromeFilePath(),
 						GetDriverLatestVersion,
 						GetDriverUri).FullName,
 					options);
 
+			private static string ChromeFilePath()
+			{
+				var chromePath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86)}\Google\Chrome\Application\chrome.exe";
+				// Chrome might be installed in C:\Program Files\Google...
+				// If file doesn't exist, check there.
+				if(!File.Exists(chromePath))
+				{
+					// Using environment variable here since EnvironMent.SpecialFolder.ProgramFiles resolves to the X86
+					// variant depending on the executable architecture. The path variable always evaluates to the correct path though.
+					chromePath = $@"{Environment.GetEnvironmentVariable("ProgramW6432")}\Google\Chrome\Application\chrome.exe";
+				}
+				return chromePath;
+			}
+
 			public static ChromeDriver FromDriverPath(string driverPath, ChromeOptions options)
 				=> new ChromeDriver(driverPath, options);
 
-			private static Uri GetDriverLatestVersion(Version browserVersion) => new Uri($"https://chromedriver.storage.googleapis.com/LATEST_RELEASE_{browserVersion.Major}");
-			private static Uri GetDriverUri(string driverVersion) => new Uri($"https://chromedriver.storage.googleapis.com/{driverVersion}/chromedriver_win32.zip");
+			private static Uri GetDriverLatestVersion(Version browserVersion) =>
+				browserVersion.Major <= 114 ?
+					new Uri($"https://chromedriver.storage.googleapis.com/LATEST_RELEASE_{browserVersion.Major}") :
+					new Uri("https://googlechromelabs.github.io/chrome-for-testing/known-good-versions-with-downloads.json");
+
+			private static Uri GetDriverUri(Version browserVersion, string driverVersion)
+			{
+				if(browserVersion.Major <= 114)
+				{
+					return new Uri($"https://chromedriver.storage.googleapis.com/{driverVersion}/chromedriver_win32.zip");
+				}
+				else
+				{
+					var driverInfo = JsonSerializer.Deserialize<Models.Root>(driverVersion);
+					return new Uri((from v in driverInfo.Versions
+									let ver = Version.TryParse(v.Version, out var parsedVersion) ? parsedVersion : default
+									where ver.Major == browserVersion.Major &&
+									ver.Minor == browserVersion.Minor &&
+									(v.Downloads?.Chromedriver?.Any() ?? false)
+									orderby ver descending
+									from platform in v.Downloads.Chromedriver
+									where platform.Platform == "win32"
+									select platform.Url).First());
+				}
+			}
+
 		}
 
 		public static class Edge
@@ -37,13 +76,22 @@ namespace Uno.UITest.Selenium
 
 			public static EdgeDriver FromEdgePath(string edgePath, EdgeOptions options)
 			{
-				edgePath = edgePath ?? $@"{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86)}\Microsoft\Edge Dev\Application\msedge.exe";
+				edgePath = edgePath ?? $@"{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86)}\Microsoft\Edge\Application\msedge.exe";
+				// Edge might be installed in C:\Program Files\Edge...
+				// If file doesn't exist, check there.
+				if(!File.Exists(edgePath))
+				{
+					// Using environment variable here since EnvironMent.SpecialFolder.ProgramFiles resolves to the X86
+					// variant depending on the executable architecture. The path variable always evaluates to the correct path though.
+					edgePath = $@"{Environment.GetEnvironmentVariable("ProgramW6432")}\Microsoft\Edge\Application\msedge.exe";
+				}
+
 				options.BinaryLocation = edgePath;
 
 				var manager = new SeleniumDriverManager("msedgedriver");
 				var driverPath = manager.GetOrDownloadLatestDriverForBin(edgePath, null, /*GetDriverLatestVersion, */GetDriverUri);
 
-				var svc = EdgeDriverService.CreateDefaultService(edgePath);//.CreateDefaultServiceFromOptions(driverPath.FullName, "msedgedriver.exe", options);
+				var svc = EdgeDriverService.CreateDefaultService(driverPath.FullName);//.CreateDefaultServiceFromOptions(driverPath.FullName, "msedgedriver.exe", options);
 				svc.EnableVerboseLogging = true;
 
 				var driver = new EdgeDriver(svc, options);
@@ -55,7 +103,7 @@ namespace Uno.UITest.Selenium
 				=> new EdgeDriver(driverPath, options);
 
 			private static Uri GetDriverLatestVersion(Version browserVersion) => new Uri($"https://msedgedriver.azureedge.net/LATEST_RELEASE_{browserVersion.Major}");
-			private static Uri GetDriverUri(string driverVersion) => new Uri($"https://msedgedriver.azureedge.net/{driverVersion}/edgedriver_win32.zip");
+			private static Uri GetDriverUri(Version browserVersion, string driverVersion) => new Uri($"https://msedgedriver.azureedge.net/{driverVersion}/edgedriver_win32.zip");
 		}
 
 		private SeleniumDriverManager(string driverName)
@@ -119,20 +167,28 @@ namespace Uno.UITest.Selenium
 
 				using(var zipFile = ZipFile.OpenRead(tempZipFileName))
 				{
-					zipFile.GetEntry($"{DriverName}.exe").ExtractToFile(driverInstallPath.FullName, true);
+					zipFile.Entries
+						.FirstOrDefault(x => x.Name.EndsWith($"{DriverName}.exe"))?
+						.ExtractToFile(driverInstallPath.FullName, true);
 				}
 			}
 			finally
 			{
-				if(File.Exists(tempZipFileName))
+				try
 				{
-					File.Delete(tempZipFileName);
+					if(File.Exists(tempZipFileName))
+					{
+						File.Delete(tempZipFileName);
+					}
+				}
+				catch
+				{ // Make sure if the file is locked process doesn't crash
 				}
 			}
 		}
 
 		protected delegate Uri GetDriverLatestVersion(Version browserVersion);
-		protected delegate Uri GetDriverUri(string driverVersion);
+		protected delegate Uri GetDriverUri(Version browserVersion, string driverVersion);
 
 		protected DirectoryInfo GetOrDownloadLatestDriverForBin(
 			string binPath,
@@ -159,7 +215,7 @@ namespace Uno.UITest.Selenium
 						driverVersion = new WebClient().DownloadString(driverLatestVersion).Trim();
 					}
 
-					var driverUri = getDriverUri(driverVersion);
+					var driverUri = getDriverUri(version, driverVersion);
 
 					Download(driverUri, driverFile);
 				}

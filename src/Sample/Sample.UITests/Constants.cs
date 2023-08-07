@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Uno.UITest.Helpers.Queries;
+using Uno.UITests.Helpers;
 
 namespace Sample.UITests
 {
@@ -15,5 +16,7 @@ namespace Sample.UITests
 		public readonly static string iOSDeviceNameOrId = "iPad Pro (12.9-inch) (5th generation)";
 
 		public readonly static Platform CurrentPlatform = Platform.Browser;
+
+		public readonly static Browser WebAssemblyBrowser = Browser.Edge;
 	}
 }
