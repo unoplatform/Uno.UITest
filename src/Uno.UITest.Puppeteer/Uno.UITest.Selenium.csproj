@@ -4,7 +4,7 @@
 		<TargetFrameworks>net47;net6.0</TargetFrameworks>
 		<IsTestProject>false</IsTestProject>
 		<GeneratePackageOnBuild Condition="'$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
-		<LangVersion>8.0</LangVersion>
+		<LangVersion>11.0</LangVersion>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -22,6 +22,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Selenium.WebDriver" Version="4.2.0" />
+		<PackageReference Include="System.Text.Json" Version="7.0.3" />
 	</ItemGroup>
 
 	<ItemGroup>
