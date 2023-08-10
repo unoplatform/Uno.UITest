@@ -17,6 +17,6 @@ namespace Sample.UITests
 
 		public readonly static Platform CurrentPlatform = Platform.Browser;
 
-		public readonly static Browser WebAssemblyBrowser = Browser.Edge;
+		public readonly static Browser WebAssemblyBrowser = Browser.Chrome;
 	}
 }
