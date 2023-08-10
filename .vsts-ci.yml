@@ -47,17 +47,11 @@ jobs:
     displayName: Use GitVersion
 
   - task: UseDotNet@2
-    displayName: 'Use .NET Core SDK 5.0.101'
-    inputs:
-      packageType: sdk
-      version: 5.0.101
-
-  - task: UseDotNet@2
-    displayName: 'Use .NET Core SDK 6.0.401'
+    displayName: 'Use .NET SDK'
     retryCountOnTaskFailure: 3
     inputs:
       packageType: sdk
-      version: 6.0.401
+      version: 7.0.302
 
   - task: MSBuild@1
     inputs:
@@ -110,16 +104,11 @@ jobs:
     clean: true
 
   - task: UseDotNet@2
-    displayName: 'Use .NET Core SDK 5.0.101'
+    displayName: 'Use .NET SDK'
+    retryCountOnTaskFailure: 3
     inputs:
       packageType: sdk
-      version: 5.0.101
-
-  - task: UseDotNet@2
-    displayName: 'Use .NET Core SDK 6.0.401'
-    inputs:
-      packageType: sdk
-      version: 6.0.401
+      version: 7.0.302
 
   - bash: |
       chmod +x build/wasm-uitest-run.sh
