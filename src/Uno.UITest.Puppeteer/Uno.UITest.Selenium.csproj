@@ -4,6 +4,7 @@
 		<TargetFrameworks>net47;net6.0</TargetFrameworks>
 		<IsTestProject>false</IsTestProject>
 		<GeneratePackageOnBuild Condition="'$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
+		<LangVersion>8.0</LangVersion>
 	</PropertyGroup>
 
 	<PropertyGroup>

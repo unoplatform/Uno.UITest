@@ -19,7 +19,7 @@
 
     <!-- Force embedded roslyn generators -->
     <UnoUIUseRoslynSourceGenerators>true</UnoUIUseRoslynSourceGenerators>
-	  <LangVersion>10.0</LangVersion>
+	  <!--<LangVersion>10.0</LangVersion>-->
   </PropertyGroup>
 
   <Choose>
