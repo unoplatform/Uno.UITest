@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Uno.UITest.Helpers.Queries;
 using Uno.UITests.Helpers;
 using Query = System.Func<Uno.UITest.IAppQuery, Uno.UITest.IAppQuery>;
@@ -64,7 +65,7 @@ namespace Sample.UITests
 
 			var movedCount = int.Parse(movedCountText);
 
-			Assert.Greater(movedCount, 1);
+			ClassicAssert.Greater(movedCount, 1);
 		}
 	}
 }
