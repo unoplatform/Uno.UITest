@@ -8,13 +8,11 @@ xcrun simctl list devices --json
 /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app/Contents/MacOS/Simulator &
 
 msbuild /r /p:Configuration=Release $UNO_UITEST_PROJECT
-msbuild /r /p:Configuration=Release /p:Platform=iPhoneSimulator /p:IsUiAutomationMappingEnabled=True $UNO_UITEST_IOS_PROJECT 
-
-wget $UNO_UITEST_NUGET_URL
-mono nuget.exe install NUnit.ConsoleRunner -Version $UNO_UITEST_NUNIT_VERSION
+dotnet build -c Release -f net8.0-ios -p:TargetFrameworks=net8.0-ios /p:IsUiAutomationMappingEnabled=True $UNO_UITEST_IOS_PROJECT
 
 mkdir -p $UNO_UITEST_SCREENSHOT_PATH
 
-mono $BUILD_SOURCESDIRECTORY/build/NUnit.ConsoleRunner.$UNO_UITEST_NUNIT_VERSION/tools/nunit3-console.exe \
-   --inprocess --agents=1 --workers=1 \
-   $UNO_UITEST_BINARY || true
+dotnet test -c Release \
+	$UNO_UITEST_PROJECT \
+	--logger "nunit;LogFileName=$UNO_TEST_RESULTS_FILE" \
+	|| true

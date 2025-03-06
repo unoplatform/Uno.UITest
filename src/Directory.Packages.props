@@ -6,7 +6,6 @@
     See https://aka.platform.uno/using-uno-sdk#implicit-packages for more information regarding the Implicit Packages.
   -->
 	<ItemGroup>
-		<PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
 		<PackageVersion Include="NUnit" Version="3.13.0" />
 		<PackageVersion Include="Selenium.WebDriver" Version="4.2.0" />
 		<PackageVersion Include="System.Text.Json" Version="7.0.3" />

@@ -15,6 +15,6 @@ steps:
 
   - bash: |
       dotnet tool update --global uno.check --version ${{ parameters.UnoCheck_Version }} --add-source https://api.nuget.org/v3/index.json
-      uno-check --verbose --ci --non-interactive --fix --skip gtk3 --skip androidsdk --pre-major ${{ parameters.UnoCheckParameters }}
+      uno-check --verbose --ci --non-interactive --fix --skip gtk3 --skip androidsdk --skip unosdk --skip dotnetnewunotemplates --pre-major ${{ parameters.UnoCheckParameters }}
     displayName: Install .NET Workloads
     condition: and(succeeded(), and( eq(variables['Agent.OS'], 'Linux'), eq('${{ parameters.installWorkloads }}', 'true') ))
