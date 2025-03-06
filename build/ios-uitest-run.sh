@@ -3,7 +3,7 @@ set -euo pipefail
 IFS=$'\n\t'
 
 ## Adjust those variables for your project
-export UNO_UITEST_IOSBUNDLE_PATH=$BUILD_SOURCESDIRECTORY/src/Sample/Sample/bin/Release/net9.0-ios/Sample.app
+export UNO_UITEST_IOSBUNDLE_PATH=$BUILD_SOURCESDIRECTORY/src/Sample/Sample/bin/Release/net8.0-ios/iossimulator-x64/Sample.app
 export UNO_UITEST_SCREENSHOT_PATH=$BUILD_ARTIFACTSTAGINGDIRECTORY/screenshots/ios
 export UNO_UITEST_PROJECT=$BUILD_SOURCESDIRECTORY/src/Sample/Sample.UITests/Sample.UITests.csproj
 export UNO_UITEST_IOS_PROJECT=$BUILD_SOURCESDIRECTORY/src/Sample/Sample/Sample.csproj
