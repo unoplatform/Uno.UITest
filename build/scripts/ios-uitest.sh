@@ -40,9 +40,6 @@ done
 echo "Starting simulator: [$UITEST_IOSDEVICE_ID] ($UNO_UITEST_SIMULATOR_VERSION / $UNO_UITEST_SIMULATOR_NAME)"
 xcrun simctl boot "$UITEST_IOSDEVICE_ID" || true
 
-echo "Install app on simulator: $UITEST_IOSDEVICE_ID"
-idb install --udid "$UITEST_IOSDEVICE_ID" "$UNO_UITEST_IOSBUNDLE_PATH"
-
 dotnet build \
 	-c Release \
 	-f net8.0-ios \
@@ -53,6 +50,9 @@ dotnet build \
 	/p:IsUiAutomationMappingEnabled=True \
 	$UNO_UITEST_IOS_PROJECT \
 	/bl:$UNO_UITEST_SCREENSHOT_PATH/logs/ios-build.binlog
+
+echo "Install app on simulator: $UITEST_IOSDEVICE_ID"
+idb install --udid "$UITEST_IOSDEVICE_ID" "$UNO_UITEST_IOSBUNDLE_PATH"
 
 mkdir -p $UNO_UITEST_SCREENSHOT_PATH
 
