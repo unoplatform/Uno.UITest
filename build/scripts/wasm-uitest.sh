@@ -2,7 +2,7 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-dotnet build -c Release -f net8.0-browserwasm -p:TargetFrameworks=net8.0-browserwasm $UNO_UITEST_WASM_PROJECT
+dotnet build -c Release -f net8.0-browserwasm -p:TargetFrameworks=net8.0-browserwasm $UNO_UITEST_WASM_PROJECT /bl:$UNO_UITEST_SCREENSHOT_PATH/logs/wasm-build.binlog
 
 # Start the server
 dotnet run --project $UNO_UITEST_WASM_PROJECT -f net8.0-browserwasm -c Release --no-build &
