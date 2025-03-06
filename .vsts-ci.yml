@@ -117,8 +117,9 @@ jobs:
       testRunTitle: 'WebAssembly Test Run'
       testResultsFormat: 'NUnit'
       testResultsFiles: '$(build.artifactstagingdirectory)/test-results/uitest-wasm.xml'
-      failTaskOnFailedTests: true
       searchFolder: '$(System.DefaultWorkingDirectory)' # https://github.com/microsoft/azure-pipelines-tasks/issues/10072
+      failTaskOnMissingResultsFile: true
+      failTaskOnFailedTests: true
 
   - task: PublishBuildArtifacts@1
     condition: always()
@@ -159,13 +160,14 @@ jobs:
       testRunTitle: 'Android Test Run'
       testResultsFormat: 'NUnit'
       testResultsFiles: '$(build.artifactstagingdirectory)/test-results/uitest-android.xml'
+      failTaskOnMissingResultsFile: true
+      failTaskOnFailedTests: true
 
   - task: PublishBuildArtifacts@1
     condition: always()
     inputs:
       PathtoPublish: $(build.artifactstagingdirectory)
       ArtifactName: uno-uitest-tests
-      failTaskOnFailedTests: true
       ArtifactType: Container
 
 - job: iOS_Tests
@@ -204,6 +206,7 @@ jobs:
       testRunTitle: 'iOS Test Run'
       testResultsFormat: 'NUnit'
       testResultsFiles: '$(build.artifactstagingdirectory)/test-results/uitest-ios.xml'
+      failTaskOnMissingResultsFile: true
       failTaskOnFailedTests: true
 
   - task: PublishBuildArtifacts@1

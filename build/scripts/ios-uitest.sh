@@ -20,7 +20,28 @@ else
 	echo "Using idb from:" `command -v idb`
 fi
 
-/Applications/Xcode.app/Contents/Developer/Applications/Simulator.app/Contents/MacOS/Simulator &
+# Wait while ios runtime 16.1 is not having simulators. The install process may 
+# take a few seconds and "simctl list devices" may not return devices.
+while true; do
+	export UITEST_IOSDEVICE_ID=`xcrun simctl list -j | jq -r --arg sim "$UNO_UITEST_SIMULATOR_VERSION" --arg name "$UNO_UITEST_SIMULATOR_NAME" '.devices[$sim] | .[] | select(.name==$name) | .udid'`
+	export UITEST_IOSDEVICE_DATA_PATH=`xcrun simctl list -j | jq -r --arg sim "$UNO_UITEST_SIMULATOR_VERSION" --arg name "$UNO_UITEST_SIMULATOR_NAME" '.devices[$sim] | .[] | select(.name==$name) | .dataPath'`
+
+	if [ -n "$UITEST_IOSDEVICE_ID" ]; then
+		break
+	fi
+
+	echo "Waiting for the simulator to be available"
+	sleep 5
+done
+
+##
+## Pre-install the application to avoid https://github.com/microsoft/appcenter/issues/2389
+##
+echo "Starting simulator: [$UITEST_IOSDEVICE_ID] ($UNO_UITEST_SIMULATOR_VERSION / $UNO_UITEST_SIMULATOR_NAME)"
+xcrun simctl boot "$UITEST_IOSDEVICE_ID" || true
+
+echo "Install app on simulator: $UITEST_IOSDEVICE_ID"
+idb install --udid "$UITEST_IOSDEVICE_ID" "$UNO_UITEST_IOSBUNDLE_PATH"
 
 dotnet build \
 	-c Release \
