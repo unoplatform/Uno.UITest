@@ -55,7 +55,7 @@ jobs:
   - pwsh: |
       cd src/Uno.UITest.Helpers
       dotnet build -c Release /p:PackageVersion=$(NBGV_SemVer2) /p:InformationalVersion=$(NBGV_InformationalVersion) /p:PackageOutputPath=$(build.artifactstagingdirectory)\nuget
-    displayName: 'Install NuGet'
+    displayName: 'Build packages'
 
   - task: PowerShell@2
     displayName: Authenticode Sign Packages
@@ -115,7 +115,7 @@ jobs:
     inputs:
       testRunTitle: 'WebAssembly Test Run'
       testResultsFormat: 'NUnit'
-      testResultsFiles: '$(build.sourcesdirectory)/build/TestResult.xml'
+      testResultsFiles: '$(build.artifactstagingdirectory)/test-results/uitest-wasm.xml'
       failTaskOnFailedTests: true
       searchFolder: '$(System.DefaultWorkingDirectory)' # https://github.com/microsoft/azure-pipelines-tasks/issues/10072
 
