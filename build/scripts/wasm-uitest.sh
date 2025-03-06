@@ -18,5 +18,7 @@ dotnet test -c Release \
 	$UNO_UITEST_PROJECT \
 	--logger "nunit;LogFileName=$UNO_TEST_RESULTS_FILE"
 
+echo "Terminating the server"
+
 # terminate the bg task
 kill %1
