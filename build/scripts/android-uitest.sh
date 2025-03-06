@@ -2,6 +2,24 @@
 set -euo pipefail
 IFS=$'\n\t'
 
+cd $BUILD_SOURCESDIRECTORY/build
+
+# This block allows to override the Android SDK
+# disabled until hosted agents move to macOS 11
+#
+export ANDROID_HOME=$BUILD_SOURCESDIRECTORY/build/android-sdk
+export ANDROID_SDK_ROOT=$BUILD_SOURCESDIRECTORY/build/android-sdk
+export CMDLINETOOLS=commandlinetools-mac-8512546_latest.zip
+
+if [[ ! -d $ANDROID_HOME ]];
+then
+	mkdir -p $ANDROID_HOME
+	wget https://dl.google.com/android/repository/$CMDLINETOOLS
+	unzip $CMDLINETOOLS -d $ANDROID_HOME/cmdline-tools
+	rm $CMDLINETOOLS
+	mv $ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools $ANDROID_SDK_ROOT/cmdline-tools/latest
+fi
+
 # Install AVD files
 echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install "system-images;android-$UNO_UITEST_ANDROID_API_LEVEL;google_apis_playstore;x86_64"
 
