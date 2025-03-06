@@ -165,6 +165,7 @@ jobs:
     inputs:
       PathtoPublish: $(build.artifactstagingdirectory)
       ArtifactName: uno-uitest-tests
+      failTaskOnFailedTests: true
       ArtifactType: Container
 
 - job: iOS_Tests
@@ -203,6 +204,7 @@ jobs:
       testRunTitle: 'iOS Test Run'
       testResultsFormat: 'NUnit'
       testResultsFiles: '$(build.artifactstagingdirectory)/test-results/uitest-ios.xml'
+      failTaskOnFailedTests: true
 
   - task: PublishBuildArtifacts@1
     condition: always()
