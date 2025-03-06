@@ -5,6 +5,21 @@ IFS=$'\n\t'
 echo "Lising iOS simulators"
 xcrun simctl list devices --json
 
+# check for the presence of idb, and install it if it's not present
+export PATH=$PATH:~/.local/bin
+
+if ! command -v idb &> /dev/null
+then
+	echo "Installing idb"
+	brew install pipx
+	# # https://github.com/microsoft/appcenter/issues/2605#issuecomment-1854414963
+	brew tap facebook/fb
+	brew install idb-companion
+	pipx install fb-idb
+else
+	echo "Using idb from:" `command -v idb`
+fi
+
 /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app/Contents/MacOS/Simulator &
 
 dotnet build \
