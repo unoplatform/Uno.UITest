@@ -53,7 +53,7 @@ jobs:
       version: 9.0.200
 
   - pwsh: |
-      cd src/Sample/Sample
+      cd src/Uno.UITest.Helpers
       dotnet build -c Release /p:PackageVersion=$(NBGV_SemVer2) /p:InformationalVersion=$(NBGV_InformationalVersion) /p:PackageOutputPath=$(build.artifactstagingdirectory)\nuget
     displayName: 'Install NuGet'
 
@@ -95,6 +95,10 @@ jobs:
       packageType: sdk
       version: 9.0.200
 
+  - template: build/templates/dotnet-install-linux.yml
+    parameters:
+      UnoCheckParameters: '--tfm net9.0-browserwasm'
+
   - bash: |
       chmod +x build/wasm-uitest-run.sh
       build/wasm-uitest-run.sh
@@ -134,6 +138,10 @@ jobs:
   - checkout: self
     clean: true
 
+  - template: build/templates/dotnet-install-macos.yml
+    parameters:
+      UnoCheckParameters: '--tfm net9.0-android'
+
   - bash: |
       chmod +x $(build.sourcesdirectory)/build/android-uitest-run.sh
       $(build.sourcesdirectory)/build/android-uitest-run.sh
@@ -170,6 +178,10 @@ jobs:
   steps:
   - checkout: self
     clean: true
+
+  - template: build/templates/dotnet-install-macos.yml
+    parameters:
+      UnoCheckParameters: '--tfm net9.0-ios'
 
   - bash: /bin/bash -c "echo '##vso[task.setvariable variable=MD_APPLE_SDK_ROOT;]'${XCODE_ROOT};sudo xcode-select --switch ${XCODE_ROOT}/Contents/Developer"
     displayName: Select Xcode
