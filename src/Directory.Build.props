@@ -26,7 +26,8 @@
 
 		<Product>$(AssemblyName) ($(TargetFramework))</Product>
 		<DefaultLanguage>en-US</DefaultLanguage>
-		
+
+		<GenerateSBOM>true</GenerateSBOM>
 		<Deterministic>true</Deterministic>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>

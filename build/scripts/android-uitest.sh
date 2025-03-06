@@ -41,7 +41,7 @@ $ANDROID_HOME/platform-tools/adb devices
 nohup $ANDROID_HOME/emulator/emulator -avd xamarin_android_emulator -no-snapshot -no-window -qemu > /dev/null 2>&1 &
 
 # build the sample, while the emulator is starting
-dotnet build -c Release -f net8.0-android -p:TargetFrameworks=net8.0-android $UNO_UITEST_ANDROID_PROJECT /bl:$UNO_UITEST_SCREENSHOT_PATH/logs/android-build.binlog
+dotnet build -c Release -f net8.0-android -r android-x64 -p:TargetFrameworks=net8.0-android $UNO_UITEST_ANDROID_PROJECT -p:RunAOTCompilation=false -p:MtouchUseLlvm=false /bl:$UNO_UITEST_SCREENSHOT_PATH/logs/android-build.binlog
 
 # Wait for the emulator to finish booting
 $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
