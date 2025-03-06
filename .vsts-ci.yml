@@ -138,7 +138,7 @@ jobs:
   - checkout: self
     clean: true
 
-  - template: build/templates/dotnet-install-macos.yml
+  - template: build/templates/dotnet-install-mac.yml
     parameters:
       UnoCheckParameters: '--tfm net9.0-android'
 
@@ -179,7 +179,7 @@ jobs:
   - checkout: self
     clean: true
 
-  - template: build/templates/dotnet-install-macos.yml
+  - template: build/templates/dotnet-install-mac.yml
     parameters:
       UnoCheckParameters: '--tfm net9.0-ios'
 
