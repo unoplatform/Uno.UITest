@@ -6,11 +6,10 @@ IFS=$'\n\t'
 export UNO_UITEST_SCREENSHOT_PATH=$BUILD_ARTIFACTSTAGINGDIRECTORY/screenshots/wasm
 export UNO_UITEST_PROJECT=$BUILD_SOURCESDIRECTORY/src/Sample/Sample.UITests/Sample.UITests.csproj
 export UNO_UITEST_BINARY=$BUILD_SOURCESDIRECTORY/src/Sample/Sample.UITests/bin/Release/net47/Sample.UITests.dll
-export UNO_UITEST_WASM_PROJECT=$BUILD_SOURCESDIRECTORY/src/Sample/Sample.Wasm/Sample.Wasm.csproj
-export UNO_UITEST_WASM_OUTPUT_PATH=$BUILD_SOURCESDIRECTORY/src/Sample/Sample.Wasm/bin/Release/net6.0/dist/
+export UNO_UITEST_WASM_PROJECT=$BUILD_SOURCESDIRECTORY/src/Sample/Sample/Sample.csproj
 
 ## Less commonly modified variables
-export UNO_UITEST_TARGETURI=http://localhost:5000
+export UNO_UITEST_TARGETURI=http://localhost:54490
 export UNO_UITEST_PLATFORM=Browser
 export UNO_UITEST_CHROME_CONTAINER_MODE=true
 export UNO_UITEST_NUNIT_VERSION=3.10.0
