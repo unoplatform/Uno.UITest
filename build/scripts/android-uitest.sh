@@ -24,7 +24,7 @@ fi
 echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "system-images;android-$UNO_UITEST_ANDROID_API_LEVEL;google_apis_playstore;x86_64"
 
 # Create emulator
-echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd -n xamarin_android_emulator --abi "x86_64" -k "system-images;android-$UNO_UITEST_ANDROID_API_LEVEL;google_apis_playstore;x86_64" --force
+echo "no" | $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager create avd -n xamarin_android_emulator --abi "x86_64" -k "system-images;android-$UNO_UITEST_ANDROID_API_LEVEL;google_apis_playstore;x86_64" --force
 
 echo $ANDROID_HOME/emulator/emulator -list-avds
 
