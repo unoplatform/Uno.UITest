@@ -1,20 +1,22 @@
 <Project ToolsVersion="15.0">
-  <!--
+	<!--
     To update the version of Uno, you should instead update the Sdk version in the global.json file.
 
     See https://aka.platform.uno/using-uno-sdk for more information.
     See https://aka.platform.uno/using-uno-sdk#implicit-packages for more information regarding the Implicit Packages.
   -->
-  <ItemGroup>
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
-    <PackageVersion Include="NUnit" Version="3.13.0" />
-    <PackageVersion Include="Selenium.WebDriver" Version="4.2.0" />
-    <PackageVersion Include="System.Text.Json" Version="7.0.3" />
-    <PackageVersion Include="Xamarin.UITest" Version="4.1.2" />
-    <!-- Workaround for missing cecil binary in Xamarin.UITest -->
-    <PackageVersion Include="mono.cecil" Version="0.11.4" />
-    <PackageVersion Include="Xamarin.TestCloud.Agent" Version="0.23.2" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
-    <PackageVersion Include="NUnit3TestAdapter" Version="3.15.1" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
+		<PackageVersion Include="NUnit" Version="3.13.0" />
+		<PackageVersion Include="Selenium.WebDriver" Version="4.2.0" />
+		<PackageVersion Include="System.Text.Json" Version="7.0.3" />
+		<PackageVersion Include="Xamarin.UITest" Version="4.1.2" />
+		<!-- Workaround for missing cecil binary in Xamarin.UITest -->
+		<PackageVersion Include="mono.cecil" Version="0.11.4" />
+		<PackageVersion Include="Xamarin.TestCloud.Agent" Version="0.23.2" />
+		<PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
+		<PackageVersion Include="NUnit3TestAdapter" Version="3.15.1" />
+		<PackageVersion Include="Microsoft.Sbom.Targets" Version="3.0.0" />
+		<PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.1.1"/>
+	</ItemGroup>
 </Project>

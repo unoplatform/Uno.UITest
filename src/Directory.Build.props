@@ -25,25 +25,26 @@
 
 		<Product>$(AssemblyName) ($(TargetFramework))</Product>
 		<DefaultLanguage>en-US</DefaultLanguage>
+		
+		<Deterministic>true</Deterministic>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+
+	</PropertyGroup>
+	
+	<PropertyGroup Condition="'$(BUILD_REPOSITORY_URI)' != ''">
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
 	</PropertyGroup>
 
-	<Choose>
-		<When Condition="'$(Configuration)' != 'Debug' and '$(SourceLinkEnabled)' != 'false'">
-			<PropertyGroup>
-				<!-- Optional: Declare that the Repository URL can be published to NuSpec -->
-				<PublishRepositoryUrl>true</PublishRepositoryUrl>
-				<!-- Optional: Embed source files that are not tracked by the source control manager to the PDB -->
-				<EmbedUntrackedSources>true</EmbedUntrackedSources>
-				<!-- Optional: Include PDB in the built .nupkg -->
-				<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
-			</PropertyGroup>
-			<ItemGroup>
-				<PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="1.0.0" PrivateAssets="All"/>
-				<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
-			</ItemGroup>
-		</When>
-	</Choose>
-
+	<ItemGroup>
+		<!-- This assumes GitHub source control but other repo options are available -->
+		<PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All"/>
+		<PackageReference Include="Microsoft.Sbom.Targets">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+	
 </Project>
