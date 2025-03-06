@@ -97,7 +97,8 @@ jobs:
 
   - template: build/templates/dotnet-install-linux.yml
     parameters:
-      UnoCheckParameters: '--tfm net9.0-browserwasm'
+      # android SDK is skipped because we're installing it in the test script
+      UnoCheckParameters: '--tfm net9.0-browserwasm --skip androidsdk'
 
   - bash: |
       chmod +x build/wasm-uitest-run.sh
