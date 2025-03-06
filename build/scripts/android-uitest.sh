@@ -54,4 +54,10 @@ mkdir -p $UNO_UITEST_SCREENSHOT_PATH
 
 dotnet test -c Release \
 	$UNO_UITEST_PROJECT \
-	--logger "nunit;LogFileName=$UNO_TEST_RESULTS_FILE"
+	--logger "nunit;LogFileName=$UNO_TEST_RESULTS_FILE" || true
+
+## fail if $UNO_TEST_RESULTS_FILE does not exist
+if [ ! -f $UNO_TEST_RESULTS_FILE ]; then
+	echo "No test results file found at $UNO_TEST_RESULTS_FILE"
+	exit 1
+fi
