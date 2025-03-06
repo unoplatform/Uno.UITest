@@ -10,7 +10,7 @@ export UNO_UITEST_IOS_PROJECT=$BUILD_SOURCESDIRECTORY/src/Sample/Sample/Sample.c
 export UNO_TEST_RESULTS_FILE=$BUILD_ARTIFACTSTAGINGDIRECTORY/test-results/uitest-ios.xml
 export UNO_UITEST_PLATFORM=iOS
 
-export UNO_UITEST_SIMULATOR_VERSION="com.apple.CoreSimulator.SimRuntime.iOS-17-5"
+export UNO_UITEST_SIMULATOR_VERSION="com.apple.CoreSimulator.SimRuntime.iOS-17-2"
 export UNO_UITEST_SIMULATOR_NAME="iPad Pro (12.9-inch) (6th generation)"
 
 cd $BUILD_SOURCESDIRECTORY/build
