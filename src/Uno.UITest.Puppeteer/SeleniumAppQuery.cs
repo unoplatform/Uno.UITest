@@ -40,7 +40,7 @@ namespace Uno.UITest.Selenium
 				: Apply(() => _queryItems.Add(new SearchQueryItem($"//*[contains(@xamltype, '{className}')]")));
 
 		IAppQuery IAppQuery.Button(string marked)
-			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[@xamltype='Windows.UI.Xaml.Controls.Button' and (xamlname='{marked}') or @xuid='{marked}')]")));
+			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[@xamltype='Microsoft.UI.Xaml.Controls.Button' and (xamlname='{marked}') or @xuid='{marked}')]")));
 
 		IAppQuery IAppQuery.Child(string className)
 			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[contains(@xamltype, '{className}')]")));

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net47;net6.0</TargetFrameworks>
+		<TargetFrameworks>net8.0</TargetFrameworks>
 		<IsTestProject>false</IsTestProject>
 		<GeneratePackageOnBuild Condition="'$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
 	</PropertyGroup>
@@ -20,10 +20,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Xamarin.UITest" Version="4.1.2" />
+		<PackageReference Include="Xamarin.UITest" />
 
 		<!-- Workaround for missing cecil binary in Xamarin.UITest -->
-		<PackageReference Include="mono.cecil" Version="0.11.4" />
+		<PackageReference Include="mono.cecil" />
 	</ItemGroup>
 
 	<ItemGroup>

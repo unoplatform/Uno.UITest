@@ -16,11 +16,6 @@ pr:
       - stable
       - release/stable/*
 
-resources:
-  containers:
-  - container: nv-bionic-wasm
-    image: unoplatform/wasm-build:3.0
-
 jobs:
 - job: Windows
 
@@ -34,42 +29,31 @@ jobs:
   - checkout: self
     clean: true
 
-  - task: gitversion/setup@0
-    retryCountOnTaskFailure: 3
-    inputs:
-      versionSpec: '5.10.3'
+  - pwsh: |
+      dotnet tool uninstall nbgv -g
+      dotnet tool install nbgv -g --version 3.6.139
+      nbgv cloud -a
+    displayName: Version with NBGV
+    name: NBGV
 
-  - task: gitversion/execute@0
-    retryCountOnTaskFailure: 3
-    inputs:
-      useConfigFile: true
-      configFilePath: gitversion.yml
-    displayName: Use GitVersion
+  - pwsh: |
+      $InformationalVersion="$(NBGV_SemVer2)+$(NBGV_GitCommitId)-$(NBGV_BuildingRef)".Replace("refs/heads/","").Replace("/","-")
+      echo "##vso[task.setvariable variable=NBGV_InformationalVersion;]$InformationalVersion"
+      echo "##vso[task.setvariable variable=NBGV_InformationalVersion;isOutput=true;]$InformationalVersion"
+      echo "Informational Version: $InformationalVersion"
+
+    displayName: Generate Informational Version
+    name: NBGV_InformationalVersion
 
   - task: UseDotNet@2
     displayName: 'Use .NET SDK'
     retryCountOnTaskFailure: 3
     inputs:
       packageType: sdk
-      version: 7.0.302
+      version: 9.0.200
 
-  - task: MSBuild@1
-    inputs:
-      solution: src/uno.uitest.sln
-      msbuildLocationMethod: version
-      msbuildVersion: latest
-      msbuildArchitecture: x86
-      msbuildArguments: /r /p:Configuration=Release /detailedsummary "/p:PackageOutputPath=$(build.artifactstagingdirectory)\nuget" "/p:PackageVersion=$(GITVERSION.FullSemVer)" "/p:InformationalVersion=$(GITVERSION.InformationalVersion)" /detailedsummary
-
-      clean: false
-      maximumCpuCount: true
-      restoreNugetPackages: false
-      logProjectEvents: false
-      createLogFile: false
-
-  - task: DotNetCoreInstaller@0
-    inputs:
-      version: '2.1.504'
+  - pwsh: dotnet build -c Release /p:PackageVersion=$(NBGV_SemVer2) /p:InformationalVersion=$(NBGV_InformationalVersion) /p:PackageOutputPath=$(build.artifactstagingdirectory)\nuget
+    displayName: 'Install NuGet'
 
   - task: PowerShell@2
     displayName: Authenticode Sign Packages
@@ -91,7 +75,6 @@ jobs:
       ArtifactType: Container
 
 - job: Wasm_UITests
-  container: nv-bionic-wasm
 
   pool:
     vmImage: 'ubuntu-latest'
@@ -108,7 +91,7 @@ jobs:
     retryCountOnTaskFailure: 3
     inputs:
       packageType: sdk
-      version: 7.0.302
+      version: 9.0.200
 
   - bash: |
       chmod +x build/wasm-uitest-run.sh
@@ -143,14 +126,11 @@ jobs:
     SourceLinkEnabled: false
 
   pool:
-    vmImage: 'macOS-12'
+    vmImage: 'macOS-14'
 
   steps:
   - checkout: self
     clean: true
-
-  - bash: /bin/bash -c "sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh 6_12_18"
-    displayName: Select Xamarin Version
 
   - bash: |
       chmod +x $(build.sourcesdirectory)/build/android-uitest-run.sh
@@ -183,14 +163,11 @@ jobs:
     XCODE_ROOT: /Applications/Xcode_13.4.1.app
 
   pool:
-    vmImage: 'macOS-12'
+    vmImage: 'macOS-14'
 
   steps:
   - checkout: self
     clean: true
-
-  - bash: /bin/bash -c "sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh 6_12_18"
-    displayName: Select Xamarin Version
 
   - bash: /bin/bash -c "echo '##vso[task.setvariable variable=MD_APPLE_SDK_ROOT;]'${XCODE_ROOT};sudo xcode-select --switch ${XCODE_ROOT}/Contents/Developer"
     displayName: Select Xcode
