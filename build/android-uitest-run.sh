@@ -7,6 +7,7 @@ export UNO_UITEST_PROJECT=$BUILD_SOURCESDIRECTORY/src/Sample/Sample.UITests/Samp
 export UNO_UITEST_ANDROID_PROJECT=$BUILD_SOURCESDIRECTORY/src/Sample/Sample/Sample.csproj
 export UNO_UITEST_ANDROID_API_LEVEL=28
 export UNO_TEST_RESULTS_FILE=$BUILD_ARTIFACTSTAGINGDIRECTORY/test-results/uitest-android.xml
+export UNO_UITEST_PLATFORM=Android
 
 cd $BUILD_SOURCESDIRECTORY/build
 scripts/android-uitest.sh
