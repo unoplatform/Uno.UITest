@@ -8,12 +8,12 @@ To better foster an open, innovative and inclusive community please refer to our
 
 ### Report a bug
 
-If you think you've found a bug, please log a new issue in the [Uno Core GitHub issue tracker](https://github.com/nventive/Uno.Core/issues). When filing issues, please use our [bug filing template](.github/ISSUE_TEMPLATE.md).
+If you think you've found a bug, please log a new issue in the [Uno Core GitHub issue tracker](https://github.com/unoplatform/Uno.Core/issues). When filing issues, please use our [bug filing template](.github/ISSUE_TEMPLATE.md).
 The best way to get your bug fixed is to be as detailed as you can be about the problem.
 Providing a minimal project with steps to reproduce the problem is ideal.
 Here are questions you can answer before you file a bug to make sure you're not missing any important information.
 
-1. Did you read the [documentation](https://github.com/nventive/Uno.Core/blob/master/doc)?
+1. Did you read the [documentation](https://github.com/unoplatform/Uno.Core/blob/master/doc)?
 2. Did you include the snippet of broken code in the issue?
 3. What are the *EXACT* steps to reproduce this problem?
 4. What specific version or build are you using?
@@ -23,11 +23,11 @@ GitHub supports [markdown](https://help.github.com/articles/github-flavored-mark
 
 ### Make a suggestion
 
-If you have an idea for a new feature or enhancement let us know by filing an [issue](https://github.com/nventive/Uno.Core/issues). To help us understand and prioritize your idea please provide as much detail about your scenario and why the feature or enhancement would be useful.
+If you have an idea for a new feature or enhancement let us know by filing an [issue](https://github.com/unoplatform/Uno.Core/issues). To help us understand and prioritize your idea please provide as much detail about your scenario and why the feature or enhancement would be useful.
 
 ### Ask questions
 
-If you have a question be sure to first checkout our [documentation](https://github.com/nventive/Uno.Core/blob/master/doc). But if you are still stuck, you'll have a better chance of getting help on [StackOverflow](https://stackoverflow.com/questions/tagged/uno-platform) and we'll do our best to answer it. Questions asked there should be tagged with `uno-platform`.
+If you have a question be sure to first checkout our [documentation](https://github.com/unoplatform/Uno.Core/blob/master/doc). But if you are still stuck, you'll have a better chance of getting help on [StackOverflow](https://stackoverflow.com/questions/tagged/uno-platform) and we'll do our best to answer it. Questions asked there should be tagged with `uno-platform`.
 
 For a more direct conversation, [our gitter is also a good place to visit](https://gitter.im/uno-platform/Lobby).
 

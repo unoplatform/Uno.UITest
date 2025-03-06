@@ -7,7 +7,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<PackageProjectUrl>https://github.com/nventive/Uno.UITest</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/unoplatform/Uno.UITest</PackageProjectUrl>
 		<PackageIconUrl>https://nv-assets.azurewebsites.net/logos/uno.png</PackageIconUrl>
 		<Description>
 			This package provides the support of the Uno.UITest framework for Uno Platform WebAssembly apps.
@@ -16,7 +16,6 @@
 			of Selenuim, Xamarin.iOS and Xamarin.Android applications through Xamarin.UITest
 			and Microsoft AppCenter.
 		</Description>
-		<Copyright>Copyright (C) 2015-2019 nventive inc. - all rights reserved</Copyright>
 	</PropertyGroup>
 
 	<ItemGroup>

@@ -54,7 +54,7 @@ jobs:
 
   - pwsh: |
       cd src/Uno.UITest.Helpers
-      dotnet build -c Release /p:PackageVersion=$(NBGV_SemVer2) /p:InformationalVersion=$(NBGV_InformationalVersion) /p:PackageOutputPath=$(build.artifactstagingdirectory)\nuget
+      dotnet build -c Release /p:PackageVersion=$(NBGV_SemVer2) /p:InformationalVersion=$(NBGV_InformationalVersion) /p:PackageOutputPath=$(build.artifactstagingdirectory)\nuget /bl:$(build.artifactstagingdirectory)/package.binlog
     displayName: 'Build packages'
 
   - task: PowerShell@2
