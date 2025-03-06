@@ -52,7 +52,9 @@ jobs:
       packageType: sdk
       version: 9.0.200
 
-  - pwsh: dotnet build -c Release /p:PackageVersion=$(NBGV_SemVer2) /p:InformationalVersion=$(NBGV_InformationalVersion) /p:PackageOutputPath=$(build.artifactstagingdirectory)\nuget
+  - pwsh: |
+      cd src/Sample/Sample
+      dotnet build -c Release /p:PackageVersion=$(NBGV_SemVer2) /p:InformationalVersion=$(NBGV_InformationalVersion) /p:PackageOutputPath=$(build.artifactstagingdirectory)\nuget
     displayName: 'Install NuGet'
 
   - task: PowerShell@2
