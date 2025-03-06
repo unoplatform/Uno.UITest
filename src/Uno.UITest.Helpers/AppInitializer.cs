@@ -211,6 +211,7 @@ namespace Uno.UITests.Helpers
 
 				_currentApp = configurator
 					.ScreenShotsPath(TestContext.CurrentContext.TestDirectory)
+					.WindowSize(TestEnvironment.WebAssemblyBrowserSize.Width, TestEnvironment.WebAssemblyBrowserSize.Height)
 					.StartApp();
 
 				return _currentApp;
