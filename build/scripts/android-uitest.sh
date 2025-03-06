@@ -54,5 +54,4 @@ mkdir -p $UNO_UITEST_SCREENSHOT_PATH
 
 dotnet test -c Release \
 	$UNO_UITEST_PROJECT \
-	--logger "nunit;LogFileName=$UNO_TEST_RESULTS_FILE" \
-	|| true
+	--logger "nunit;LogFileName=$UNO_TEST_RESULTS_FILE"
