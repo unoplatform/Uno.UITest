@@ -9,7 +9,7 @@
 		<PackageVersion Include="NUnit" Version="3.14.0" />
 		<PackageVersion Include="Selenium.WebDriver" Version="4.2.0" />
 		<PackageVersion Include="System.Text.Json" Version="7.0.3" />
-		<PackageVersion Include="Xamarin.UITest" Version="4.4.2" />
+		<PackageVersion Include="Xamarin.UITest" Version="4.3.5" />
 		<!-- Workaround for missing cecil binary in Xamarin.UITest -->
 		<PackageVersion Include="mono.cecil" Version="0.11.4" />
 		<PackageVersion Include="Xamarin.TestCloud.Agent" Version="0.23.2" />
