@@ -44,13 +44,13 @@ namespace Sample.UITests
 			App.Tap(testSelector);
 
 			App.WaitForElement(App.CreateQuery(
-				q => q.WithClass("Windows.UI.Xaml.Controls.TextBlock")));
+				q => q.WithClass("Microsoft.UI.Xaml.Controls.TextBlock")));
 
 			App.WaitForElement(App.CreateQuery(
-				q => q.WithClass("Windows_UI_Xaml_Controls_TextBlock")));
+				q => q.WithClass("Microsoft")));
 
 			App.WaitForElement(App.CreateQuery(
-				q => q.WithClass("Windows.UI.Xaml.Controls.DatePicker")));
+				q => q.WithClass("Microsoft.UI.Xaml.Controls.DatePicker")));
 
 			if(Helpers.Platform != Platform.iOS)
 			{
@@ -58,7 +58,7 @@ namespace Sample.UITests
 					q => q.WithText("MyTextBlock")));
 
 				App.WaitForElement(App.CreateQuery(
-					q => q.WithClass("Windows.UI.Xaml.Controls.TextBlock").WithText("MyTextBlock")));
+					q => q.WithClass("Microsoft.UI.Xaml.Controls.TextBlock").WithText("MyTextBlock")));
 			}
 		}
 	}

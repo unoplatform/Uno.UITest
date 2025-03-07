@@ -174,7 +174,7 @@ jobs:
   variables:
     CI_Build: true
     SourceLinkEnabled: false
-    XCODE_ROOT: /Applications/Xcode_15.3.app
+    XCODE_ROOT: /Applications/Xcode_16.2.app
 
   pool:
     vmImage: 'macOS-14'
