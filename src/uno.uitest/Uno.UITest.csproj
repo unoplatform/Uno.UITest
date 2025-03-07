@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<IsTestProject>false</IsTestProject>
 		<GeneratePackageOnBuild Condition="'$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<PackageProjectUrl>https://github.com/nventive/Uno.UITest</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/unoplatform/Uno.UITest</PackageProjectUrl>
 		<PackageIconUrl>https://nv-assets.azurewebsites.net/logos/uno.png</PackageIconUrl>
 		<Description>
 			This package provides the common interfaces for the Uno.UITest framework.
@@ -14,6 +14,5 @@
 			of Selenuim, Xamarin.iOS and Xamarin.Android applications through Xamarin.UITest
 			and Microsoft AppCenter.
 		</Description>
-		<Copyright>Copyright (C) 2015-2019 nventive inc. - all rights reserved</Copyright>
 	</PropertyGroup>
 </Project>

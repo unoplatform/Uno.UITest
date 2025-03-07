@@ -1,0 +1,20 @@
+parameters:
+  DotNetVersion: '9.0.200'
+  UnoCheck_Version: '1.30.1'
+  installWorkloads: true
+  UnoCheckParameters: ''
+
+steps:
+  - task: UseDotNet@2
+    displayName: 'Use .NET Core SDK ${{ parameters.DotNetVersion }}'
+    retryCountOnTaskFailure: 3
+    inputs:
+      packageType: sdk
+      version: ${{ parameters.DotNetVersion }}
+      includePreviewVersions: true
+
+  - bash: |
+      dotnet tool update --global uno.check --version ${{ parameters.UnoCheck_Version }} --add-source https://api.nuget.org/v3/index.json
+      uno-check --verbose --ci --non-interactive --fix --skip gtk3 --skip androidsdk --skip unosdk --skip dotnetnewunotemplates --pre-major ${{ parameters.UnoCheckParameters }}
+    displayName: Install .NET Workloads
+    condition: and(succeeded(), and( eq(variables['Agent.OS'], 'Linux'), eq('${{ parameters.installWorkloads }}', 'true') ))

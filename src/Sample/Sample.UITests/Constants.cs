@@ -13,7 +13,7 @@ namespace Sample.UITests
 		public readonly static string WebAssemblyDefaultUri = "http://localhost:54490/";
 		public readonly static string iOSAppName = "uno.platform.uitestsample";
 		public readonly static string AndroidAppName = "uno.platform.uitestsample";
-		public readonly static string iOSDeviceNameOrId = "iPad Pro (12.9-inch) (5th generation)";
+		public readonly static string iOSDeviceNameOrId = "iPad Pro (12.9-inch) (6th generation)";
 
 		public readonly static Platform CurrentPlatform = Platform.Browser;
 

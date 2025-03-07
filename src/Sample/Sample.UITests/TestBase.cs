@@ -15,6 +15,12 @@ namespace Sample.UITests
 
 		static TestBase()
 		{
+#if DEBUG
+			// Uncomment to align with your own environment
+			Environment.SetEnvironmentVariable("ANDROID_HOME", @"C:\Program Files (x86)\Android\android-sdk");
+			Environment.SetEnvironmentVariable("JAVA_HOME", @"C:\Program Files (x86)\Android\openjdk\jdk-17.0.12");
+#endif
+
 			InitializeTestEnvrionment();
 
 			// Start the app only once, so the tests runs don't restart it

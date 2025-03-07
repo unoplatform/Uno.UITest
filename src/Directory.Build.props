@@ -1,42 +1,52 @@
 <Project ToolsVersion="15.0">
 
-  <PropertyGroup>
-    <DebugType>portable</DebugType>
-    <DebugSymbols>True</DebugSymbols>
-    <RepositoryUrl>$(BUILD_REPOSITORY_URI)</RepositoryUrl>
-    <Copyright>nventive</Copyright>
-    <Author>nventive</Author>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+	<PropertyGroup>
+		<DebugType>portable</DebugType>
+		<DebugSymbols>True</DebugSymbols>
+		<RepositoryUrl>$(BUILD_REPOSITORY_URI)</RepositoryUrl>
+		<Copyright>Uno Platform</Copyright>
+		<Author>uno platform</Author>
+		<Copyright>Copyright (C) 2015-$([System.DateTime]::Now.ToString(`yyyy`)) Uno Platform inc. - all rights reserved</Copyright>
 
-    <!-- Version management is now done through NuGet, this avoids issues related version mismatch -->
-    <Version>0.1.0.0-dev.1</Version>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
 
-    <Product>$(AssemblyName) ($(TargetFramework))</Product>
-    <DefaultLanguage>en-US</DefaultLanguage>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<!--
+		  Adding NoWarn to remove build warnings
+		  NU1507: Warning when there are multiple package sources when using CPM with no source mapping
+		  NETSDK1201: Warning that specifying RID won't create self containing app
+		  PRI257: Ignore default language (en) not being one of the included resources (eg en-us, en-uk)
+		-->
+		<NoWarn>$(NoWarn);NU1507;NETSDK1201;PRI257</NoWarn>
 
-    <!-- Force embedded roslyn generators -->
-    <UnoUIUseRoslynSourceGenerators>true</UnoUIUseRoslynSourceGenerators>
-	  <!--<LangVersion>10.0</LangVersion>-->
-  </PropertyGroup>
 
-  <Choose>
-    <When Condition="'$(Configuration)' != 'Debug' and '$(SourceLinkEnabled)' != 'false'">
-      <PropertyGroup>
-        <!-- Optional: Declare that the Repository URL can be published to NuSpec -->
-        <PublishRepositoryUrl>true</PublishRepositoryUrl>
-        <!-- Optional: Embed source files that are not tracked by the source control manager to the PDB -->
-        <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <!-- Optional: Include PDB in the built .nupkg -->
-        <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
-      </PropertyGroup>
-      <ItemGroup>
-        <PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="1.0.0" PrivateAssets="All"/>
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
-      </ItemGroup>
-    </When>
-  </Choose>
+		<!-- Version management is now done through NuGet, this avoids issues related version mismatch -->
+		<Version>0.1.0.0-dev.1</Version>
 
+		<Product>$(AssemblyName) ($(TargetFramework))</Product>
+		<DefaultLanguage>en-US</DefaultLanguage>
+
+		<GenerateSBOM>true</GenerateSBOM>
+		<Deterministic>true</Deterministic>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+
+	</PropertyGroup>
+	
+	<PropertyGroup Condition="'$(BUILD_REPOSITORY_URI)' != ''">
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!-- This assumes GitHub source control but other repo options are available -->
+		<PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All"/>
+		<PackageReference Include="Microsoft.Sbom.Targets">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+	
 </Project>
