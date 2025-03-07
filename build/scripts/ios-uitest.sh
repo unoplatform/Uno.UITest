@@ -38,7 +38,7 @@ done
 ## Pre-install the application to avoid https://github.com/microsoft/appcenter/issues/2389
 ##
 echo "Starting simulator: [$UITEST_IOSDEVICE_ID] ($UNO_UITEST_SIMULATOR_VERSION / $UNO_UITEST_SIMULATOR_NAME)"
-xcrun simctl boot "$UITEST_IOSDEVICE_ID" || true
+xcrun simctl boot "$UITEST_IOSDEVICE_ID"
 
 dotnet build \
 	-c Release \
