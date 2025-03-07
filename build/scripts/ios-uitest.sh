@@ -56,6 +56,8 @@ idb install --udid "$UITEST_IOSDEVICE_ID" "$UNO_UITEST_IOSBUNDLE_PATH"
 
 mkdir -p $UNO_UITEST_SCREENSHOT_PATH
 
+cd $UNO_UITEST_SCREENSHOT_PATH
+
 dotnet test -c Release \
 	$UNO_UITEST_PROJECT \
 	--logger "nunit;LogFileName=$UNO_TEST_RESULTS_FILE" || true

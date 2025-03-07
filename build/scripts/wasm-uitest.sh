@@ -14,6 +14,8 @@ mono nuget.exe install NUnit.ConsoleRunner -Version $UNO_UITEST_NUNIT_VERSION
 
 mkdir -p $UNO_UITEST_SCREENSHOT_PATH
 
+cd $UNO_UITEST_SCREENSHOT_PATH
+
 dotnet test -c Release \
 	$UNO_UITEST_PROJECT \
 	--logger "nunit;LogFileName=$UNO_TEST_RESULTS_FILE" || true
