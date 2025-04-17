@@ -51,7 +51,7 @@ fi
 if [[ ! -f $AVD_CONFIG_FILE ]];
 then
 	# Install AVD files
-	install_android_sdk $ANDROID_SIMULATOR_APILEVEL
+	install_android_sdk $UNO_UITEST_ANDROID_API_LEVEL
 
 	if [[ -f $ANDROID_HOME/platform-tools/platform-tools/adb ]]
 	then
@@ -60,7 +60,7 @@ then
 	fi
 
 	# Create emulator
-	echo "no" | $LATEST_CMDLINE_TOOLS_PATH/bin/avdmanager create avd -n "$AVD_NAME" --abi "x86_64" -k "system-images;android-$ANDROID_SIMULATOR_APILEVEL;google_apis_playstore;x86_64" --sdcard 128M --force
+	echo "no" | $LATEST_CMDLINE_TOOLS_PATH/bin/avdmanager create avd -n "$AVD_NAME" --abi "x86_64" -k "system-images;android-$UNO_UITEST_ANDROID_API_LEVEL;google_apis_playstore;x86_64" --sdcard 128M --force
 
 	# based on https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted?view=azure-devops&tabs=yaml#hardware
 	# >> Agents that run macOS images are provisioned on Mac pros with a 3 core CPU, 14 GB of RAM, and 14 GB of SSD disk space.

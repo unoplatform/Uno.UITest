@@ -30,7 +30,7 @@ retry() {
 
 echo "[Waiting for device to boot] timeout $BOOT_TIMEOUT sec"
 
-if [ $ANDROID_SIMULATOR_APILEVEL -gt 25 ];
+if [ $UNO_UITEST_ANDROID_API_LEVEL -gt 25 ];
 then
 retry 3 "$ANDROID_HOME/platform-tools/adb" wait-for-device shell 'echo "emulator is attached, wait for boot completion"; while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]] && [[ "$SECONDS" -lt 300 ]]; do sleep 1; done; input keyevent 82; echo "boot is complete."'
 else
@@ -49,7 +49,7 @@ MAX_START_TIME=300
 START_TIME=$SECONDS
 while [[ -z ${LAUNCHER_READY} ]]; do
 
-    if [ $ANDROID_SIMULATOR_APILEVEL -ge 29 ];
+    if [ $UNO_UITEST_ANDROID_API_LEVEL -ge 29 ];
     then
     UI_FOCUS=`$ANDROID_HOME/platform-tools/adb shell dumpsys window 2>/dev/null | grep -E 'mCurrentFocus|mFocusedApp' || true`
     else
