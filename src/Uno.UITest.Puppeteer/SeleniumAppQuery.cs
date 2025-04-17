@@ -40,7 +40,7 @@ namespace Uno.UITest.Selenium
 				: Apply(() => _queryItems.Add(new SearchQueryItem($"//*[contains(@xamltype, '{className}')]")));
 
 		IAppQuery IAppQuery.Button(string marked)
-			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[@xamltype='Windows.UI.Xaml.Controls.Button' and (xamlname='{marked}') or @xuid='{marked}')]")));
+			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[@xamltype='Windows.UI.Xaml.Controls.Button' and (xamlname='{marked}') or @xuid='{marked}']")));
 
 		IAppQuery IAppQuery.Child(string className)
 			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[contains(@xamltype, '{className}')]")));
@@ -63,10 +63,10 @@ namespace Uno.UITest.Selenium
 		IAppQuery IAppQuery.Frame(string cssSelector) => throw new System.NotImplementedException();
 
 		IAppQuery IAppQuery.Id(string id)
-			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[id='{id}')]")));
+			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[id='{id}']")));
 
 		IAppQuery IAppQuery.Id(int id)
-			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[id='{id}')]")));
+			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[id='{id}']")));
 
 		IAppQuery IAppQuery.Index(int index) => throw new System.NotImplementedException();
 
