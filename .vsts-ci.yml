@@ -156,6 +156,12 @@ jobs:
       brew install --cask xamarin-android
     displayName: Install Xamarin
 
+  - task: PowerShell@2
+    displayName: 'Install coreutils'
+    inputs:
+      targetType: inline
+      script: |
+        brew install coreutils
 
   # - bash: /bin/bash -c "sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh 6_12_18"
   #   displayName: Select Xamarin Version
