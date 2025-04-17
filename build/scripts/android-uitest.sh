@@ -80,7 +80,7 @@ then
 	$ANDROID_HOME/platform-tools/adb devices
 
 	# Start emulator in background
-	nohup $ANDROID_HOME/emulator/emulator -avd "$AVD_NAME" -skin 1280x800 -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim > $UNO_UITEST_SCREENSHOT_PATH/android-emulator-log.txt 2>&1 &
+	nohup $ANDROID_HOME/emulator/emulator -avd "$AVD_NAME" -skin 1280x800 -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim > /dev/null 2>&1 &
 
 	# Wait for the emulator to finish booting
 	source $BUILD_SOURCESDIRECTORY/build/scripts/android-uitest-wait-systemui.sh 500
