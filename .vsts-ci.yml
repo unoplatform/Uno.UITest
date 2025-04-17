@@ -143,7 +143,7 @@ jobs:
     SourceLinkEnabled: false
 
   pool:
-    vmImage: 'macOS-12'
+    vmImage: 'macOS-13'
 
   steps:
   - checkout: self
@@ -180,10 +180,10 @@ jobs:
   variables:
     CI_Build: true
     SourceLinkEnabled: false
-    XCODE_ROOT: /Applications/Xcode_13.4.1.app
+    XCODE_ROOT: /Applications/Xcode_14.1.app
 
   pool:
-    vmImage: 'macOS-12'
+    vmImage: 'macOS-13'
 
   steps:
   - checkout: self
