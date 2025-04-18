@@ -83,12 +83,12 @@ The following target platforms are not yet supported:
 			App.WaitForElement(cb1);
 
 			var value1 = App.Query(q => cb1(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First();
-			Assert.IsFalse(value1);
+			Assert.That(!value1);
 
 			App.Tap(cb1);
 
 			var value2 = App.Query(q => cb1(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First();
-			Assert.IsTrue(value2);
+			Assert.That(value2);
 		}
 	}
 	```
