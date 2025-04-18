@@ -63,10 +63,10 @@ namespace Uno.UITest.Selenium
 		IAppQuery IAppQuery.Frame(string cssSelector) => throw new System.NotImplementedException();
 
 		IAppQuery IAppQuery.Id(string id)
-			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[id='{id}']")));
+			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[@id='{id}']")));
 
 		IAppQuery IAppQuery.Id(int id)
-			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[id='{id}']")));
+			=> Apply(() => _queryItems.Add(new SearchQueryItem($"//*[@id='{id}']")));
 
 		IAppQuery IAppQuery.Index(int index) => throw new System.NotImplementedException();
 
