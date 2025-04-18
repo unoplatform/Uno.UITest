@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Uno.UITest;
 using Uno.UITest.Helpers;
 using Uno.UITest.Helpers.Queries;
@@ -21,18 +22,18 @@ namespace Sample.UITests
 			}
 
 			var app = OpenSample(AppDataMode.Clear);
-			Assert.AreEqual("<INITIAL_VALUE>", app.Marked("LocalSettingValueTextBlock").GetDependencyPropertyValue<string>("Text"));
+			ClassicAssert.AreEqual("<INITIAL_VALUE>", app.Marked("LocalSettingValueTextBlock").GetDependencyPropertyValue<string>("Text"));
 			app.Marked("SetLocalSettingButton").Tap();
 			app.Marked("GetLocalSettingButton").Tap();
-			Assert.AreEqual("MyValue", app.Marked("LocalSettingValueTextBlock").GetDependencyPropertyValue<string>("Text"));
+			ClassicAssert.AreEqual("MyValue", app.Marked("LocalSettingValueTextBlock").GetDependencyPropertyValue<string>("Text"));
 
 			app = OpenSample(AppDataMode.DoNotClear);
 			app.Marked("GetLocalSettingButton").Tap();
-			Assert.AreEqual("MyValue", app.Marked("LocalSettingValueTextBlock").GetDependencyPropertyValue<string>("Text"));
+			ClassicAssert.AreEqual("MyValue", app.Marked("LocalSettingValueTextBlock").GetDependencyPropertyValue<string>("Text"));
 
 			app = OpenSample(AppDataMode.Clear);
 			app.Marked("GetLocalSettingButton").Tap();
-			Assert.AreEqual("<NOT_SET>", app.Marked("LocalSettingValueTextBlock").GetDependencyPropertyValue<string>("Text"));
+			ClassicAssert.AreEqual("<NOT_SET>", app.Marked("LocalSettingValueTextBlock").GetDependencyPropertyValue<string>("Text"));
 		}
 
 		private static IApp OpenSample(AppDataMode mode = AppDataMode.Clear)

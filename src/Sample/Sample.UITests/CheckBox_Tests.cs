@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Uno.UITest.Helpers.Queries;
 using Query = System.Func<Uno.UITest.IAppQuery, Uno.UITest.IAppQuery>;
 
@@ -24,10 +25,10 @@ namespace Sample.UITests
 			App.WaitForElement(cb2);
 
 			var value = App.Query(q => cb1(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First();
-			Assert.IsFalse(value);
+			ClassicAssert.IsFalse(value);
 
 			var value2 = App.Query(q => cb2(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First();
-			Assert.IsFalse(value2);
+			ClassicAssert.IsFalse(value2);
 
 			App.WaitForNoElement("rect1");
 			App.WaitForNoElement("rect2");
@@ -35,14 +36,14 @@ namespace Sample.UITests
 			App.Tap(cb1);
 
 			var value3 = App.Query(q => cb1(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First();
-			Assert.IsTrue(value3);
+			ClassicAssert.IsTrue(value3);
 
 			App.WaitForElement("rect1");
 
 			App.Tap(cb2);
 
 			var value4 = App.Query(q => cb1(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First();
-			Assert.IsTrue(value4);
+			ClassicAssert.IsTrue(value4);
 
 			App.WaitForElement("rect2");
 
@@ -67,7 +68,7 @@ namespace Sample.UITests
 			App.Tap(cb1);
 
 			var value3 = App.Query(q => cb1(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First();
-			Assert.IsTrue(value3);
+			ClassicAssert.IsTrue(value3);
 		}
 	}
 }
