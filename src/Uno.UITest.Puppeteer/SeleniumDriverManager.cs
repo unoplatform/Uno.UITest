@@ -102,8 +102,8 @@ namespace Uno.UITest.Selenium
 			public static EdgeDriver FromDriverPath(string driverPath, EdgeOptions options)
 				=> new EdgeDriver(driverPath, options);
 
-			private static Uri GetDriverLatestVersion(Version browserVersion) => new Uri($"https://msedgedriver.azureedge.net/LATEST_RELEASE_{browserVersion.Major}");
-			private static Uri GetDriverUri(Version browserVersion, string driverVersion) => new Uri($"https://msedgedriver.azureedge.net/{driverVersion}/edgedriver_win32.zip");
+			private static Uri GetDriverLatestVersion(Version browserVersion) => new Uri($"https://msedgedriver.microsoft.com/LATEST_RELEASE_{browserVersion.Major}");
+			private static Uri GetDriverUri(Version browserVersion, string driverVersion) => new Uri($"https://msedgedriver.microsoft.com/{driverVersion}/edgedriver_win32.zip");
 		}
 
 		private SeleniumDriverManager(string driverName)
