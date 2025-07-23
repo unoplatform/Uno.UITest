@@ -1,4 +1,5 @@
-﻿using Uno.UITest.Helpers.Queries;
+﻿using System.Drawing;
+using Uno.UITest.Helpers.Queries;
 
 namespace Uno.UITests.Helpers
 {
@@ -66,5 +67,10 @@ namespace Uno.UITests.Helpers
 		/// Note that all browser does not supports all options defined here. For instance Edge does support only the <see cref="SeleniumDriverPath"/>.
 		/// </remarks>
 		public Browser WebAssemblyBrowser { get; set; } = Browser.Chrome;
+
+		/// <summary>
+		/// Defines the browser size for the Web platform
+		/// </summary>
+		public Size WebAssemblyBrowserSize { get; set; } = new Size(1024, 768);
 	}
 }
