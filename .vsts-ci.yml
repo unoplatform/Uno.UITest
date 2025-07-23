@@ -69,6 +69,12 @@ jobs:
       logProjectEvents: false
       createLogFile: false
 
+  - task: UseDotNet@2
+    displayName: 'Use .NET SDK'
+    retryCountOnTaskFailure: 3
+    inputs:
+      packageType: sdk
+      version: 8.0.300
   - task: PowerShell@2
     displayName: Authenticode Sign Packages
     inputs:
