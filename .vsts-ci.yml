@@ -82,7 +82,8 @@ jobs:
       VaultSignClientId: $(VaultSignClientId)
       VaultSignClientSecret: $(VaultSignClientSecret)
       VaultSignCertificate: $(VaultSignCertificate)
-      VaultSignUrl: $(VaultSignUrl)      SignPackageName: "Uno.PackageDiff"
+      VaultSignUrl: $(VaultSignUrl)
+      SignPackageName: "Uno.PackageDiff"
       SignPackageDescription: "Uno.PackageDiff"
       ArtifactDirectory: $(build.artifactstagingdirectory)
     condition: and(succeeded(), not(eq(variables['build.reason'], 'PullRequest')), not(eq(variables['VaultSignClientSecret'], '')), not(eq(variables['VaultSignClientId'], '')))
