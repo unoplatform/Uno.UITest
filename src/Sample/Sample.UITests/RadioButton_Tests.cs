@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Uno.UITest.Helpers.Queries;
 using Query = System.Func<Uno.UITest.IAppQuery, Uno.UITest.IAppQuery>;
 
@@ -30,34 +31,34 @@ namespace Sample.UITests
 
 			App.Screenshot("RadioButton01 - Initial");
 
-			Assert.IsFalse(App.Query(q => radio1(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First());
-			Assert.IsFalse(App.Query(q => radio2(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First());
-			Assert.IsFalse(App.Query(q => radio3(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First());
-			Assert.AreEqual("", App.Query(q => results(q).GetDependencyPropertyValue("Text").Value<string>()).First());
+			ClassicAssert.IsFalse(App.Query(q => radio1(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First());
+			ClassicAssert.IsFalse(App.Query(q => radio2(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First());
+			ClassicAssert.IsFalse(App.Query(q => radio3(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First());
+			ClassicAssert.AreEqual("", App.Query(q => results(q).GetDependencyPropertyValue("Text").Value<string>()).First());
 
 			App.Tap(radio1);
 			App.Screenshot("RadioButton01 - Step 1");
 
-			Assert.IsTrue(App.Query(q => radio1(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First());
-			Assert.IsFalse(App.Query(q => radio2(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First());
-			Assert.IsFalse(App.Query(q => radio3(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First());
-			Assert.AreEqual("Radio 01", App.Query(q => results(q).GetDependencyPropertyValue("Text").Value<string>()).First());
+			ClassicAssert.IsTrue(App.Query(q => radio1(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First());
+			ClassicAssert.IsFalse(App.Query(q => radio2(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First());
+			ClassicAssert.IsFalse(App.Query(q => radio3(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First());
+			ClassicAssert.AreEqual("Radio 01", App.Query(q => results(q).GetDependencyPropertyValue("Text").Value<string>()).First());
 
 			App.Tap(radio2);
 			App.Screenshot("RadioButton01 - Step 2");
 
-			Assert.IsFalse(App.Query(q => radio1(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First());
-			Assert.IsTrue(App.Query(q => radio2(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First());
-			Assert.IsFalse(App.Query(q => radio3(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First());
-			Assert.AreEqual("Radio 02", App.Query(q => results(q).GetDependencyPropertyValue("Text").Value<string>()).First());
+			ClassicAssert.IsFalse(App.Query(q => radio1(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First());
+			ClassicAssert.IsTrue(App.Query(q => radio2(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First());
+			ClassicAssert.IsFalse(App.Query(q => radio3(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First());
+			ClassicAssert.AreEqual("Radio 02", App.Query(q => results(q).GetDependencyPropertyValue("Text").Value<string>()).First());
 
 			App.Tap(radio3);
 			App.Screenshot("RadioButton01 - Step 3");
 
-			Assert.IsFalse(App.Query(q => radio1(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First());
-			Assert.IsFalse(App.Query(q => radio2(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First());
-			Assert.IsTrue(App.Query(q => radio3(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First());
-			Assert.AreEqual("Radio 03", App.Query(q => results(q).GetDependencyPropertyValue("Text").Value<string>()).First());
+			ClassicAssert.IsFalse(App.Query(q => radio1(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First());
+			ClassicAssert.IsFalse(App.Query(q => radio2(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First());
+			ClassicAssert.IsTrue(App.Query(q => radio3(q).GetDependencyPropertyValue("IsChecked").Value<bool>()).First());
+			ClassicAssert.AreEqual("Radio 03", App.Query(q => results(q).GetDependencyPropertyValue("Text").Value<string>()).First());
 		}
 	}
 }

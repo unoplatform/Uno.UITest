@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Uno.UITest.Helpers.Queries;
 using Uno.UITests.Helpers;
 
@@ -25,7 +26,7 @@ namespace Sample.UITests
 
 			// Sanity in case of timeout without exception!
 			var result = App.Query(q => q.Marked("Result").GetDependencyPropertyValue("Text").Value<string>()).Single();
-			Assert.AreEqual("Double tapped!", result);
+			ClassicAssert.AreEqual("Double tapped!", result);
 		}
 	}
 }

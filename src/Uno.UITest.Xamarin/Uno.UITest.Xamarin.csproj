@@ -20,7 +20,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Xamarin.UITest" Version="4.1.2" />
+		<PackageReference Include="Xamarin.UITest" Version="4.3.4" />
 
 		<!-- Workaround for missing cecil binary in Xamarin.UITest -->
 		<PackageReference Include="mono.cecil" Version="0.11.4" />
