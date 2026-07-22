@@ -13,7 +13,7 @@ The testing is available through :
 - [Xamarin.UITest](https://docs.microsoft.com/en-us/appcenter/test-cloud/uitest/) and [AppCenter](https://appcenter.ms/apps) for iOS and Android apps.
 
 The following target platforms are not yet supported:
-- SkiaSharp backends (GTK, WPF and Tizen )
+- SkiaSharp backends (Tizen)
 - Xamarin.macOS
 - Windows
 
