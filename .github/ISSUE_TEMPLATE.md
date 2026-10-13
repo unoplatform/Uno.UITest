@@ -11,7 +11,7 @@ ISSUES MISSING IMPORTANT INFORMATION MAY BE CLOSED WITHOUT INVESTIGATION.
 <!-- - Feature request --> 
 <!-- - Sample app request -->
 <!-- - Documentation issue or request -->
-<!-- - Question of Support request => Please do not submit support request here, instead see https://github.com/nventive/Uno.Core/blob/master/Readme.md#have-questions-feature-requests-issues -->
+<!-- - Question of Support request => Please do not submit support request here, instead see https://github.com/unoplatform/uno/discussions -->
 
 ## Current behavior
 <!-- Describe how the issue manifests. -->
@@ -32,8 +32,12 @@ For bug reports please provide a *MINIMAL REPRO PROJECT* and the *STEPS TO REPRO
 ```
 Package Version(s): 
 
-Visual Studio
-- [ ] 2019 (version: )
-- [ ] 2019 Preview (version: )
-- [ ] for Mac (version: )
+IDE
+- [ ] Visual Studio 2022
+- [ ] Visual Studio Code
+- [ ] Rider Windows
+- [ ] Rider macOS
+- [ ] Rider Linux
+
+IDE version: 
 ```
