@@ -32,8 +32,12 @@ For bug reports please provide a *MINIMAL REPRO PROJECT* and the *STEPS TO REPRO
 ```
 Package Version(s): 
 
-Visual Studio
-- [ ] 2019 (version: )
-- [ ] 2019 Preview (version: )
-- [ ] for Mac (version: )
+IDE
+- [ ] Visual Studio 2022
+- [ ] Visual Studio Code
+- [ ] Rider Windows
+- [ ] Rider macOS
+- [ ] Rider Linux
+
+IDE version: 
 ```
