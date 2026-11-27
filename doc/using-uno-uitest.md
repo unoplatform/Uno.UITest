@@ -42,7 +42,7 @@ The following target platforms are not yet supported:
 - Install the Uno Platform `dotnet new` templates:
 
 	```sh
-	dotnet new -i Uno.ProjectTemplates.Dotnet
+	dotnet new install Uno.Templates
 	```
 - Navigate to your `.sln` folder using a command line:
     - Create a folder named `YourAppName\YourAppName.UITests`
